@@ -1,5 +1,6 @@
 package usuarios;
 
+import tarjetas.Debito;
 import utils.Rol;
 
 import java.time.LocalDate;
@@ -17,10 +18,10 @@ public class Cliente {
     public Rol rol;
     public double saldo;
     public Random rand = new Random();
-    public String tarjetaDebito;
+    public Debito tarjetaDebito;
 
 
-    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal, String tarjetaDebito) {
+    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal, Debito tarjetaDebito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.RFC = RFC;
@@ -29,18 +30,8 @@ public class Cliente {
         this.fechaRegistro = fechaRegistro;
         this.sucursal = sucursal;
         this.rol = rol;
-        this.saldo = saldo;
         this.rand = rand;
         this.tarjetaDebito = tarjetaDebito;
-    }
-
-    public void generarTarjetaDebito() {
-        int digitos1 = rand.nextInt(9);
-        int digitos2 = rand.nextInt(9);
-        int digitos3 = rand.nextInt(9);
-        int digitos4 = rand.nextInt(9);
-
-        System.out.println(String.format("%d %d %d %d", digitos1, digitos2, digitos3, digitos4));
     }
 
 
@@ -105,11 +96,4 @@ public class Cliente {
         this.sucursal = sucursal;
     }
 
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
 }

@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 public class MenuCliente {
     public operaciones_Bancarias.Banco banco = new operaciones_Bancarias.Banco();
-    public ArrayList<Cliente> clientes = new ArrayList<>();
+    public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
 
     public int mostrarDatos() {
-        for (Cliente cliente : clientes) {
+        for (Cliente cliente : listaClientes) {
             if (cliente.getSaldo() < 30000) {
                 System.out.println("""
                         \n***BIENVENIDO***
@@ -35,6 +35,7 @@ public class MenuCliente {
                 return opcion;
             }
         }
+        return 0;
 
     }
 
@@ -55,6 +56,7 @@ public class MenuCliente {
                 break;
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
+                banco.mostrarSaldoCliente();
                 break;
             case 4:
                 break;
