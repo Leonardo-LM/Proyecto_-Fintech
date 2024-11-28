@@ -1,7 +1,7 @@
 package archivos;
 
 import transacciones.Transaccion;
-import usuarios.Cliente;
+import usuarios.clientes.Cliente;
 
 import java.io.*;
 import java.util.ArrayList;

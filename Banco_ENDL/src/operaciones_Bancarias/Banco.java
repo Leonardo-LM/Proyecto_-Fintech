@@ -158,4 +158,15 @@ public class Banco {
 
     }
 
+    public void mostrarClientes() {
+        System.out.println("\n*** MÉDICOS DEL HOSPITAL ***");
+        if (listaClientes.isEmpty()) {
+            System.out.println("No hay clientes registrados");
+        }else {
+            for (Cliente medico : this.listaClientes) {
+                System.out.println(cliente);
+            }
+        }
+    }
+
 }

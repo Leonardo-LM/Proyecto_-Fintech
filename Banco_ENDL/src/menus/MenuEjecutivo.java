@@ -1,5 +1,6 @@
 package menus;
 
+import operaciones_Bancarias.Banco;
 import usuarios.clientes.Cliente;
 
 import java.time.LocalDate;
@@ -20,29 +21,26 @@ public class MenuEjecutivo {
     }
 
     public void procesarDatos(int opcion) {
+        String sucursal = "Banco";
         switch (opcion) {
             case 1:
-                System.out.println("Seleccionaste la opción de registrar un cliente");
-                System.out.println("Ingresa el nombre del cliente");
-                String nombre = scanner.nextLine();
-                System.out.println("Ingresa el apellido del cliente");
-                String apellido = scanner.nextLine();
-                System.out.println("Ingresa la CURP del cliente");
-                String curp = scanner.nextLine();
-                System.out.println("Ingresa el correo del cliente");
-                String correo = scanner.nextLine();
-                System.out.println("Ingresa la direccion del cliente");
-                String direccion = scanner.nextLine();
+                System.out.println("Registrar un cliente");
+                System.out.print("Nombre del cliente: ");
+                String nombre = scanner.next();
+                System.out.print("Apellido Paterno del cliente: ");
+                String apellidoP = scanner.next();
+                System.out.print("Apellido Materno del cliente: ");
+                String apellidoM = scanner.next();
+                Banco banco = new Banco();
+                String RFC = banco.generarRFC(nombre,apellidoP,apellidoM,LocalDate.now());
+                System.out.print("CURP: ");
+                String CURP = scanner.next();
+                System.out.print("Email: ");
+                String email = scanner.next();
+                //Tarjetas
 
-                LocalDate fechaDeRegistro = LocalDate.now();
-                String RFC = "Hacer un random"; //**************
-                String sucursal = "Matriz"; // Ver si se quita
-                String tarjetaDebito = "Hacer método";
-                // crear rfc, fecha de registro y ***sucursal  /// Metodo para crear tarjeta
-
-                Cliente cliente = new Cliente(nombre, apellido, RFC, curp, correo, fechaDeRegistro, sucursal, tarjetaDebito);
-                /// guardar en un archivo
-
+                Cliente cliente = new Cliente(nombre, apellidoP, apellidoM, RFC, CURP, email, LocalDate.now(), sucursal, tarjetas);
+                banco.listaClientes.add(cliente);
                 break;
 
             case 2:

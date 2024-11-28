@@ -1,84 +1,31 @@
 package usuarios.clientes;
 
 import tarjetas.Debito;
+import usuarios.Usuario;
 import utils.Rol;
 
 import java.time.LocalDate;
-import java.util.Random;
 
-
-public class Cliente {
-    public String nombre;
-    public String apellido;
-    public String RFC;
-    private String CURP;
-    public String email;
+public class Cliente extends Usuario {
     public LocalDate fechaRegistro;
     public String sucursal;
-    public Rol rol;
     public double saldo;
-    public Random rand = new Random();
-    //public Debito tarjetaDebito;
+    public Debito tarjetaDebito;
 
-
-    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.RFC = RFC;
-        this.CURP = CURP;
-        this.email = email;
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal, Debito tarjetaDebito) {
+        super(nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
         this.fechaRegistro = fechaRegistro;
+        this.saldo = saldo;
         this.sucursal = sucursal;
-        this.rol = rol;
-        this.rand = rand;
-       // this.tarjetaDebito = tarjetaDebito;
+        this.tarjetaDebito = tarjetaDebito;
     }
 
-
-    public void generarTarjetaCredito() {
+    public String mostrarDatos() {
+        String datosCliente = String.format("");
+        return super.mostrarInformacion() + datosCliente;
     }
 
     //-------------------------SETTER & GETTER-----------------------------------
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getRFC() {
-        return RFC;
-    }
-
-    public void setRFC(String RFC) {
-        this.RFC = RFC;
-    }
-
-    public String getCURP() {
-        return CURP;
-    }
-
-    public void setCURP(String CURP) {
-        this.CURP = CURP;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public LocalDate getFechaRegistro() {
         return fechaRegistro;
@@ -86,6 +33,15 @@ public class Cliente {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
     public String getSucursal() {
@@ -96,4 +52,11 @@ public class Cliente {
         this.sucursal = sucursal;
     }
 
+    public Debito getTarjetaDebito() {
+        return tarjetaDebito;
+    }
+
+    public void setTarjetaDebito(Debito tarjetaDebito) {
+        this.tarjetaDebito = tarjetaDebito;
+    }
 }

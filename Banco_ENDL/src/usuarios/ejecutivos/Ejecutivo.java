@@ -5,7 +5,7 @@ import utils.Rol;
 
 public class Ejecutivo extends Usuario {
 
-    public Ejecutivo(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, Rol rol) {
-        super(nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, rol);
+    public Ejecutivo(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email) {
+        super(nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.EJECUTIVO);
     }
 }
