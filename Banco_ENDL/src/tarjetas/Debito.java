@@ -1,7 +1,5 @@
 package tarjetas;
 
-import usuarios.Cliente;
-
 import java.time.LocalDate;
 
 public class Debito extends Tarjeta {
