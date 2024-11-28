@@ -1,4 +1,4 @@
-package usuarios;
+package usuarios.clientes;
 
 import tarjetas.Debito;
 import utils.Rol;

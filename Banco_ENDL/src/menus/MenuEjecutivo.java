@@ -1,6 +1,6 @@
 package menus;
 
-import usuarios.Cliente;
+import usuarios.clientes.Cliente;
 
 import java.time.LocalDate;
 import java.util.Scanner;

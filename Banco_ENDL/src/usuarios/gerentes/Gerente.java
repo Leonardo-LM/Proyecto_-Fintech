@@ -1,11 +1,10 @@
-package usuarios;
+package usuarios.gerentes;
 
-
-import javax.management.relation.Role;
-
+import usuarios.empleados.Empleado;
+import utils.Rol;
 public class Gerente extends Empleado {
 
-    public Gerente(String nombre, String apellido, String RFC, String CURP, String email, String sucursal, double salario, Role rol) {
-        super(nombre, apellido, RFC, CURP, email, sucursal, salario, rol);
+    public Gerente(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, String sucursal, double salario, Rol rol) {
+        super(nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, sucursal, salario, rol);
     }
 }

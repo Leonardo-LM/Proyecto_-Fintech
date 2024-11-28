@@ -2,30 +2,27 @@ package operaciones_Bancarias;
 
 import tarjetas.Credito;
 import tarjetas.Debito;
-import usuarios.Cliente;
-import usuarios.Ejecutivo;
-import usuarios.Gerente;
+import usuarios.clientes.Cliente;
+import usuarios.ejecutivos.Ejecutivo;
+import usuarios.gerentes.Gerente;
 import usuarios.Usuario;
-
 import java.time.LocalDate;
-
 import menus.Login;
 import menus.MenuCliente;
 import menus.MenuEjecutivo;
 import menus.MenuGerente;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Banco {
+    public Gerente gerenteDefault;
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
-    public Gerente gerenteDefault;
     public MenuCliente menuCliente = new MenuCliente();
     public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     public MenuGerente menuGerente = new MenuGerente();
@@ -114,7 +111,7 @@ public class Banco {
         String clabeInter = String.format("%04d %04d %04d %04d %02d", digitos1, digitos2, digitos3, digitos4, digitos5);
         LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
 
-        return
+        return ;
     }
 
     public String generarIdCliente() {
@@ -128,6 +125,28 @@ public class Banco {
         int numeroAleatorio = rand.nextInt(1, 100000);
 
         return String.format("C-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
+    }
+
+    public String generarRFC(String nombre, String apellidoP, String apellidoM , LocalDate fechaRegistro) {
+        String primerasLetrasApellidoPaterno = apellidoP.charAt(0) + apellidoP.charAt(1) +"";
+        String primerLetraApellidoMaterno = apellidoM.charAt(0) +"";
+        String letraInicialNombre = nombre.charAt(0) + "";
+        String anio = fechaRegistro.getYear() + "";
+        String ultimosDosDigitosAño = anio.charAt(2) + anio.charAt(3) + "";
+        String mes = fechaRegistro.getMonth() + "";
+        String dia = fechaRegistro.getMonth() + "";
+
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String homoclave = "";
+
+        Random random = new Random();
+        for (int i = 0; i < 2; i++) {
+            homoclave += caracteres.charAt(random.nextInt(caracteres.length()));
+        }
+
+        homoclave +=  random.nextInt(9);;
+
+        return String.format("%s,%s, %s, %s, %s,%s,%s", primerasLetrasApellidoPaterno,primerLetraApellidoMaterno, letraInicialNombre, ultimosDosDigitosAño, mes, dia, homoclave);
     }
 
     //-----------------------MOSTRAR DATOS------------------------
