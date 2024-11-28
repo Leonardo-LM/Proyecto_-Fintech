@@ -53,7 +53,7 @@ public class MenuGerente {
                 email = scanner.next();
                 //Tarjetas
 
-                Cliente cliente = new Cliente(nombre, apellidoP, apellidoM, RFC, CURP, email, fechaRegistro, sucursal, tarjetas);
+                Cliente cliente = new Cliente(banco.generarIdCliente(),nombre, apellidoP, apellidoM, RFC, CURP, email, fechaRegistro, sucursal, tarjetas);
                 banco.listaClientes.add(cliente);
                 break;
             case 2:

@@ -12,8 +12,8 @@ public class Cliente extends Usuario {
     public double saldo;
     public Debito tarjetaDebito;
 
-    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal, Debito tarjetaDebito) {
-        super(nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
+    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, Rol rol, LocalDate fechaRegistro, double saldo, String sucursal, Debito tarjetaDebito) {
+        super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, rol);
         this.fechaRegistro = fechaRegistro;
         this.saldo = saldo;
         this.sucursal = sucursal;
@@ -21,7 +21,7 @@ public class Cliente extends Usuario {
     }
 
     public String mostrarDatos() {
-        String datosCliente = String.format("");
+        String datosCliente = String.format(" Saldo: %d, Tarjeta Debto: %s", saldo, tarjetaDebito);
         return super.mostrarInformacion() + datosCliente;
     }
 

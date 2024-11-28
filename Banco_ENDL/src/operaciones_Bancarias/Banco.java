@@ -73,27 +73,6 @@ public class Banco {
 
     //-------------------------GENERADORES-----------------------------
 
-    public String generarRFC(String nombre, String apellido, LocalDate fechaRegistro) {
-        char letraIApellPaterno = apellido.charAt(0);
-        boolean vocal = false;
-        int i = 0;
-        String cadena = "";
-        while (i < apellido.length() & !vocal) {
-            if ((apellido.charAt(i) == 'a') ||
-                    (apellido.charAt(i) == 'e') ||
-                    (apellido.charAt(i) == 'i') ||
-                    (apellido.charAt(i) == 'o') ||
-                    (apellido.charAt(i) == 'u')) {
-
-                cadena += apellido.charAt(i);
-                vocal = true;
-
-            }
-            i++;
-        }
-        return "adadad";
-    }
-
     public Debito generarTarjetaDebito(Cliente titular) {
         int digitos1 = rand.nextInt(9);
         int digitos2 = rand.nextInt(9);
@@ -162,12 +141,12 @@ public class Banco {
     }
 
     public void mostrarClientes() {
-        System.out.println("\n*** MÉDICOS DEL HOSPITAL ***");
+        System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaClientes.isEmpty()) {
             System.out.println("No hay clientes registrados");
         }else {
-            for (Cliente medico : this.listaClientes) {
-                System.out.println(cliente);
+            for (Cliente cliente : this.listaClientes) {
+                System.out.println(cliente.mostrarDatos());
             }
         }
     }

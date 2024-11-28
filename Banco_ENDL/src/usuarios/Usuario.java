@@ -1,8 +1,10 @@
 package usuarios;
 
+import operaciones_Bancarias.Banco;
 import utils.Rol;
 
 public class Usuario {
+    public String id;
     public String nombre;
     public String apellidoPaterno;
     public String apellidoMaterno;
@@ -10,8 +12,10 @@ public class Usuario {
     private String CURP;
     public String email;
     public Rol rol;
+    public Banco banco = new Banco();
 
-    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, Rol rol) {
+    public Usuario(String id,String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, Rol rol) {
+        this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
