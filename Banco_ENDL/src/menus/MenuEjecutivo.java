@@ -4,17 +4,17 @@ import usuarios.clientes.Cliente;
 
 import java.time.LocalDate;
 import java.util.Scanner;
-
+// implementar interfaz serializable
 public class MenuEjecutivo {
     Scanner scanner = new Scanner(System.in);
 
     public int mostrarMenu() {
         System.out.println("\n*** BIEVENIDO ***");
         System.out.println("1. Registrar cliente");
-        System.out.println("2. Eliminar cliente");
+       // System.out.println("2. Eliminar cliente");
         System.out.println("3. Consultar datos ");
         System.out.println("4. Salir ");
-
+// autorizar solicitudes ** Almacenar solicitudes, mostrarlas al gerente, decidir si las acepta, guardar esa informacion y notificar al cliente
         int opcion = scanner.nextInt();
         return opcion;
     }

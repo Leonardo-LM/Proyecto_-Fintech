@@ -18,10 +18,10 @@ public class Cliente {
     public Rol rol;
     public double saldo;
     public Random rand = new Random();
-    public Debito tarjetaDebito;
+    //public Debito tarjetaDebito;
 
 
-    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal, Debito tarjetaDebito) {
+    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.RFC = RFC;
@@ -31,7 +31,7 @@ public class Cliente {
         this.sucursal = sucursal;
         this.rol = rol;
         this.rand = rand;
-        this.tarjetaDebito = tarjetaDebito;
+       // this.tarjetaDebito = tarjetaDebito;
     }
 
 
