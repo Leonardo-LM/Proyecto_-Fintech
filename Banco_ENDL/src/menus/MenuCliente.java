@@ -14,7 +14,7 @@ public class MenuCliente {
 
     public int mostrarDatos() {
         for (Cliente cliente : listaClientes) {
-            if (cliente.getSaldo() < 30000) {
+            if (cliente.getTarjetaDebito().getSaldo() < 30000) {
                 System.out.println("""
                         \n***BIENVENIDO***
                         1.- Hacer deposito
@@ -43,8 +43,6 @@ public class MenuCliente {
 
         switch (opcion) {
             case 1:
-                System.out.print("Digite el numero de la tarjeta:");
-                double numeroTarjeta = sc.nextDouble();
 
                 System.out.print("Digite la cantidad a depositar: ");
                 double deposito = sc.nextDouble();

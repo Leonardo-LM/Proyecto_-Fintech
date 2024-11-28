@@ -34,27 +34,6 @@ public class Banco {
         //this.gerenteDefault = new Gerente();
     }
 
-    //Metodos
-    public String generarRFC(String nombre, String apellido, LocalDate fechaRegistro) {
-        char letraIApellPaterno = apellido.charAt(0);
-        boolean vocal = false;
-        int i = 0;
-        String cadena = "";
-        while (i < apellido.length() & !vocal) {
-            if ((apellido.charAt(i) == 'a') ||
-                    (apellido.charAt(i) == 'e') ||
-                    (apellido.charAt(i) == 'i') ||
-                    (apellido.charAt(i) == 'o') ||
-                    (apellido.charAt(i) == 'u')) {
-
-                cadena += apellido.charAt(i);
-                vocal = true;
-
-            }
-            i++;
-        }
-        return "adadad";
-    }
 
     //-----------------------------------------------------METODOS CRUD---------------------------------------------------
 
@@ -94,14 +73,35 @@ public class Banco {
 
     //-------------------------GENERADORES-----------------------------
 
-    public Debito generarTarjetaDebito() {
+    public String generarRFC(String nombre, String apellido, LocalDate fechaRegistro) {
+        char letraIApellPaterno = apellido.charAt(0);
+        boolean vocal = false;
+        int i = 0;
+        String cadena = "";
+        while (i < apellido.length() & !vocal) {
+            if ((apellido.charAt(i) == 'a') ||
+                    (apellido.charAt(i) == 'e') ||
+                    (apellido.charAt(i) == 'i') ||
+                    (apellido.charAt(i) == 'o') ||
+                    (apellido.charAt(i) == 'u')) {
+
+                cadena += apellido.charAt(i);
+                vocal = true;
+
+            }
+            i++;
+        }
+        return "adadad";
+    }
+
+    public Debito generarTarjetaDebito(Cliente titular) {
         int digitos1 = rand.nextInt(9);
         int digitos2 = rand.nextInt(9);
         int digitos3 = rand.nextInt(9);
         int digitos4 = rand.nextInt(9);
         int digitos5 = rand.nextInt(9);
 
-        String tarjetadebito = String.format("%04d 04%d 04%d 04%d", digitos1, digitos2, digitos3, digitos4);
+        String numeroDebito = String.format("%04d 04%d 04%d 04%d", digitos1, digitos2, digitos3, digitos4);
         LocalDate fechaCreacion = LocalDate.now();
         double saldo = 10000;
         String cvv = "";
@@ -111,7 +111,10 @@ public class Banco {
         String clabeInter = String.format("%04d %04d %04d %04d %02d", digitos1, digitos2, digitos3, digitos4, digitos5);
         LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
 
-        return ;
+        Debito tarjetadebito = new Debito(titular, numeroDebito, fechaCreacion, saldo, cvv, clabeInter, fechaVencimineto);
+
+
+        return tarjetadebito;
     }
 
     public String generarIdCliente() {
