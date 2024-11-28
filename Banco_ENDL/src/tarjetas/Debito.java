@@ -1,9 +1,11 @@
 package tarjetas;
 
+import usuarios.Cliente;
+
 import java.time.LocalDate;
 
 public class Debito extends Tarjeta {
-    public Debito(String titular, String numeroTarjeta, String fechaCreacion, double saldo, int cvv, String clabeInter, LocalDate fechaVencimiento, String ultimoMovimiento) {
-        super(titular, numeroTarjeta, fechaCreacion, saldo, cvv, clabeInter, fechaVencimiento, ultimoMovimiento);
+    public Debito(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo, String cvv, String clabeInter, LocalDate fechaVencimiento) {
+        super(titular, numeroTarjeta, fechaCreacion, saldo, cvv, clabeInter, fechaVencimiento);
     }
 }

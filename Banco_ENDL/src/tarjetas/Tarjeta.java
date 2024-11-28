@@ -1,19 +1,21 @@
 package tarjetas;
 
+import usuarios.Cliente;
+
 import java.time.LocalDate;
 
 public class Tarjeta {
-    public String titular;
+    public Cliente titular;
     public String numeroTarjeta;
-    public String fechaCreacion;
+    public LocalDate fechaCreacion;
     public double saldo;
-    public int cvv;
+    public String cvv;
     public String clabeInter;
     public LocalDate fechaVencimiento;
-    public String ultimoMovimiento;
+    //public String ultimoMovimiento;
 
 
-    public Tarjeta(String titular, String numeroTarjeta, String fechaCreacion, double saldo, int cvv, String clabeInter, LocalDate fechaVencimiento, String ultimoMovimiento) {
+    public Tarjeta(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo, String cvv, String clabeInter, LocalDate fechaVencimiento) {
         this.titular = titular;
         this.numeroTarjeta = numeroTarjeta;
         this.fechaCreacion = fechaCreacion;
@@ -21,14 +23,14 @@ public class Tarjeta {
         this.cvv = cvv;
         this.clabeInter = clabeInter;
         this.fechaVencimiento = fechaVencimiento;
-        this.ultimoMovimiento = ultimoMovimiento;
+        //this.ultimoMovimiento = ultimoMovimiento;
     }
 
-    public String getTitular() {
+    public Cliente getTitular() {
         return titular;
     }
 
-    public void setTitular(String titular) {
+    public void setTitular(Cliente titular) {
         this.titular = titular;
     }
 
@@ -40,11 +42,11 @@ public class Tarjeta {
         this.numeroTarjeta = numeroTarjeta;
     }
 
-    public String getFechaCreacion() {
+    public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(String fechaCreacion) {
+    public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 
@@ -56,11 +58,11 @@ public class Tarjeta {
         this.saldo = saldo;
     }
 
-    public int getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 
@@ -80,11 +82,13 @@ public class Tarjeta {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    public String getUltimoMovimiento() {
+   /* public String getUltimoMovimiento() {
         return ultimoMovimiento;
     }
 
     public void setUltimoMovimiento(String ultimoMovimiento) {
         this.ultimoMovimiento = ultimoMovimiento;
     }
+
+    */
 }

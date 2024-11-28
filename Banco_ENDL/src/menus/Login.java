@@ -1,14 +1,16 @@
 package menus;
 
+import operaciones_Bancarias.Banco;
 import usuarios.Usuario;
 
 import java.util.Scanner;
 
+
 public class Login {
     private final Scanner scanner = new Scanner(System.in);
-    private final Operaciones_Bancarias.Banco banco = new Operaciones_Bancarias.Banco();
     public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     public MenuGerente menuGerente = new MenuGerente();
+    public Banco banco = new Banco();
 
     public void login() {
         int intesntosMax = 5, intentosUsuario = 0;
@@ -60,4 +62,5 @@ public class Login {
         System.out.println("Usuario o contraseña incorrectos, intenta de nuevo");
         return intentosUsuario + 1;
     }*/
-    } }
+    }
+}

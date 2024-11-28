@@ -16,12 +16,11 @@ public class Cliente {
     public LocalDate fechaRegistro;
     public String sucursal;
     public Rol rol;
-    public double saldo;
     public Random rand = new Random();
-    //public Debito tarjetaDebito;
+    public Debito tarjetaDebito;
 
 
-    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal) {
+    public Cliente(String nombre, String apellido, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal, Rol rol, double saldo, Random rand, Debito tarjetaDebito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.RFC = RFC;
@@ -31,9 +30,8 @@ public class Cliente {
         this.sucursal = sucursal;
         this.rol = rol;
         this.rand = rand;
-       // this.tarjetaDebito = tarjetaDebito;
+        this.tarjetaDebito = tarjetaDebito;
     }
-
 
     public void generarTarjetaCredito() {
     }
@@ -96,4 +94,27 @@ public class Cliente {
         this.sucursal = sucursal;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
+    }
+
+    public Debito getTarjetaDebito() {
+        return tarjetaDebito;
+    }
+
+    public void setTarjetaDebito(Debito tarjetaDebito) {
+        this.tarjetaDebito = tarjetaDebito;
+    }
 }
