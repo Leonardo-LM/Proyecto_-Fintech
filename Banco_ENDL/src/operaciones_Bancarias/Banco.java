@@ -70,100 +70,158 @@ public class Banco {
 
     //Verificar que se actualicen los datos en los archivos binarios
 
-    public void actualizarDatosCliente(Cliente cliente){
-        System.out.println("¿Desea cambiar nombre? s/n" +
-                "Selección: ");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("Nombre actual: "+ cliente.getNombre());
-            System.out.print("Nombre nuevo: ");
-            cliente.setNombre(scanner.nextLine());
-        }
-        System.out.println("¿Desea actualizar el apellido paterno o materno? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("¿Desea actualizar el apellido paterno? s/n");
-            if (scanner.nextLine().equalsIgnoreCase("s")){
-                System.out.println("Apellido paterno actual: "+ cliente.getApellidoPaterno());
-                System.out.print("Apellido paterno nuevo: ");
-                cliente.setApellidoPaterno(scanner.nextLine());
-            } else if (scanner.nextLine().equalsIgnoreCase("n")) {
-                System.out.println("Apellido materno actual: "+ cliente.getApellidoMaterno());
-                System.out.print("Apellido materno nuevo: ");
-                cliente.setApellidoMaterno(scanner.nextLine());
-            }else{
-                System.out.println("Opción inválida, intente de nuevo");
+    public void actualizarDatosCliente(Cliente cliente) {
+        try {
+            System.out.println("¿Desea cambiar nombre? s/n");
+            System.out.print("Selección: ");
+            if (scanner.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Nombre actual: " + cliente.getNombre());
+                System.out.print("Nombre nuevo: ");
+                String nuevoNombre = scanner.nextLine().trim();
+                if (nuevoNombre.isEmpty()) throw new IllegalArgumentException("El nombre no puede estar vacío.");
+                cliente.setNombre(nuevoNombre);
             }
+
+            System.out.println("¿Desea actualizar el apellido paterno o materno? s/n");
+            if (scanner.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("¿Desea actualizar el apellido paterno? s/n");
+                if (scanner.nextLine().equalsIgnoreCase("s")) {
+                    System.out.println("Apellido paterno actual: " + cliente.getApellidoPaterno());
+                    System.out.print("Apellido paterno nuevo: ");
+                    String nuevoApellidoP = scanner.nextLine().trim();
+                    if (nuevoApellidoP.isEmpty()) throw new IllegalArgumentException("El apellido paterno no puede estar vacío.");
+                    cliente.setApellidoPaterno(nuevoApellidoP);
+                } else {
+                    System.out.println("Apellido materno actual: " + cliente.getApellidoMaterno());
+                    System.out.print("Apellido materno nuevo: ");
+                    String nuevoApellidoM = scanner.nextLine().trim();
+                    if (nuevoApellidoM.isEmpty()) throw new IllegalArgumentException("El apellido materno no puede estar vacío.");
+                    cliente.setApellidoMaterno(nuevoApellidoM);
+                }
+            }
+
+            System.out.println("¿Desea actualizar su CURP? s/n");
+            if (scanner.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("CURP actual: " + cliente.getCURP());
+                System.out.print("CURP nuevo: ");
+                String nuevoCURP = scanner.nextLine().trim();
+                if (nuevoCURP.isEmpty()) throw new IllegalArgumentException("El CURP no puede estar vacío.");
+                cliente.setCURP(nuevoCURP);
+            }
+
+            System.out.println("¿Desea actualizar su email? s/n");
+            if (scanner.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Email actual: " + cliente.getEmail());
+                System.out.print("Email nuevo: ");
+                String nuevoEmail = scanner.nextLine().trim();
+                if (nuevoEmail.isEmpty()) throw new IllegalArgumentException("El email no puede estar vacío.");
+                cliente.setEmail(nuevoEmail);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
-        System.out.println("¿Desea actualizar su CURP? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("CURP actual: "+ cliente.getCURP());
-            System.out.print("CURP nuevo: ");
-            cliente.setCURP(scanner.nextLine());
-        }
-        System.out.println("Desea actualizar su email? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("EMAIL actual: "+ cliente.getEmail());
-            System.out.print("EMAIL nuevo: ");
-            cliente.setEmail(scanner.nextLine());
-        }
-        //System.out.println("Desea actualizar su tarjeta de débito? s/n");
     }
 
-    public void actualizarDatosEjecutivo(Ejecutivo ejecutivo){
-        System.out.println("¿Desea cambiar nombre? s/n" +
-                "Selección: ");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("Nombre actual: "+ ejecutivo.getNombre());
-            System.out.print("Nombre nuevo: ");
-            ejecutivo.setNombre(scanner.nextLine());
-        }
-        System.out.println("¿Desea actualizar el apellido paterno o materno? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("¿Desea actualizar el apellido paterno? s/n");
-            if (scanner.nextLine().equalsIgnoreCase("s")){
-                System.out.println("Apellido paterno actual: "+ ejecutivo.getApellidoPaterno());
-                System.out.print("Apellido paterno nuevo: ");
-                ejecutivo.setApellidoPaterno(scanner.nextLine());
-            } else if (scanner.nextLine().equalsIgnoreCase("n")) {
-                System.out.println("Apellido materno actual: "+ ejecutivo.getApellidoMaterno());
-                System.out.print("Apellido materno nuevo: ");
-                ejecutivo.setApellidoMaterno(scanner.nextLine());
-            }else{
-                System.out.println("Opción inválida, intente de nuevo");
+    public void actualizarDatosEjecutivo(Ejecutivo ejecutivo) {
+        try {
+            System.out.println("¿Desea cambiar el nombre? (s/n)");
+            System.out.print("Selección: ");
+            if (scanner.nextLine().trim().equalsIgnoreCase("s")) {
+                System.out.println("Nombre actual: " + ejecutivo.getNombre());
+                System.out.print("Nombre nuevo: ");
+                String nuevoNombre = scanner.nextLine().trim();
+                if (nuevoNombre.isEmpty()) {
+                    throw new IllegalArgumentException("El nombre no puede estar vacío.");
+                }
+                ejecutivo.setNombre(nuevoNombre);
             }
-        }
-        System.out.println("¿Desea actualizar su CURP? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("CURP actual: "+ ejecutivo.getCURP());
-            System.out.print("CURP nuevo: ");
-            ejecutivo.setCURP(scanner.nextLine());
-        }
-        System.out.println("Desea actualizar su email? s/n");
-        if (scanner.nextLine().equalsIgnoreCase("s")){
-            System.out.println("EMAIL actual: "+ ejecutivo.getEmail());
-            System.out.print("EMAIL nuevo: ");
-            ejecutivo.setEmail(scanner.nextLine());
+
+            System.out.println("¿Desea actualizar el apellido paterno o materno? (s/n)");
+            System.out.print("Selección: ");
+            if (scanner.nextLine().trim().equalsIgnoreCase("s")) {
+                System.out.println("¿Desea actualizar el apellido paterno? (s/n)");
+                System.out.print("Selección: ");
+                if (scanner.nextLine().trim().equalsIgnoreCase("s")) {
+                    System.out.println("Apellido paterno actual: " + ejecutivo.getApellidoPaterno());
+                    System.out.print("Apellido paterno nuevo: ");
+                    String nuevoApellidoPaterno = scanner.nextLine().trim();
+                    if (nuevoApellidoPaterno.isEmpty()) {
+                        throw new IllegalArgumentException("El apellido paterno no puede estar vacío.");
+                    }
+                    ejecutivo.setApellidoPaterno(nuevoApellidoPaterno);
+                } else {
+                    System.out.println("Apellido materno actual: " + ejecutivo.getApellidoMaterno());
+                    System.out.print("Apellido materno nuevo: ");
+                    String nuevoApellidoMaterno = scanner.nextLine().trim();
+                    if (nuevoApellidoMaterno.isEmpty()) {
+                        throw new IllegalArgumentException("El apellido materno no puede estar vacío.");
+                    }
+                    ejecutivo.setApellidoMaterno(nuevoApellidoMaterno);
+                }
+            }
+
+            System.out.println("¿Desea actualizar su CURP? (s/n)");
+            System.out.print("Selección: ");
+            if (scanner.nextLine().trim().equalsIgnoreCase("s")) {
+                System.out.println("CURP actual: " + ejecutivo.getCURP());
+                System.out.print("CURP nuevo: ");
+                String nuevoCURP = scanner.nextLine().trim();
+                if (nuevoCURP.isEmpty()) {
+                    throw new IllegalArgumentException("El CURP no puede estar vacío.");
+                }
+                ejecutivo.setCURP(nuevoCURP);
+            }
+
+            System.out.println("¿Desea actualizar su email? (s/n)");
+            System.out.print("Selección: ");
+            if (scanner.nextLine().trim().equalsIgnoreCase("s")) {
+                System.out.println("Email actual: " + ejecutivo.getEmail());
+                System.out.print("Email nuevo: ");
+                String nuevoEmail = scanner.nextLine().trim();
+                if (nuevoEmail.isEmpty()) {
+                    throw new IllegalArgumentException("El email no puede estar vacío.");
+                }
+                ejecutivo.setEmail(nuevoEmail);
+            }
+
+            System.out.println("Actualización completada con éxito.");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
     }
+
 
     //----------------------------------DELETE---------------------------------------------
 
     //Verificar que se eliminen en los archivos binarios
 
-    public void darBajaCliente(String idCliente){
-        for (Cliente cliente : this.listaClientes) {
-            if (cliente.getId().equals(idCliente)) {
-                this.listaClientes.remove(cliente);
-                return;
-            }
+    public void darBajaCliente(String idCliente) {
+        try {
+            Cliente cliente = this.listaClientes.stream()
+                    .filter(c -> c.getId().equals(idCliente))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Cliente con ID " + idCliente + " no encontrado."));
+            this.listaClientes.remove(cliente);
+            System.out.println("Cliente eliminado correctamente.");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 
-    public void darBajaEjecutivo(String idEjecutivo){
-        for (Ejecutivo ejecutivo : this.listaEjecutivos) {
-            if (ejecutivo.getId().equals(idEjecutivo)) {
-                this.listaClientes.remove(ejecutivo);
-                return;
-            }
+    public void darBajaEjecutivo(String idEjecutivo) {
+        try {
+            Ejecutivo ejecutivo = this.listaEjecutivos.stream()
+                    .filter(e -> e.getId().equals(idEjecutivo))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Ejecutivo con ID " + idEjecutivo + " no encontrado."));
+            this.listaEjecutivos.remove(ejecutivo);
+            System.out.println("Ejecutivo eliminado correctamente.");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 
@@ -220,7 +278,7 @@ public class Banco {
     }
 
     public String generarIdEjecutivo() {
-// C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
+// E -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
         LocalDate fecha = LocalDate.now();
 
         int anoActual = fecha.getYear();
