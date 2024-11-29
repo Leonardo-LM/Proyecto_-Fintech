@@ -14,6 +14,7 @@ import menus.MenuGerente;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Banco {
     public Gerente gerenteDefault;
@@ -28,6 +29,7 @@ public class Banco {
     public MenuGerente menuGerente = new MenuGerente();
     public Login login = new Login();
     public Random rand = new Random();
+    public Scanner scanner = new Scanner(System.in);
 
 
     public Banco() {
@@ -66,8 +68,117 @@ public class Banco {
 
     //----------------------------------UPDATE---------------------------------------------
 
+    //Verificar que se actualicen los datos en los archivos binarios
+
+    public void actualizarDatosCliente(Cliente cliente){
+        System.out.println("¿Desea cambiar nombre? s/n" +
+                "Selección: ");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("Nombre actual: "+ cliente.getNombre());
+            System.out.print("Nombre nuevo: ");
+            cliente.setNombre(scanner.nextLine());
+        }
+        System.out.println("¿Desea actualizar el apellido paterno o materno? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("¿Desea actualizar el apellido paterno? s/n");
+            if (scanner.nextLine().equalsIgnoreCase("s")){
+                System.out.println("Apellido paterno actual: "+ cliente.getApellidoPaterno());
+                System.out.print("Apellido paterno nuevo: ");
+                cliente.setApellidoPaterno(scanner.nextLine());
+            } else if (scanner.nextLine().equalsIgnoreCase("n")) {
+                System.out.println("Apellido materno actual: "+ cliente.getApellidoMaterno());
+                System.out.print("Apellido materno nuevo: ");
+                cliente.setApellidoMaterno(scanner.nextLine());
+            }else{
+                System.out.println("Opción inválida, intente de nuevo");
+            }
+        }
+        System.out.println("¿Desea actualizar su CURP? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("CURP actual: "+ cliente.getCURP());
+            System.out.print("CURP nuevo: ");
+            cliente.setCURP(scanner.nextLine());
+        }
+        System.out.println("Desea actualizar su email? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("EMAIL actual: "+ cliente.getEmail());
+            System.out.print("EMAIL nuevo: ");
+            cliente.setEmail(scanner.nextLine());
+        }
+        //System.out.println("Desea actualizar su tarjeta de débito? s/n");
+    }
+
+    public void actualizarDatosEjecutivo(Ejecutivo ejecutivo){
+        System.out.println("¿Desea cambiar nombre? s/n" +
+                "Selección: ");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("Nombre actual: "+ ejecutivo.getNombre());
+            System.out.print("Nombre nuevo: ");
+            ejecutivo.setNombre(scanner.nextLine());
+        }
+        System.out.println("¿Desea actualizar el apellido paterno o materno? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("¿Desea actualizar el apellido paterno? s/n");
+            if (scanner.nextLine().equalsIgnoreCase("s")){
+                System.out.println("Apellido paterno actual: "+ ejecutivo.getApellidoPaterno());
+                System.out.print("Apellido paterno nuevo: ");
+                ejecutivo.setApellidoPaterno(scanner.nextLine());
+            } else if (scanner.nextLine().equalsIgnoreCase("n")) {
+                System.out.println("Apellido materno actual: "+ ejecutivo.getApellidoMaterno());
+                System.out.print("Apellido materno nuevo: ");
+                ejecutivo.setApellidoMaterno(scanner.nextLine());
+            }else{
+                System.out.println("Opción inválida, intente de nuevo");
+            }
+        }
+        System.out.println("¿Desea actualizar su CURP? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("CURP actual: "+ ejecutivo.getCURP());
+            System.out.print("CURP nuevo: ");
+            ejecutivo.setCURP(scanner.nextLine());
+        }
+        System.out.println("Desea actualizar su email? s/n");
+        if (scanner.nextLine().equalsIgnoreCase("s")){
+            System.out.println("EMAIL actual: "+ ejecutivo.getEmail());
+            System.out.print("EMAIL nuevo: ");
+            ejecutivo.setEmail(scanner.nextLine());
+        }
+    }
 
     //----------------------------------DELETE---------------------------------------------
+
+    //Verificar que se eliminen en los archivos binarios
+
+    public void darBajaCliente(String idCliente){
+        for (Cliente cliente : this.listaClientes) {
+            if (cliente.getId().equals(idCliente)) {
+                this.listaClientes.remove(cliente);
+                return;
+            }
+        }
+    }
+
+    public void darBajaEjecutivo(String idEjecutivo){
+        for (Ejecutivo ejecutivo : this.listaEjecutivos) {
+            if (ejecutivo.getId().equals(idEjecutivo)) {
+                this.listaClientes.remove(ejecutivo);
+                return;
+            }
+        }
+    }
+
+    //---------------------------------Busquedas------------------------------------------
+    public Cliente obtenerClientePorId(String idCliente){
+        return this.listaClientes.stream().filter(
+                cliente -> cliente.getId().equals(idCliente)
+        ).findFirst().orElse(null);
+    }
+
+    public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo){
+        return this.listaEjecutivos.stream().filter(
+                ejecutivo -> ejecutivo.getId().equals(idEjecutivo)
+        ).findFirst().orElse(null);
+    }
 
     //-------------------------VALLIDACIONES-----------------------------
 
@@ -102,11 +213,22 @@ public class Banco {
 
         int anoActual = fecha.getYear();
         int mesActual = fecha.getMonthValue();
-        //int longitudClientesMasUno =  this.listaConsultas.size() + 1;
         int longitudClientesMasUno = this.listaClientes.size() + 1;
         int numeroAleatorio = rand.nextInt(1, 100000);
 
         return String.format("C-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
+    }
+
+    public String generarIdEjecutivo() {
+// C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
+        LocalDate fecha = LocalDate.now();
+
+        int anoActual = fecha.getYear();
+        int mesActual = fecha.getMonthValue();
+        int longitudClientesMasUno = this.listaClientes.size() + 1;
+        int numeroAleatorio = rand.nextInt(1, 100000);
+
+        return String.format("E-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
     }
 
     public String generarRFC(String nombre, String apellidoP, String apellidoM , LocalDate fechaRegistro) {
@@ -143,10 +265,20 @@ public class Banco {
     public void mostrarClientes() {
         System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaClientes.isEmpty()) {
-            System.out.println("No hay clientes registrados");
+            System.out.println("No hay clientes registrados aún");
         }else {
             for (Cliente cliente : this.listaClientes) {
                 System.out.println(cliente.mostrarDatos());
+            }
+        }
+    }
+    public void mostrarEjecutivos() {
+        System.out.println("\n*** EJECUTIVOS DEL BANCO ***");
+        if (listaEjecutivos.isEmpty()) {
+            System.out.println("No hay ejecutivos registrados aún");
+        }else {
+            for (Ejecutivo ejecutivo : this.listaEjecutivos) {
+                System.out.println(ejecutivo.mostrarDatos());
             }
         }
     }

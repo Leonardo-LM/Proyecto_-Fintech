@@ -15,12 +15,10 @@ public class Login {
     public void login() {
         int intesntosMax = 5, intentosUsuario = 0;
 
-        MenuCliente menuCliente = new MenuCliente();
-
         int opc;
         do {
             opc = menuGerente.mostrarMenu(banco.gerenteDefault);
-            menuGerente.procesarDatosMenu(opc, banco.gerenteDefault, banco);
+            menuGerente.procesarDatosMenu(opc, banco);
         } while (opc != 13);
 
 
@@ -35,7 +33,7 @@ public class Login {
             System.out.println("Ingresa tu contaseña : ");
             String contasena = scanner.nextLine();
 
-            Usuario usuarioEnSesion = banco.validarInicioSesion(usuario, contasena);
+            //Usuario usuarioEnSesion = banco.validarInicioSesion(usuario, contasena);
 
             /*if (usuarioEnSesion instanceof Usuario) {
 
