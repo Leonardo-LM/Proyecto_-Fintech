@@ -76,7 +76,7 @@ public class MenuGerente {
                             sucursal,
                             null // Tarjeta ¿?, Nulo ppor ahora
                     );
-                    banco.listaClientes.add(cliente);
+                    banco.registrarCliente(cliente);
                     System.out.println("Cliente registrado exitosamente.");
                     break;
 
@@ -103,7 +103,7 @@ public class MenuGerente {
                             CURP,
                             email
                     );
-                    banco.listaEjecutivos.add(ejecutivo);
+                    banco.registrarEjecutivo(ejecutivo);
                     System.out.println("Ejecutivo registrado exitosamente.");
                     break;
 

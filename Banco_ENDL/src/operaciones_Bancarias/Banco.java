@@ -226,6 +226,7 @@ public class Banco {
     }
 
     //---------------------------------Busquedas------------------------------------------
+
     public Cliente obtenerClientePorId(String idCliente){
         return this.listaClientes.stream().filter(
                 cliente -> cliente.getId().equals(idCliente)
