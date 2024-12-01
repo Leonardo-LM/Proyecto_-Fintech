@@ -30,6 +30,7 @@ public class MenuGerente {
                     9.-Mostrar lista de usuarios
                     10.-Mostrar Trajetas debito (agg solo para comrpobar)
                     11.-Realizar deposito tarjeta debito
+                    12.-Autorizar tarjeta de credito
                     13.- Salir""");
             System.out.print("Elija una opción: ");
              //respuesta = scanner.nextInt();
@@ -219,7 +220,9 @@ public class MenuGerente {
                     }
                     break;
                 case 12:
-
+                    System.out.println("Autorizar tarjeta de credito");
+                    banco.mostrarSolitudes();
+                    banco.autorizarTarjetaCredito();
                     break;
                 case 13:
                     System.out.println("Adios");

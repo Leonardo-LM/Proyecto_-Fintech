@@ -2,6 +2,7 @@ package operaciones_Bancarias;
 
 import tarjetas.Credito;
 import tarjetas.Debito;
+import tarjetas.SolicitudTarjetaCredito;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
@@ -23,6 +24,7 @@ public class Banco {
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
+    public ArrayList<SolicitudTarjetaCredito>listaSolicitudes=new ArrayList<>();
     // public MenuCliente menuCliente = new MenuCliente();
     //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     //public MenuGerente menuGerente = new MenuGerente();
@@ -73,6 +75,9 @@ public class Banco {
         listaCreditos.add(credito);
     }
 
+    public void registrarSolicitud(SolicitudTarjetaCredito solicitud) {
+        listaSolicitudes.add(solicitud);
+    }
 
     //----------------------------------UPDATE---------------------------------------------
 
@@ -274,6 +279,31 @@ public class Banco {
         return tarjetadebito;
     }
 
+///AÑADI *-*-
+    public Credito generarTarjetaCredito(Cliente titular) {
+        int digitos1 = rand.nextInt(9);
+        int digitos2 = rand.nextInt(9);
+        int digitos3 = rand.nextInt(9);
+        int digitos4 = rand.nextInt(9);
+        int digitos5 = rand.nextInt(9);
+
+        String numeroCredito = String.format("%04d 04%d 04%d 04%d", digitos1, digitos2, digitos3, digitos4);
+        LocalDate fechaCreacion = LocalDate.now();
+        double saldolimite = 100000;
+        String cvv = "";
+        for (int i = 0; i < 3; i++) {
+            cvv += rand.nextInt(9);
+        }
+        String clabeInter = String.format("%04d %04d %04d %04d %02d", digitos1, digitos2, digitos3, digitos4, digitos5);
+        LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
+
+        Credito tarjetaCredito = new Credito(titular, numeroCredito, fechaCreacion, saldolimite, cvv, clabeInter, fechaVencimineto);
+        registrarCredito(tarjetaCredito);
+        titular.setTarjetaCredito(tarjetaCredito);///ASOCIAMOS TRAJETA CREDITO
+        return tarjetaCredito;
+    }
+/// AÑADI *-*-
+
     public String generarIdCliente() {
 // C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
         LocalDate fecha = LocalDate.now();
@@ -386,6 +416,74 @@ public class Banco {
             System.out.println("Revisando NO: " + debito.getNumeroTarjeta());
             if (debito.getNumeroTarjeta().equals(NoTarjeta)) {
                 return debito;
+            }
+        }
+        return null;
+    }
+
+    public String SolicitudTCredito (Cliente cliente){
+        String IdCliente=cliente.getId();
+        String Nombre=cliente.getNombre();
+        Debito tarjetaCliente=cliente.getTarjetaDebito();
+        double saldo=tarjetaCliente.getSaldo();
+        Boolean Autorizacion=false;
+        SolicitudTarjetaCredito solicitud = new SolicitudTarjetaCredito(IdCliente,Nombre,Autorizacion,saldo);
+        registrarSolicitud(solicitud);
+        return "Se ha mandado la solicitud a nuestro Gerente Correctamente";
+    }
+
+    public void mostrarSolitudes() {
+            if (listaSolicitudes.isEmpty()) {
+            System.out.println("No hay solicitudes de tarjeta de credito\n");
+            } else {
+            System.out.println("\n*** LISTA DE SOLICITUDES ***\n");
+            for (SolicitudTarjetaCredito solicitudTarjetaCredito : listaSolicitudes) {
+                System.out.println(solicitudTarjetaCredito.mostrarDatos());
+            }
+            }
+    }
+
+    public void autorizarTarjetaCredito(){
+        int opcion =0;
+        while (opcion!=2){
+            System.out.print("Desea autorizar alguna T.Credito\n");
+            System.out.print("1.-Si\n");
+            System.out.print("2.-No\n");
+            System.out.println("Selecciona una opcion: ");
+            opcion = scanner.nextInt();
+            switch (opcion){
+                case 1:
+                    System.out.println("Ingrese el id del cliente que desea autorizar su T.Credito");
+                    scanner.nextLine();
+                    String id= scanner.nextLine();
+                    validarSolicitud(id);
+                    break;
+                case 2:
+                    System.out.println("vale!");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, inténtelo de nuevo.");
+            }
+        }
+    }
+
+    public void validarSolicitud(String id){
+        for (SolicitudTarjetaCredito solicitudTarjetaCredito:listaSolicitudes) {
+            if (solicitudTarjetaCredito.getIdClienteSolicitador().equals(id)) {
+                solicitudTarjetaCredito.setTarjetaAutorizada(true);
+                System.out.println("Tarjeta de Credito aprobada exitosamente ");
+                Cliente cliente =BuscarCliente(id);
+                generarTarjetaCredito(cliente);
+            } else {
+                System.out.println("Ese cliente no ha mandado solicitud");
+            }
+        }
+    }
+
+    public Cliente BuscarCliente(String id){
+        for (Cliente cliente : listaClientes) {;
+            if (cliente.getId().equals(id)) {
+                return cliente;
             }
         }
         return null;

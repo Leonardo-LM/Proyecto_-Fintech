@@ -1,5 +1,6 @@
 package usuarios.clientes;
 
+import tarjetas.Credito;
 import tarjetas.Debito;
 import usuarios.Usuario;
 import utils.Rol;
@@ -11,6 +12,7 @@ public class Cliente extends Usuario {
     public String sucursal;
     public double saldo;
     public Debito tarjetaDebito;
+    public Credito tarjetaCredito;
 
     public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal) {
         super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
@@ -18,11 +20,18 @@ public class Cliente extends Usuario {
         this.saldo = saldo;
         this.sucursal = sucursal;
         this.tarjetaDebito = tarjetaDebito;
+        this.tarjetaCredito= tarjetaCredito;
     }
 
     public String mostrarDatos() {
-        String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s", saldo, tarjetaDebito.getNumeroTarjeta());
-        return super.mostrarInformacion() + datosCliente;
+        if(tarjetaCredito!=null){
+            String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s,Tarjeta Credito No: %s", saldo, tarjetaDebito.getNumeroTarjeta(), tarjetaCredito.getNumeroTarjeta());
+            return super.mostrarInformacion() + datosCliente;
+        } else {
+           String numeroTarjetaCredito="no tiene aun";
+            String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s,Tarjeta Credito No: %s", saldo, tarjetaDebito.getNumeroTarjeta(),numeroTarjetaCredito);
+            return super.mostrarInformacion() + datosCliente;
+        }
     }
 
     //-------------------------SETTER & GETTER-----------------------------------
@@ -57,5 +66,13 @@ public class Cliente extends Usuario {
 
     public void setTarjetaDebito(Debito tarjetaDebito) {
         this.tarjetaDebito = tarjetaDebito;
+    }
+
+    public Credito getTarjetaCredito() {
+        return tarjetaCredito;
+    }
+
+    public void setTarjetaCredito(Credito tarjetaCredito) {
+        this.tarjetaCredito = tarjetaCredito;
     }
 }
