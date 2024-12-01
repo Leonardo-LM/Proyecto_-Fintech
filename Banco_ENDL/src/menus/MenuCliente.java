@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuCliente {
-    private int controlador = 0;
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
@@ -90,13 +89,13 @@ public class MenuCliente {
                 System.out.println(saldodisponible);
                 break;
             case 4:
-                if(cliente.getTarjetaCredito()==null && controlador==0) {
+                if(cliente.getTarjetaCredito()==null && cliente.controlador==0) {
                     System.out.print("Solicitud de tarjeta de crédito\n");
                     System.out.print("Estamos procesando su petición " + cliente.nombre + "\n");
                     String respuesta = banco.SolicitudTCredito(cliente);
                     System.out.print(respuesta);
-                    controlador++;
-                }else if(cliente.getTarjetaCredito()==null && controlador>0) {
+                    cliente.setControlador(1);
+                }else if(cliente.getTarjetaCredito()==null && cliente.controlador>0) {
                     System.out.println("Ya mandaste solicitud espera respuesta");
                 } else {
                     System.out.println("Ya cuentas con una tarjeta de credito.No puedes solicitar ya");
