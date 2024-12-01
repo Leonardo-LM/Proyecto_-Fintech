@@ -28,16 +28,16 @@ public class MenuGerente {
                     9.-Mostrar lista de usuarios
                     13.- Salir""");
             System.out.print("Elija una opción: ");
-             //respuesta = scanner.nextInt();
+             respuesta = scanner.nextInt();
 
-            try {
+            /*try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 10 && respuesta != 13)) {
+                if (respuesta < 1 || (respuesta > 12 && respuesta != 13)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero y válido somso.");
-            }
+            }*/
             procesarDatosMenu(respuesta,banco);
         }
 
@@ -190,6 +190,16 @@ public class MenuGerente {
                     break;
                 case 9:
                     banco.mostrarUsuarios();
+                    break;
+                case 10:
+                    break;
+                case 11:
+                    break;
+                case 12:
+                    break;
+                case 13:
+                    System.out.println("Adios");
+                    break;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;
