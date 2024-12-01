@@ -39,7 +39,7 @@ public class MenuEjecutivo {
                 String email = scanner.next();
                 //Tarjetas
 
-                Cliente cliente = new Cliente(banco.generarIdCliente(),nombre, apellidoP, apellidoM, RFC, CURP, email, LocalDate.now(), sucursal, tarjetas);
+                Cliente cliente = new Cliente(banco.generarIdCliente(),nombre, apellidoP, apellidoM, RFC, CURP, email, LocalDate.now(),0.0,"d");
                 banco.listaClientes.add(cliente);
                 break;
 

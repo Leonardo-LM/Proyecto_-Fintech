@@ -1,6 +1,17 @@
+import menus.MenuCliente;
+import menus.MenuEjecutivo;
+import menus.MenuGerente;
+import operaciones_Bancarias.Banco;
+
+
 public class Main {
     public static void main(String[] args) {
 
+
+        Banco banco = new Banco();
+        MenuGerente menuGerente = new MenuGerente();
+        menuGerente.mostrarMenu(banco.gerenteDefault);
+        //menuCliente.mostrarDatos();
 //        ArrayList<Cliente> clientes = new ArrayList<>();
 //        Cliente cliente1 = new Cliente("a", "a", "d", "d", "d", LocalDate.now(), "a" );
 

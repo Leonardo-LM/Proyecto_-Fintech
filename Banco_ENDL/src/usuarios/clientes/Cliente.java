@@ -12,7 +12,7 @@ public class Cliente extends Usuario {
     public double saldo;
     public Debito tarjetaDebito;
 
-    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal, Debito tarjetaDebito) {
+    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal) {
         super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
         this.fechaRegistro = fechaRegistro;
         this.saldo = saldo;

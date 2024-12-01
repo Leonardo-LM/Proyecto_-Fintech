@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuCliente {
-    public operaciones_Bancarias.Banco banco = new operaciones_Bancarias.Banco();
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
@@ -54,7 +53,7 @@ public class MenuCliente {
                 break;
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
-                banco.mostrarSaldoCliente();
+                //banco.mostrarSaldoCliente();
                 break;
             case 4:
                 break;

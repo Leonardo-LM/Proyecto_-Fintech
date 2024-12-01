@@ -7,7 +7,6 @@ import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
 import usuarios.Usuario;
 import java.time.LocalDate;
-import menus.Login;
 import menus.MenuCliente;
 import menus.MenuEjecutivo;
 import menus.MenuGerente;
@@ -17,7 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Banco {
-    public Gerente gerenteDefault;
+    public Gerente gerenteDefault = new Gerente("1","Gerente", "1", "1","1","1","1","Banco",23);
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
@@ -27,7 +26,6 @@ public class Banco {
     public MenuCliente menuCliente = new MenuCliente();
     public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     public MenuGerente menuGerente = new MenuGerente();
-    public Login login = new Login();
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
 

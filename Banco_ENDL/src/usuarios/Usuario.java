@@ -12,7 +12,6 @@ public class Usuario {
     private String CURP;
     public String email;
     public Rol rol;
-    public Banco banco = new Banco();
 
     public Usuario(String id,String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, Rol rol) {
         this.id = id;

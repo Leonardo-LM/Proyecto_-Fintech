@@ -16,7 +16,7 @@ public class MenuGerente {
         while (respuesta != 13) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
-                    \n---------- ACCIONES ----------
+                    \n---------- MENU DEL GERENTE ----------
                     1.- Registrar un cliente
                     2.- Registrar un ejecutivo
                     3.- Mostrar lista de clientes
@@ -73,8 +73,8 @@ public class MenuGerente {
                             email,
                             fechaRegistro,
                             saldo,
-                            sucursal,
-                            null // Tarjeta ¿?, Nulo ppor ahora
+                            sucursal
+                            //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
                     System.out.println("Cliente registrado exitosamente.");
