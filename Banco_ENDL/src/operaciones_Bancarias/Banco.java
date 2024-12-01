@@ -33,7 +33,7 @@ public class Banco {
 
     public Banco() {
         //this.gerenteDefault = new Gerente();
-        gerenteDefault=new Gerente("123","Pedro","Guzman","Lopez","PDL","PDLSD","hola@gmail.com","Banco",200000.00);
+        gerenteDefault=new Gerente("123","Pedro","Guzman","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
         this.listaGerentes.add(gerenteDefault);
         this.listaUsuarios.add(gerenteDefault);
     }
@@ -269,8 +269,8 @@ public class Banco {
         LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
 
         Debito tarjetadebito = new Debito(titular, numeroDebito, fechaCreacion, saldo, cvv, clabeInter, fechaVencimineto);
-
-
+        registrarDebito(tarjetadebito);
+        titular.setTarjetaDebito(tarjetadebito);///ASOCIAMOS TRAJETA DEBITO
         return tarjetadebito;
     }
 
@@ -352,7 +352,7 @@ public class Banco {
 
     public Usuario validarInicioSesion(String idUser, String curp){
         for (Usuario usuario : listaUsuarios) {
-           // System.out.println("Revisando ID: " + usuario.getId());
+            System.out.println("Revisando ID: " + usuario.getId());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
                 return usuario;
             }
@@ -370,6 +370,25 @@ public class Banco {
             }
         }
     }
+    public void mostrarDebitos() {
+        System.out.println("\n*** CLIENTES DEL BANCO ***");
+        if (listaDebitos.isEmpty()) {
+            System.out.println("No hay clientes registrados aún");
+        }else {
+            for (Debito debito: this.listaDebitos) {
+                System.out.println(debito.mostrarDatos());
+            }
+        }
+    }
 
+    public Debito validarTarjeta(String NoTarjeta){
+        for (Debito debito : listaDebitos) {
+            System.out.println("Revisando NO: " + debito.getNumeroTarjeta());
+            if (debito.getNumeroTarjeta().equals(NoTarjeta)) {
+                return debito;
+            }
+        }
+        return null;
+    }
 }
 

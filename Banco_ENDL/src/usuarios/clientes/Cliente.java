@@ -21,7 +21,7 @@ public class Cliente extends Usuario {
     }
 
     public String mostrarDatos() {
-        String datosCliente = String.format(" Saldo: %f, Tarjeta Debto: %s", saldo, tarjetaDebito);
+        String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s", saldo, tarjetaDebito.getNumeroTarjeta());
         return super.mostrarInformacion() + datosCliente;
     }
 

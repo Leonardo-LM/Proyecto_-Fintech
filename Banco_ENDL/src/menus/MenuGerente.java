@@ -1,6 +1,8 @@
 package menus;
 
 import operaciones_Bancarias.Banco;
+import tarjetas.Debito;
+import usuarios.Usuario;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
@@ -26,6 +28,8 @@ public class MenuGerente {
                     7.- Dar de baja a un cliente
                     8.- Dar de baja a un ejecutivo
                     9.-Mostrar lista de usuarios
+                    10.-Mostrar Trajetas debito (agg solo para comrpobar)
+                    11.-Realizar deposito tarjeta debito
                     13.- Salir""");
             System.out.print("Elija una opción: ");
              //respuesta = scanner.nextInt();
@@ -81,6 +85,7 @@ public class MenuGerente {
                             //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
+                    banco.generarTarjetaDebito(cliente);
                     break;
 
                 case 2:
@@ -192,10 +197,29 @@ public class MenuGerente {
                     banco.mostrarUsuarios();
                     break;
                 case 10:
+                    banco.mostrarDebitos();
                     break;
                 case 11:
+                    System.out.println("Hola Bienvenido al sistema de deposito a tu tarjeta de Debito");
+                    System.out.println("Ingresa el No de tarjeta a depositar");
+                    String NoTarjeta=scanner.nextLine().trim();
+                    Debito x=banco.validarTarjeta(NoTarjeta);
+                    if (x != null) {
+                        System.out.println("Tarjeta encontrada: " + x.getNumeroTarjeta());
+                        Cliente persona=x.getTitular();
+                        String name=persona.getNombre();
+                        System.out.println("El titular es: " + name);
+                        System.out.println("Ingresa la catidad a depositar");
+                        double dinero= scanner.nextDouble();
+                        double saldonuevo=x.getSaldo()+dinero;
+                        x.setSaldo(saldonuevo);
+                        System.out.println("Cantidad depositada correctamente");
+                    } else if (x==null) {
+                        System.out.println("Esa tarjeta no existe");
+                    }
                     break;
                 case 12:
+
                     break;
                 case 13:
                     System.out.println("Adios");
