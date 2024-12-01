@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class MenuGerente {
     private final Scanner scanner = new Scanner(System.in);
-
-    public int mostrarMenu(Gerente gerente) {
+   //public Banco banco = new Banco();
+    public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
         while (respuesta != 13) {
             System.out.println("\nBienvenido " + gerente.nombre);
@@ -25,22 +25,26 @@ public class MenuGerente {
                     6.- Actualizar datos de ejecutivo
                     7.- Dar de baja a un cliente
                     8.- Dar de baja a un ejecutivo
+                    9.-Mostrar lista de usuarios
                     13.- Salir""");
             System.out.print("Elija una opción: ");
+             //respuesta = scanner.nextInt();
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 8 && respuesta != 13)) {
+                if (respuesta < 1 || (respuesta > 10 && respuesta != 13)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero y válido somso.");
             }
+            procesarDatosMenu(respuesta,banco);
         }
+
         return respuesta;
     }
 
-    public void procesarDatosMenu(int respuesta, Banco banco) {
+    public void procesarDatosMenu(int respuesta,Banco banco) {
         try {
             String nombre, apellidoP, apellidoM, RFC, CURP, email, sucursal = "Banco";
             boolean band;
@@ -77,7 +81,6 @@ public class MenuGerente {
                             //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
-                    System.out.println("Cliente registrado exitosamente.");
                     break;
 
                 case 2:
@@ -104,7 +107,6 @@ public class MenuGerente {
                             email
                     );
                     banco.registrarEjecutivo(ejecutivo);
-                    System.out.println("Ejecutivo registrado exitosamente.");
                     break;
 
                 case 3:
@@ -186,7 +188,8 @@ public class MenuGerente {
                         }
                     } while (!band);
                     break;
-
+                case 9:
+                    banco.mostrarUsuarios();
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;

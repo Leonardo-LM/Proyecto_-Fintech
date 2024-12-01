@@ -2,6 +2,7 @@ package menus;
 
 import operaciones_Bancarias.Banco;
 import usuarios.clientes.Cliente;
+import usuarios.ejecutivos.Ejecutivo;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -9,34 +10,49 @@ import java.util.Scanner;
 public class MenuEjecutivo {
     Scanner scanner = new Scanner(System.in);
 
-    public int mostrarMenu() {
-        System.out.println("\n*** BIEVENIDO ***");
-        System.out.println("1. Registrar cliente");
-       // System.out.println("2. Eliminar cliente");
-        System.out.println("3. Consultar datos ");
-        System.out.println("4. Salir ");
-// autorizar solicitudes ** Almacenar solicitudes, mostrarlas al gerente, decidir si las acepta, guardar esa informacion y notificar al cliente
-        int opcion = scanner.nextInt();
-        return opcion;
+    public int mostrarMenu(Ejecutivo ejecutivo,Banco banco) {
+        int respuesta = 0;
+        while (respuesta != 6) {
+            System.out.println("\nBienvenido " + ejecutivo.nombre);
+            System.out.println("""
+                    \n---------- MENU DEL EJECUTIVO ----------
+                    1.- Registrar un cliente
+                    2.- Eliminar cliente
+                    3.- Consultar Datos
+                    4.- 
+                    5.- 
+                    6.- Salir""");
+            System.out.print("Elija una opción: ");
+            try {
+                respuesta = Integer.parseInt(scanner.nextLine());
+                if (respuesta < 1 || (respuesta > 8 && respuesta != 13)) {
+                    System.out.println("Opción no válida. Intente de nuevo.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Debe ingresar un número entero y válido somso.");
+            }
+            procesarDatos(respuesta,banco);
+        }
+
+        return respuesta;
     }
 
-    public void procesarDatos(int opcion) {
+    public void procesarDatos(int opcion,Banco banco) {
         String sucursal = "Banco";
         switch (opcion) {
             case 1:
                 System.out.println("Registrar un cliente");
                 System.out.print("Nombre del cliente: ");
-                String nombre = scanner.next();
+                String nombre = scanner.nextLine();
                 System.out.print("Apellido Paterno del cliente: ");
-                String apellidoP = scanner.next();
+                String apellidoP = scanner.nextLine();
                 System.out.print("Apellido Materno del cliente: ");
-                String apellidoM = scanner.next();
-                Banco banco = new Banco();
+                String apellidoM = scanner.nextLine();
                 String RFC = banco.generarRFC(nombre,apellidoP,apellidoM,LocalDate.now());
                 System.out.print("CURP: ");
-                String CURP = scanner.next();
+                String CURP = scanner.nextLine();
                 System.out.print("Email: ");
-                String email = scanner.next();
+                String email = scanner.nextLine();
                 //Tarjetas
 
                 Cliente cliente = new Cliente(banco.generarIdCliente(),nombre, apellidoP, apellidoM, RFC, CURP, email, LocalDate.now(),0.0,"d");
@@ -59,6 +75,11 @@ public class MenuEjecutivo {
             case 4:
                 System.out.println("Hasta pronto");
                 break;
+            case 6:
+                System.out.println("adios");
+                break;
+            default:
+                System.out.println("No es opcion valida");
         }
 
     }

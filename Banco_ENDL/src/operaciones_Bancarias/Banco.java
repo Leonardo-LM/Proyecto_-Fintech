@@ -23,15 +23,19 @@ public class Banco {
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
-    public MenuCliente menuCliente = new MenuCliente();
-    public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
-    public MenuGerente menuGerente = new MenuGerente();
+    // public MenuCliente menuCliente = new MenuCliente();
+    //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
+    //public MenuGerente menuGerente = new MenuGerente();
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
 
 
+
     public Banco() {
         //this.gerenteDefault = new Gerente();
+        gerenteDefault=new Gerente("123","Pedro","Guzman","Lopez","PDL","PDLSD","hola@gmail.com","Banco",200000.00);
+        this.listaGerentes.add(gerenteDefault);
+        this.listaUsuarios.add(gerenteDefault);
     }
 
 
@@ -41,18 +45,24 @@ public class Banco {
 
     public void registrarCliente(Cliente cliente) {
         listaClientes.add(cliente);
+        System.out.println("Cliente registrado exitosamente.");
+        registrarUsuario(cliente);
     }
 
     public void registrarGerente(Gerente gerente) {
         listaGerentes.add(gerente);
+        registrarUsuario(gerente);
     }
 
     public void registrarUsuario(Usuario usuario) {
         listaUsuarios.add(usuario);
+        System.out.println("Usuario añadido.");
     }
 
     public void registrarEjecutivo(Ejecutivo ejecutivo) {
         listaEjecutivos.add(ejecutivo);
+        System.out.println("Ejecutivo registrado exitosamente.");
+        registrarUsuario(ejecutivo);
     }
 
     public void registrarDebito(Debito debito) {
@@ -340,4 +350,26 @@ public class Banco {
         }
     }
 
+    public Usuario validarInicioSesion(String idUser, String curp){
+        for (Usuario usuario : listaUsuarios) {
+           // System.out.println("Revisando ID: " + usuario.getId());
+            if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public void mostrarUsuarios() {
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+        } else {
+            System.out.println("\n*** LISTA DE USUARIOS ***");
+            for (Usuario usuario : listaUsuarios) {
+                System.out.println(usuario.mostrarInformacion());
+            }
+        }
+    }
+
 }
+

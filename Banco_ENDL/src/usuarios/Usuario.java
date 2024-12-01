@@ -24,11 +24,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    protected String mostrarInformacion(){
+    public String mostrarInformacion(){
         String nombreCompleto = this.nombre +" "+ this.apellidoPaterno+" "+this.apellidoMaterno;
         return String.format("" +
-                        "\nId: %s, Nombre completo: %s"
-                , this.id, nombreCompleto
+                        "\nId: %s, Nombre completo: %s,CURP:%S"
+                , this.id, nombreCompleto,this.CURP
         );
     }
 
