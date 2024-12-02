@@ -49,21 +49,21 @@ public class MenuCliente {
           }  else {
                 System.out.println("\nBienvenido " + cliente.nombre);
                 System.out.println("""
-                        1.- Hacer deposito
-                        2.- Hacer retiro
-                        3.- Saldo de cuenta
-                        4.- Solicitar tarjeta de credito
-                        5.- Hacer compra
-                        6.-Ver mi informacion
-                        7.-Ver mi historial movimientos
-                        8.-Pagar T.Credito
-                        9.-Retiro T.credito
+                        Acciones >
+                            1.- Hacer deposito
+                            2.- Hacer retiro
+                            3.- Saldo de cuenta
+                            4.- Solicitar tarjeta de credito
+                            5.- Hacer compra
+                            6.-Ver mi informacion
+                            7.-Ver mi historial movimientos
+                            8.-Pagar T.Credito
+                            9.-Retiro T.credito
                         10.- Salir""");
                 System.out.print("Elija una opción: ");
-
                 try {
                     respuesta = Integer.parseInt(sc.nextLine());
-                    if (respuesta < 1 || (respuesta > 10 && respuesta != 10)) {
+                    if (respuesta < 1 || respuesta > 10) {
                         System.out.println("Opción no válida. Intente de nuevo.");
                     }
                 } catch (NumberFormatException e) {

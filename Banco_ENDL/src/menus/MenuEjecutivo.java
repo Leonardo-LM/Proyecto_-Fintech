@@ -34,7 +34,7 @@ public class MenuEjecutivo {
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 11 && respuesta != 12)) {
+                if (respuesta < 1 || respuesta > 11) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
