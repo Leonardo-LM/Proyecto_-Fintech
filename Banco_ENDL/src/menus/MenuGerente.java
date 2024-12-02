@@ -7,15 +7,19 @@ import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
 
+import java.awt.*;
+import java.io.Serializable;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class MenuGerente {
+public class MenuGerente implements Serializable {
     private final Scanner scanner = new Scanner(System.in);
    //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        while (respuesta != 13) {
+        while (respuesta != 14) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
@@ -30,14 +34,15 @@ public class MenuGerente {
                     9.-Mostrar lista de usuarios
                     10.-Mostrar Trajetas debito (agg solo para comrpobar)
                     11.-Realizar deposito tarjeta debito
-                    12.-Autorizar tarjeta de credito
-                    13.- Salir""");
+                    12.-Realizar retiro de tarjeta de debito
+                    13.-Autorizar tarjeta de credito
+                    14.- Salir""");
             System.out.print("Elija una opción: ");
              //respuesta = scanner.nextInt();
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 12 && respuesta != 13)) {
+                if (respuesta < 1 || (respuesta > 13 && respuesta != 14)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -220,13 +225,34 @@ public class MenuGerente {
                     }
                     break;
                 case 12:
+                    System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
+                    System.out.println("Ingresa el No de tarjeta a depositar");
+                    String NoTarjetaRetiro=scanner.nextLine().trim();
+                    Debito tarjetaRetiro=banco.validarTarjeta(NoTarjetaRetiro);
+                    if (tarjetaRetiro != null) {
+                        System.out.println("Tarjeta encontrada: " + tarjetaRetiro.getNumeroTarjeta());
+                        Cliente persona=tarjetaRetiro.getTitular();
+                        String name=persona.getNombre();
+                        System.out.println("El titular es: " + name);
+                        System.out.println("Ingresa la catidad a retirar");
+                        double dinero= scanner.nextDouble();
+                        double saldoAnterior = tarjetaRetiro.getSaldo();
+                        double saldonuevo=saldoAnterior-dinero;
+                        tarjetaRetiro.setSaldo(saldonuevo);
+                        System.out.println("Cantidad retirada correctamente ");
+                        banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
+                    } else if (tarjetaRetiro==null) {
+                        System.out.println("Esa tarjeta no existe ");
+                    }
+                    break;
+                case 13:
                     System.out.println("Autorizar tarjeta de credito");
                     banco.mostrarSolitudes();
                     banco.autorizarTarjetaCredito();
                     break;
-                case 13:
-                    System.out.println("Adios");
-                    break;
+                case 14:
+                    System.out.println("** HASTA PRONTO ** ");
+                    return;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;

@@ -3,6 +3,8 @@ package operaciones_Bancarias;
 import tarjetas.Credito;
 import tarjetas.Debito;
 import tarjetas.SolicitudTarjetaCredito;
+import tarjetas.Tarjeta;
+import transacciones.Transaccion;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
@@ -12,9 +14,13 @@ import menus.MenuCliente;
 import menus.MenuEjecutivo;
 import menus.MenuGerente;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Banco {
     public Gerente gerenteDefault = new Gerente("1","Gerente", "1", "1","1","1","1","Banco",23);
@@ -24,6 +30,7 @@ public class Banco {
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
+    public ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito>listaSolicitudes=new ArrayList<>();
     // public MenuCliente menuCliente = new MenuCliente();
     //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
@@ -66,6 +73,10 @@ public class Banco {
         System.out.println("Ejecutivo registrado exitosamente.");
         registrarUsuario(ejecutivo);
     }
+
+    public void guardarOperación (String nombreUsuario,String NoTarjeta,double saldoAnterior,double  saldonuevo, LocalDateTime fecha, String operacion ){
+        Transaccion transaccion = new Transaccion(nombreUsuario,NoTarjeta,saldoAnterior, saldonuevo, LocalDateTime.now(),operacion);
+        listaTransacciones.add(transaccion);}
 
     public void registrarDebito(Debito debito) {
         listaDebitos.add(debito);
@@ -246,13 +257,51 @@ public class Banco {
         ).findFirst().orElse(null);
     }
 
-    public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo){
-        return this.listaEjecutivos.stream().filter(
-                ejecutivo -> ejecutivo.getId().equals(idEjecutivo)
-        ).findFirst().orElse(null);
+    public String obtenerInformacionCliente(String idCliente) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getId().equals(idCliente)) {
+                // Formatear la información del cliente como un String
+                return String.format(
+                        "ID: %s\nNombre: %s %s %s\nRFC: %s\nCURP: %s\nEmail: %s\nFecha de Registro: %s\nSucursal: %s\n Tarjeta Debito %s" ,
+                        cliente.getId(),
+                        cliente.getNombre(),
+                        cliente.getApellidoPaterno(),
+                        cliente.getApellidoMaterno(),
+                        cliente.getRFC(),
+                        cliente.getCURP(),
+                        cliente.getEmail(),
+                        cliente.getFechaRegistro().toString(),
+                        cliente.getSucursal(),
+                        cliente.getTarjetaDebito()
+                );
+            }
+        }
+        return "Cliente no encontrado.";
     }
 
+
+
+    public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo){
+        return this.listaEjecutivos.stream().filter(
+                ejecutivo -> ejecutivo.getId().equals(idEjecutivo)).findFirst().orElse(null);
+    }
+
+    public List<String> obtenerTransaccionesPorTitular(String tarjeta) {
+        AtomicInteger contador = new AtomicInteger(1);
+        return this.listaTransacciones.stream().filter(transaccion -> transaccion.getNumeroTarjeta().equals(tarjeta))
+                .map(transaccion -> String.format(
+                        "Número de transacción: %d\nTitular: %s\nTarjeta asociada: %s\nFecha: %s\nDescripción: %s\n",
+                        contador.getAndIncrement(),
+                        transaccion.getTitular(),
+                        transaccion.getNumeroTarjeta(),
+                        transaccion.getMomentoDeOperacion().toString(),
+                        transaccion.getOperación()
+                )).collect(Collectors.toList());
+    }
+
+
     //-------------------------VALLIDACIONES-----------------------------
+
 
     //-------------------------GENERADORES-----------------------------
 

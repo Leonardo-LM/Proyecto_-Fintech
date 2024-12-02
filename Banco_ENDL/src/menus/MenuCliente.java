@@ -3,8 +3,10 @@ package menus;
 
 import operaciones_Bancarias.Banco;
 import tarjetas.Debito;
+import transacciones.Transaccion;
 import usuarios.clientes.Cliente;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -51,7 +53,8 @@ public class MenuCliente {
                         3.- Saldo de cuenta
                         4.- Solicitar tarjeta de credito
                         5.- Hacer compra
-                        6.- Salir""");
+                        6.- Consultar mis transacciones 
+                        7.- Salir""");
                 System.out.print("Elija una opción: ");
 
                 try {
@@ -73,15 +76,49 @@ public class MenuCliente {
     public void procesarDatos(int opcion,Banco banco,Cliente cliente) {
         switch (opcion) {
             case 1:
-
-                System.out.print("Digite la cantidad a depositar: ");
-                double deposito = sc.nextDouble();
-
+                System.out.println("** REALIZAR DEPOSITO A TARJETA DE DEBITO **");
+                System.out.println("Ingresa el No de tarjeta a depositar");
+                String NoTarjeta=sc.nextLine().trim();
+                Debito x=banco.validarTarjeta(NoTarjeta);
+                if (x != null) {
+                    System.out.println("Tarjeta encontrada: " + x.getNumeroTarjeta());
+                    Cliente persona=x.getTitular();
+                    String name=persona.getNombre();
+                    System.out.println("El titular es: " + name);
+                    System.out.println("Ingresa la catidad a depositar");
+                    double dinero= sc.nextDouble();
+                    double saldoAnterior = x.getSaldo();
+                    double saldonuevo=saldoAnterior+dinero;
+                    x.setSaldo(saldonuevo);
+                    System.out.println("Cantidad depositada correctamente ");
+                    banco.guardarOperación(name,NoTarjeta,saldoAnterior, saldonuevo, LocalDateTime.now(),"Deposito");
+                } else if (x==null) {
+                    System.out.println("Esa tarjeta no existe ");
+                }
                 break;
+
             case 2:
-                System.out.print("Digite la cantidad a retirar: ");
-                double retiro = sc.nextDouble();
+                System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
+                System.out.println("Ingresa el No de tarjeta a depositar");
+                String NoTarjetaRetiro=sc.nextLine().trim();
+                Debito tarjetaRetiro=banco.validarTarjeta(NoTarjetaRetiro);
+                if (tarjetaRetiro != null) {
+                    System.out.println("Tarjeta encontrada: " + tarjetaRetiro.getNumeroTarjeta());
+                    Cliente persona=tarjetaRetiro.getTitular();
+                    String name=persona.getNombre();
+                    System.out.println("El titular es: " + name);
+                    System.out.println("Ingresa la catidad a retirar");
+                    double dinero= sc.nextDouble();
+                    double saldoAnterior = tarjetaRetiro.getSaldo();
+                    double saldonuevo=saldoAnterior-dinero;
+                    tarjetaRetiro.setSaldo(saldonuevo);
+                    System.out.println("Cantidad retirada correctamente ");
+                    banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
+                } else if (tarjetaRetiro==null) {
+                    System.out.println("Esa tarjeta no existe ");
+                }
                 break;
+
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
                 //banco.mostrarSaldoCliente();
@@ -105,7 +142,10 @@ public class MenuCliente {
             case 5:
                 break;
             case 6:
-                System.out.println("Mis datos:");
+                System.out.println("** HISTORIAL DE TRANSACCIONES **");
+                System.out.println("Ingrese la tarjeta/cuanta que desea consultar: ");
+                String tarjetaA = sc.nextLine();
+                banco.obtenerTransaccionesPorTitular(tarjetaA);
                 break;
             case 7:
                 System.out.println("\nAdios-");
