@@ -20,44 +20,29 @@ public class MenuGerente {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
-                    1.- 
-                    2.- 
-                    3
-                    4.- 
-                    5.-
-                    6.- 
-                    7.- 
-                    8.-
-                    9.-
-                    10.-
-                    11.-
-                    12.-
-                    13.-
-                    14.- Salir
-                    
                     Gestión de clientes >
-                    1.- Registrar un cliente//
-                    2.- Consultar lista de clientes//
+                    1.- Registrar un cliente
+                    2.- Consultar lista de clientes
                     3.- Buscar cliente por Id.
-                    4.- Actualizar datos de cliente//
-                    5.- Dar de baja a un cliente//
+                    4.- Actualizar datos de cliente
+                    5.- Dar de baja a un cliente
                     
                     Gestión de empleados >
-                    6.- Registrar un ejecutivo//
-                    7.- Consultar lista de ejecutivos//
-                    8.- Buscar ejecutivo por Id.//
-                    9.- Actualizar datos de ejecutivo//
-                    10.- Dar de baja a un ejecutivo//
+                    6.- Registrar un ejecutivo
+                    7.- Consultar lista de ejecutivos
+                    8.- Buscar ejecutivo por Id
+                    9.- Actualizar datos de ejecutivo
+                    10.- Dar de baja a un ejecutivo
                     
                     Gestión de usuarios >
-                     11.- Consultar lista de usuarios//
+                     11.- Consultar lista de usuarios
                      
                      Operaciones bancarias >
-                     12.- Autorizar tarjeta de credito //
-                     13.- Deposito de tarjeta de débito//
-                     14.- Retiro de tarjeta de débito //
-                     15.- Compra tarjeta debito/credito  --Diego A
-                     16.- Retiro tarjeta de credito --
+                     12.- Autorizar tarjeta de credito 
+                     13.- Deposito de tarjeta de débito
+                     14.- Retiro de tarjeta de débito 
+                     15.- Compra tarjeta debito/credito  
+                     16.- Retiro tarjeta de credito 
                      17.- Pagar tarjeta de credito 
                      18.-Mostrar Tarjetas Debito
                      19.- Salir""");
@@ -66,7 +51,7 @@ public class MenuGerente {
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 13 && respuesta != 14)) {
+                if (respuesta < 1 || (respuesta > 19 && respuesta != 19)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
