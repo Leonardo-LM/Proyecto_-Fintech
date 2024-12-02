@@ -6,7 +6,7 @@ import usuarios.ejecutivos.Ejecutivo;
 
 import java.time.LocalDate;
 import java.util.Scanner;
-// implementar interfaz serializable
+
 public class MenuEjecutivo {
     Scanner scanner = new Scanner(System.in);
 
@@ -16,16 +16,25 @@ public class MenuEjecutivo {
             System.out.println("\nBienvenido " + ejecutivo.nombre);
             System.out.println("""
                     \n---------- MENU DEL EJECUTIVO ----------
-                    1.- Registrar un cliente
-                    2.- Eliminar cliente
-                    3.- Consultar Datos
-                    4.- 
-                    5.- 
-                    6.- Salir""");
+                    ||Diego A.
+                        Gestión de clientes >
+                            1.- Registrar un cliente
+                            2.- Consultar lista de clientes
+                            3.- Buscar cliente por nombre o número de cuenta.
+                            4.- Actualizar datos de cliente
+                            5.- Dar de baja a un cliente
+                    ||Diego A. 
+                     Operaciones bancarias >
+                        6.- Deposito de tarjeta de débito --Nico Avocado
+                        7.- Retiro de tarjeta de débito --Estrella
+                        8.- Compra tarjeta débito/credito --Diego A. (debito)
+                        9.- Retiro tarjeta de credito
+                        10.- Pagar tarjeta de credito
+                    11.- Salir""");
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 8 && respuesta != 13)) {
+                if (respuesta < 1 || (respuesta > 10 && respuesta != 11)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {

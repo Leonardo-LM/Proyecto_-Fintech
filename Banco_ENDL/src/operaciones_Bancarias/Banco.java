@@ -25,13 +25,9 @@ public class Banco {
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito>listaSolicitudes=new ArrayList<>();
-    // public MenuCliente menuCliente = new MenuCliente();
-    //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
-    //public MenuGerente menuGerente = new MenuGerente();
+
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
-
-
 
     public Banco() {
         //this.gerenteDefault = new Gerente();
