@@ -17,7 +17,7 @@ public class MenuCliente {
     public int mostrarDatos(Cliente cliente, Banco banco) {
 
         int respuesta = 0;
-        while (respuesta != 11) {
+        while (respuesta != 10) {
             if (cliente.getTarjetaDebito().getSaldo() < 30000) {
                 Double saldo = cliente.getTarjetaDebito().getSaldo();
                 Double falta=30000.0-saldo;

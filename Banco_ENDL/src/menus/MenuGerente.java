@@ -16,7 +16,7 @@ public class MenuGerente {
    //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        while (respuesta != 14) {
+        while (respuesta != 19) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
@@ -35,20 +35,19 @@ public class MenuGerente {
                     10.- Dar de baja a un ejecutivo
                     
                     Gestión de usuarios >
-                     11.- Consultar lista de usuarios
+                    11.- Consultar lista de usuarios
                      
-                     Operaciones bancarias >
-                     12.- Autorizar tarjeta de credito 
-                     13.- Deposito de tarjeta de débito
-                     14.- Retiro de tarjeta de débito 
-                     15.- Compra tarjeta debito/credito  
-                     16.- Retiro tarjeta de credito 
-                     17.- Pagar tarjeta de credito 
-                     18.-Mostrar Tarjetas Debito
-                     19.- Salir""");
+                    Operaciones bancarias >
+                    12.- Autorizar tarjeta de credito 
+                    13.- Deposito de tarjeta de débito
+                    14.- Retiro de tarjeta de débito 
+                    15.- Compra tarjeta debito/credito  
+                    16.- Retiro tarjeta de credito 
+                    17.- Pagar tarjeta de credito 
+                    18.-Mostrar Tarjetas Debito
+                    19.- Salir""");
             System.out.print("Elija una opción: ");
-             //respuesta = scanner.nextInt();
-
+             respuesta = scanner.nextInt();
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
                 if (respuesta < 1 || (respuesta > 19 && respuesta != 19)) {
