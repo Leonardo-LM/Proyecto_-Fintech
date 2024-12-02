@@ -397,11 +397,40 @@ public class Banco {
 
     //-----------------------MOSTRAR DATOS------------------------
 
-    public void mostrarSaldoCliente(String id) {
-        for (Cliente cliente : listaClientes) {
+    public void mostrarClientePorId(String id){
+        Cliente cliente = obtenerClientePorId(id);
+        if (cliente != null) {
+            System.out.println(cliente.mostrarDatos());
+        } else {
+            System.out.println("No se encontró el cliente con el ID " + id);
+        }
+    }
 
+    public void mostrarDetallesTarjeta(Cliente cliente) {
+        System.out.println("\n---------- DETALLES DE LA TARJETA ----------");
+
+        System.out.println("Bienvenid@ " + cliente.getNombre());
+        if (cliente.getTarjetaDebito() != null) {
+            System.out.println("Número de Tarjeta Débito: " + cliente.getTarjetaDebito().getNumeroTarjeta());
+            System.out.println("CVV de Débito: " + cliente.getTarjetaDebito().getCvv());
+            System.out.println("Saldo: $" + cliente.getTarjetaDebito().getSaldo());
+            System.out.println("Fecha de vencimiento de tarjeta: " + cliente.getTarjetaDebito().getFechaVencimiento());
+        } else {
+            System.out.println("No tiene tarjeta de débito.");
         }
 
+        if (cliente.getTarjetaCredito() != null) {
+            System.out.println("Número de Tarjeta Crédito: " + cliente.getTarjetaCredito().getNumeroTarjeta());
+            System.out.println("CVV de Crédito: " + cliente.getTarjetaCredito().getCvv());
+            System.out.println("Saldo: $" + cliente.getTarjetaCredito().getSaldo());
+            System.out.println("Fecha de Vencimiento de tarjeta: " + cliente.getTarjetaCredito().getFechaVencimiento());
+        } else {
+            System.out.println("No tiene tarjeta de crédito.");
+        }
+
+        System.out.println("Sucursal: " + cliente.getSucursal());
+        System.out.println("Fecha de Registro: " + cliente.getFechaRegistro());
+        System.out.println("--------------------------------------------");
     }
 
     public void mostrarClientes() {

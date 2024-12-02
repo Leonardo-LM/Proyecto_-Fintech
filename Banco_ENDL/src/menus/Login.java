@@ -23,7 +23,7 @@ public class Login {
         int opc;
         do {
             opc =menuGerente.mostrarMenu(banco.gerenteDefault,banco);
-        }while (opc != 13);
+        }while (opc != 18);
         while(intentosUser < intentosMaximos){
             System.out.print("\n--------Bienvenido/a--------\n");
             System.out.println("---Inicia sesión para continuar---");
@@ -32,21 +32,24 @@ public class Login {
             //System.out.println(idUser);
             System.out.print("Ingrese su curp: ");
             String curp = scanner.nextLine();
-            //System.out.println(curp);
+
             usuarioEnSesion = banco.validarInicioSesion(idUser,curp);
-            //System.out.println(usuarioEnSesion);
+
             if (usuarioEnSesion instanceof Usuario){
                 if (usuarioEnSesion.getRol() == Rol.CLIENTE){
                     Cliente clienteEnSesion = (Cliente) usuarioEnSesion;
                     int opcion = menuCliente.mostrarDatos(clienteEnSesion,banco);
+                    menuCliente.procesarDatos(opcion,banco,clienteEnSesion);
                     intentosUser=0;
                 }else if (usuarioEnSesion.getRol() == Rol.EJECUTIVO){
                     Ejecutivo ejecutivoEnSesion = (Ejecutivo) usuarioEnSesion;
                     int opcion = menuEjecutivo.mostrarMenu(ejecutivoEnSesion,banco);
+                    menuEjecutivo.procesarDatos(opcion,banco);
                     intentosUser=0;
                 }else{
                     Gerente gerenteEnSesion = (Gerente) usuarioEnSesion;
                     opc = menuGerente.mostrarMenu(banco.gerenteDefault,banco);
+                    menuGerente.procesarDatosMenu(opc,banco,gerenteEnSesion);
                     intentosUser=0;
                 }
             }else{

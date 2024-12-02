@@ -10,7 +10,6 @@ public class Ejecutivo extends Usuario {
     }
 
     public String mostrarDatos() {
-        String datosCliente = String.format(" Email: %s", email);
-        return super.mostrarInformacion() + datosCliente;
+        return super.mostrarInformacion();
     }
 }

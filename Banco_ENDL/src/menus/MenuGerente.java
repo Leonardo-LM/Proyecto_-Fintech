@@ -1,6 +1,7 @@
 package menus;
 
 import operaciones_Bancarias.Banco;
+import tarjetas.Debito;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
@@ -17,69 +18,48 @@ public class MenuGerente implements Serializable {
 
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        while (respuesta != 14) {
+        while (respuesta != 18) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
-<<<<<<< HEAD
-                    1.- Registrar un cliente
-                    2.- Registrar un ejecutivo
-                    3.- Mostrar lista de clientes
-                    4.- Mostrar lista de ejecutivos
-                    5.- Actualizar datos de cliente
-                    6.- Actualizar datos de ejecutivo
-                    7.- Dar de baja a un cliente
-                    8.- Dar de baja a un ejecutivo
-                    9.-Mostrar lista de usuarios
-                    10.-Mostrar Trajetas debito (agg solo para comrpobar)
-                    11.-Realizar deposito tarjeta debito
-                    12.-Realizar retiro de tarjeta de debito
-                    13.-Autorizar tarjeta de credito
-                    14.- Salir""");
-=======
                     Gestión de clientes >
-                        1.- Registrar un cliente
-                        2.- Consultar lista de clientes
-                        3.- Buscar cliente por nombre o número de cuenta.
-                        4.- Actualizar datos de cliente
-                        5.- Dar de baja a un cliente
+                        1.- Registrar un cliente.
+                        2.- Consultar lista de clientes.
+                        3.- Buscar cliente por su id.
+                        4.- Actualizar datos de cliente.
+                        5.- Dar de baja a un cliente.
                     Gestión de empleados >
-                        6.- Registrar un ejecutivo
-                        7.- Consultar lista de ejecutivos
-                        8.- Buscar ejecutivo por nombre o número de cuenta. --Nico Avocado
-                        9.- Actualizar datos de ejecutivo
-                        10.- Dar de baja a un ejecutivo
-                    Gestión de usuarios > 
-                        11.- Consultar lista de usuarios
+                        6.- Registrar un ejecutivo.
+                        7.- Consultar lista de ejecutivos.
+                        8.- Buscar ejecutivo por nombre o número de cuenta.
+                        9.- Actualizar datos de ejecutivo.
+                        10.- Dar de baja a un ejecutivo.
+                    Gestión de usuarios >
+                        11.- Consultar lista de usuarios.
                     Operaciones bancarias >
-                        12.- Autorizar tarjeta de credito  --
-                        13.- Deposito de tarjeta de débito --Nico Avocado
-                        14.- Retiro de tarjeta de débito --Estrella
-                        15.- Compra tarjeta debito/credito  --Diego A
-                        16.- Retiro tarjeta de credito --
-                        17.- Pagar tarjeta de credito --
+                        12.- Autorizar tarjeta de credito.
+                        13.- Deposito de tarjeta de débito.
+                        14.- Retiro de tarjeta de débito.
+                        15.- Compra tarjeta debito/credito.
+                        16.- Retiro tarjeta de credito.
+                        17.- Pagar tarjeta de credito.
                     18.- Salir""");
->>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
             System.out.print("Elija una opción: ");
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-<<<<<<< HEAD
-                if (respuesta < 1 || (respuesta > 13 && respuesta != 14)) {
-=======
-                if (respuesta < 1 || (respuesta > 17 && respuesta != 18)) {
->>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
+                if (respuesta < 1 || respuesta > 18) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero y válido somso.");
             }
-            procesarDatosMenu(respuesta,banco);
+            procesarDatosMenu(respuesta,banco,gerente);
         }
         return respuesta;
     }
 
-    public void procesarDatosMenu(int respuesta,Banco banco) {
+    public void procesarDatosMenu(int respuesta,Banco banco, Gerente gerente) {
         try {
             String nombre, apellidoP, apellidoM, RFC, CURP, email, sucursal = "Banco";
             boolean band;
@@ -113,18 +93,21 @@ public class MenuGerente implements Serializable {
                             fechaRegistro,
                             saldo,
                             sucursal
-                            //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
+                    banco.generarTarjetaDebito(cliente);
                     break;
 
                 case 2:
-                    System.out.println("** LISTA DE CLIENTES **");
+                    System.out.println("** CONSULTAR LISTA DE CLIENTES **");
                     banco.mostrarClientes();
                     break;
                 case 3:
-                    System.out.println("Buscar cliente por nombre o número de cuenta.");
+                    System.out.println("** BUSCAR CLIENTE POR SU ID. **");
+                    System.out.println("Ingresa el id del cliente que desea buscar: ");
+                    String idClienteBusqueda = scanner.next();
 
+                    banco.mostrarClientePorId(idClienteBusqueda);
                     break;
                 case 4:
                     System.out.println("** ACTUALIZAR DATOS DE CLIENTE **");
@@ -231,7 +214,6 @@ public class MenuGerente implements Serializable {
                 case 11:
                     break;
                 case 12:
-<<<<<<< HEAD
                     System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
                     System.out.println("Ingresa el No de tarjeta a depositar");
                     String NoTarjetaRetiro=scanner.nextLine().trim();
@@ -260,13 +242,15 @@ public class MenuGerente implements Serializable {
                 case 14:
                     System.out.println("** HASTA PRONTO ** ");
                     return;
-                default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
-=======
+                case 15:
+                    //banco.mostrarDetallesTarjeta(cliente);
                     break;
-                case 13:
-                    System.out.println("Adios");
->>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
+                case 16:
+                    break;
+                case 17:
+                    break;
+                case 18:
+                    System.out.println("Gracias por su visita");
                     break;
             }
         } catch (Exception e) {
