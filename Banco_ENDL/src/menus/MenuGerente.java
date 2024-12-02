@@ -21,48 +21,45 @@ public class MenuGerente {
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
                     Gestión de clientes >
-                    1.- Registrar un cliente
-                    2.- Consultar lista de clientes
-                    3.- Buscar cliente por Id.
-                    4.- Actualizar datos de cliente
-                    5.- Dar de baja a un cliente
-                    
+                        1.- Registrar un cliente
+                        2.- Consultar lista de clientes
+                        3.- Buscar cliente por Id.
+                        4.- Actualizar datos de cliente
+                        5.- Dar de baja a un cliente
                     Gestión de empleados >
-                    6.- Registrar un ejecutivo
-                    7.- Consultar lista de ejecutivos
-                    8.- Buscar ejecutivo por Id
-                    9.- Actualizar datos de ejecutivo
-                    10.- Dar de baja a un ejecutivo
-                    
+                        6.- Registrar un ejecutivo
+                        7.- Consultar lista de ejecutivos
+                        8.- Buscar ejecutivo por Id
+                        9.- Actualizar datos de ejecutivo
+                        10.- Dar de baja a un ejecutivo
                     Gestión de usuarios >
-                    11.- Consultar lista de usuarios
-                     
+                        11.- Consultar lista de usuarios
                     Operaciones bancarias >
-                    12.- Autorizar tarjeta de credito 
-                    13.- Deposito de tarjeta de débito
-                    14.- Retiro de tarjeta de débito 
-                    15.- Compra tarjeta debito/credito  
-                    16.- Retiro tarjeta de credito 
-                    17.- Pagar tarjeta de credito 
-                    18.-Mostrar Tarjetas Debito
+                        12.- Autorizar tarjeta de credito 
+                        13.- Deposito de tarjeta de débito
+                        14.- Retiro de tarjeta de débito 
+                        15.- Compra tarjeta debito/credito  
+                        16.- Retiro tarjeta de credito 
+                        17.- Pagar tarjeta de credito 
+                        18.-Mostrar Tarjetas Debito
                     19.- Salir""");
             System.out.print("Elija una opción: ");
              respuesta = scanner.nextInt();
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || (respuesta > 19 && respuesta != 19)) {
+                if (respuesta < 1 || respuesta > 19) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero y válido somso.");
             }
-            procesarDatosMenu(respuesta,banco);
+            procesarDatosMenu(respuesta,banco,gerente);
         }
-
         return respuesta;
     }
 
-    public void procesarDatosMenu(int respuesta,Banco banco) {
+
+    public void procesarDatosMenu(int respuesta,Banco banco, Gerente gerente) {
         try {
             String nombre, apellidoP, apellidoM, RFC, CURP, email, sucursal = "Banco";
             boolean band;
@@ -96,17 +93,21 @@ public class MenuGerente {
                             fechaRegistro,
                             saldo,
                             sucursal
-                            //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
                     banco.generarTarjetaDebito(cliente);
                     break;
                 case 2:
-                    System.out.println("** LISTA DE CLIENTES **");
+                    System.out.println("** CONSULTAR LISTA DE CLIENTES **");
                     banco.mostrarClientes();
                     break;
 
                 case 3:
+                    System.out.println("** BUSCAR CLIENTE POR SU ID. **");
+                    System.out.println("Ingresa el id del cliente que desea buscar: ");
+                    String idClienteBusqueda = scanner.next();
+
+                    banco.mostrarClientePorId(idClienteBusqueda);
                     break;
                 case 4:
                     System.out.println("** ACTUALIZAR DATOS DE CLIENTE **");
@@ -172,11 +173,6 @@ public class MenuGerente {
                     banco.mostrarEjecutivos();
                     break;
                 case 8:
-                    System.out.println("Ingresa el Id del Ejecutivo buscado");
-                    String id=scanner.nextLine();
-                    banco.BuscarEjecutivoPorId(id);
-                    break;
-                case 9:
                     System.out.println("** ACTUALIZAR DATOS DE EJECUTIVO **");
                     band = false;
                     do {
@@ -191,6 +187,9 @@ public class MenuGerente {
                             band = true;
                         }
                     } while (!band);
+                    break;
+                case 9:
+
                     break;
                 case 10:
                     System.out.println("** DAR DE BAJA UN EJECUTIVO **");
@@ -275,9 +274,6 @@ public class MenuGerente {
                     break;
                 case 19:
                     System.out.println("\nAdios-");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
                     break;
             }
         } catch (Exception e) {

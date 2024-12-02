@@ -82,6 +82,7 @@ public class MenuCliente {
 
         switch (opcion) {
             case 1:
+                System.out.println("** REALIZAR DEPOSITO A TARJETA DE DEBITO **");
                 System.out.println("Hola "+cliente.nombre);
                 Debito no=cliente.getTarjetaDebito();
                 System.out.println("Se depositara a tu tarjeta de debito: "+no.getNumeroTarjeta());
@@ -121,7 +122,6 @@ public class MenuCliente {
                 break;
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
-                //banco.mostrarSaldoCliente();
                 Debito tarjeta=cliente.getTarjetaDebito();
                 Double saldodisponible=tarjeta.getSaldo();
                 System.out.println(saldodisponible);
@@ -140,8 +140,11 @@ public class MenuCliente {
                 }
                 break;
             case 5:
+                banco.mostrarDetallesTarjeta(cliente);
                 break;
             case 6:
+                System.out.println("Ver mi información");
+                banco.mostrarClientePorId(cliente.getId());
                 break;
             case 7:
                 System.out.println("** HISTORIAL DE TRANSACCIONES **");

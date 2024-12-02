@@ -19,20 +19,18 @@ public class MenuEjecutivo {
             System.out.println("""
                     \n---------- MENU DEL EJECUTIVO ----------
                     Gestión de clientes >
-                    1.- Registrar un cliente  
-                    2.- Consultar lista de clientes 
-                    3.- Buscar cliente por  Id
-                    4.- Actualizar datos de cliente
-                    5.- Eliminar un cliente   
-                                        
+                        1.- Registrar un cliente  
+                        2.- Consultar lista de clientes 
+                        3.- Buscar cliente por  Id
+                        4.- Actualizar datos de cliente
+                        5.- Eliminar un cliente   
                     Operaciones bancarias >
-                    6.- Deposito de tarjeta de débito  
-                    7.- Retiro de tarjeta de débito 
-                    8.- Compra tarjeta débito/credito 
-                    9.- Retiro tarjeta de credito
-                    10.- Pagar tarjeta de credito
-                    11.- Salir
-                    """);
+                        6.- Deposito de tarjeta de débito  
+                        7.- Retiro de tarjeta de débito 
+                        8.- Compra tarjeta débito/credito 
+                        9.- Retiro tarjeta de credito
+                        10.- Pagar tarjeta de credito
+                    11.- Salir""");
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
@@ -50,37 +48,45 @@ public class MenuEjecutivo {
 
     public void procesarDatos(int opcion,Banco banco) {
         try {
-
-        String sucursal = "Banco";
+            String nombre, apellidoP, apellidoM, RFC, CURP, email, sucursal = "Banco";
+            LocalDate fechaRegistro = LocalDate.now();
         switch (opcion) {
             case 1:
-                System.out.println("Registrar un cliente");
+                System.out.println("** REGISTRO DE CLIENTE **");
                 System.out.print("Nombre del cliente: ");
-                String nombre = scanner.nextLine();
+                nombre = scanner.nextLine().trim();
                 System.out.print("Apellido Paterno del cliente: ");
-                String apellidoP = scanner.nextLine();
+                apellidoP = scanner.nextLine().trim();
                 System.out.print("Apellido Materno del cliente: ");
-                String apellidoM = scanner.nextLine();
-                String RFC = banco.generarRFC(nombre,apellidoP,apellidoM,LocalDate.now());
+                apellidoM = scanner.nextLine().trim();
+                RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
                 System.out.print("CURP: ");
-                String CURP = scanner.nextLine().trim();
+                CURP = scanner.nextLine().trim();
                 System.out.print("Email: ");
-                String email = scanner.nextLine().trim();
+                email = scanner.nextLine().trim();
                 double saldo = 10000;
-                Cliente cliente = new Cliente(banco.generarIdCliente(),nombre, apellidoP, apellidoM, RFC, CURP, email, LocalDate.now(),saldo,"Matriz");
+                Cliente cliente = new Cliente(
+                        banco.generarIdCliente(),
+                        nombre,
+                        apellidoP,
+                        apellidoM,
+                        RFC,
+                        CURP,
+                        email,
+                        fechaRegistro,
+                        saldo,
+                        sucursal
+                );
                 banco.registrarCliente(cliente);
                 banco.generarTarjetaDebito(cliente);
-
+                break;
             case 2:
-                System.out.println("** LISTA DE CLIENTES REGISTRADOS **");
+                System.out.println("** Consultar lista de clientes **");
                 banco.mostrarClientes();
                 break;
-
             case 3:
-                System.out.println("** DATOS DE UN CLIENTE **");
-                System.out.println("Ingrese el ID del cliente a consultar ");
-                String IdCliente = scanner.nextLine();
-                banco.obtenerInformacionCliente(IdCliente);
+                System.out.println("Buscar cliente por nombre o número de cuenta.");
+
                 break;
             case 4:
                 System.out.println("** ACTUALIZAR DATOS DE UN CLIENTE **");
@@ -99,7 +105,7 @@ public class MenuEjecutivo {
                 } while (!band);
                 break;
             case 5:
-                System.out.println(" ** ELIMINAR A UN CLIENTE ** ");
+                System.out.println("** DAR DE BAJA UN CLIENTE **");
                 band = false;
                 do {
                     System.out.print("Ingrese el ID del cliente a eliminar: ");
