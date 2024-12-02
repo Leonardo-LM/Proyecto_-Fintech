@@ -42,7 +42,7 @@ public class Banco {
 
     public Banco() {
         //this.gerenteDefault = new Gerente();
-        gerenteDefault=new Gerente("123","Pedro","Guzman","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
+        gerenteDefault=new Gerente("123","Conrado","De León","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
         this.listaGerentes.add(gerenteDefault);
         this.listaUsuarios.add(gerenteDefault);
     }
@@ -325,7 +325,7 @@ public class Banco {
     }
 
     public String generarIdEjecutivo() {
-// E -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
+        // E -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
         LocalDate fecha = LocalDate.now();
 
         int anoActual = fecha.getYear();
@@ -336,26 +336,40 @@ public class Banco {
         return String.format("E-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
     }
 
-    public String generarRFC(String nombre, String apellidoP, String apellidoM , LocalDate fechaRegistro) {
-        String primerasLetrasApellidoPaterno = apellidoP.charAt(0) + apellidoP.charAt(1) +"";
-        String primerLetraApellidoMaterno = apellidoM.charAt(0) +"";
-        String letraInicialNombre = nombre.charAt(0) + "";
-        String anio = fechaRegistro.getYear() + "";
-        String ultimosDosDigitosAño = anio.charAt(2) + anio.charAt(3) + "";
-        String mes = fechaRegistro.getMonth() + "";
-        String dia = fechaRegistro.getMonth() + "";
-
-        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String homoclave = "";
-
-        Random random = new Random();
-        for (int i = 0; i < 2; i++) {
-            homoclave += caracteres.charAt(random.nextInt(caracteres.length()));
+    public String generarRFC(String nombre, String apellidoP, String apellidoM, LocalDate fechaRegistro) {
+        apellidoP = apellidoP.toUpperCase();
+        char primeraLetraApellidoP = apellidoP.charAt(0);
+        char primeraVocalApellidoP = 'X';
+        for (int i = 1; i < apellidoP.length(); i++) {
+            char c = apellidoP.charAt(i);
+            if ("AEIOU".indexOf(c) >= 0) {
+                primeraVocalApellidoP = c;
+                break;
+            }
         }
 
-        homoclave +=  random.nextInt(9);;
+        apellidoM = apellidoM.toUpperCase();
+        char primerLetraApellidoM = apellidoM.isEmpty() ? 'X' : apellidoM.charAt(0);
 
-        return String.format("%s,%s, %s, %s, %s,%s,%s", primerasLetrasApellidoPaterno,primerLetraApellidoMaterno, letraInicialNombre, ultimosDosDigitosAño, mes, dia, homoclave);
+        nombre = nombre.toUpperCase();
+        char letraInicialNombre = nombre.charAt(0);
+
+        String ultimosDosDigitosAnio = String.format("%02d", fechaRegistro.getYear() % 100);
+
+        String mes = String.format("%02d", fechaRegistro.getMonthValue());
+        String dia = String.format("%02d", fechaRegistro.getDayOfMonth());
+
+        Random random = new Random();
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder homoclave = new StringBuilder();
+        for (int i = 0; i < 2; i++) {
+            homoclave.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        homoclave.append(random.nextInt(10)); //Este método añade el nnumero random a la homoclave es un concatenador
+
+        return String.format("%c%c%c%c%s%s%s%s",
+                primeraLetraApellidoP, primeraVocalApellidoP, primerLetraApellidoM, letraInicialNombre,
+                ultimosDosDigitosAnio, mes, dia, homoclave);
     }
 
     //-----------------------MOSTRAR DATOS------------------------
@@ -392,6 +406,15 @@ public class Banco {
         Cliente cliente = obtenerClientePorId(id);
         if (cliente != null) {
             System.out.println(cliente.mostrarDatos());
+        } else {
+            System.out.println("No se encontró el cliente con el ID " + id);
+        }
+    }
+
+    public void mostrarEjecutivoPorId(String id){
+        Ejecutivo ejecutivo = obtenerEjecutivoPorId(id);
+        if (ejecutivo != null) {
+            System.out.println(ejecutivo.mostrarDatos());
         } else {
             System.out.println("No se encontró el cliente con el ID " + id);
         }
@@ -527,16 +550,6 @@ public class Banco {
         return null;
     }
 
-    public void BuscarEjecutivoPorId(String id){
-        for (Ejecutivo ejecutivo : listaEjecutivos) {;
-            if (ejecutivo.getId().equals(id)) {
-                System.out.println("Ejecutivo Encontrado");
-                System.out.println(ejecutivo.mostrarDatos());
-            } else {
-                System.out.println("Empleado no encontrado en el Sistema");
-            }
-        }
-    }
     public String obtenerInformacionCliente(String idCliente) {
         for (Cliente cliente : listaClientes) {
             if (cliente.getId().equals(idCliente)) {

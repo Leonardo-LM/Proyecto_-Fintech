@@ -27,8 +27,8 @@ public class Usuario {
     public String mostrarInformacion(){
         String nombreCompleto = this.nombre +" "+ this.apellidoPaterno+" "+this.apellidoMaterno;
         return String.format("" +
-                        "\nId: %s, Nombre completo: %s,CURP:%S"
-                , this.id, nombreCompleto,this.CURP
+                        "\nId: %s, Nombre completo: %s,CURP:%S, RFC: %s"
+                , this.id, nombreCompleto,this.CURP, this.RFC
         );
     }
 

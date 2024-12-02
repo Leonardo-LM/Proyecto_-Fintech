@@ -44,14 +44,13 @@ public class MenuGerente {
                         18.-Mostrar Tarjetas Debito
                     19.- Salir""");
             System.out.print("Elija una opción: ");
-             respuesta = scanner.nextInt();
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
                 if (respuesta < 1 || respuesta > 19) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Error: Debe ingresar un número entero y válido somso.");
+                System.out.println("Error: Debe ingresar un número entero y válido.");
             }
             procesarDatosMenu(respuesta,banco,gerente);
         }
@@ -67,35 +66,50 @@ public class MenuGerente {
 
             switch (respuesta) {
                 case 1:
-                    System.out.println("** REGISTRO DE CLIENTES **");
-                    System.out.print("Nombre del cliente: ");
-                    nombre = scanner.nextLine().trim();
-                    System.out.print("Apellido Paterno del cliente: ");
-                    apellidoP = scanner.nextLine().trim();
-                    System.out.print("Apellido Materno del cliente: ");
-                    apellidoM = scanner.nextLine().trim();
-                    RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
-                    System.out.print("CURP: ");
-                    CURP = scanner.nextLine().trim();
-                    System.out.print("Email: ");
-                    email = scanner.nextLine().trim();
+                    try{
+                        System.out.println("** REGISTRO DE CLIENTES **");
+                        System.out.print("Nombre del cliente: ");
+                        nombre = scanner.nextLine().trim();
+                        System.out.print("Apellido Paterno del cliente: ");
+                        apellidoP = scanner.nextLine().trim();
+                        System.out.print("Apellido Materno del cliente: ");
+                        apellidoM = scanner.nextLine().trim();
+                        try {
+                            RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
+                        } catch (Exception e) {
+                            System.out.println("Error al generar el RFC: " + e.getMessage());
+                            return;
+                        }
+                        System.out.print("CURP: ");
+                        CURP = scanner.nextLine().trim();
+                        System.out.print("Email: ");
+                        email = scanner.nextLine().trim();
 
-                    double saldo = 10000;
+                        double saldo = 10000;
 
-                    Cliente cliente = new Cliente(
-                            banco.generarIdCliente(),
-                            nombre,
-                            apellidoP,
-                            apellidoM,
-                            RFC,
-                            CURP,
-                            email,
-                            fechaRegistro,
-                            saldo,
-                            sucursal
-                    );
-                    banco.registrarCliente(cliente);
-                    banco.generarTarjetaDebito(cliente);
+                        Cliente cliente;
+                        try {
+                            cliente = new Cliente(
+                                    banco.generarIdCliente(),
+                                    nombre,
+                                    apellidoP,
+                                    apellidoM,
+                                    RFC,
+                                    CURP,
+                                    email,
+                                    fechaRegistro,
+                                    saldo,
+                                    sucursal
+                            );
+                        } catch (Exception e) {
+                            System.out.println("Error al crear el cliente: " + e.getMessage());
+                            return;
+                        }
+                        banco.registrarCliente(cliente);
+                        banco.generarTarjetaDebito(cliente);
+                    } catch (Exception e) {
+                        System.out.println("Ocurrió un error inesperado: " + e.getMessage());
+                    }
                     break;
                 case 2:
                     System.out.println("** CONSULTAR LISTA DE CLIENTES **");
@@ -173,6 +187,13 @@ public class MenuGerente {
                     banco.mostrarEjecutivos();
                     break;
                 case 8:
+                    System.out.println("** BUSCAR EJECUTIVO POR SU ID. **");
+                    System.out.println("Ingresa el id del ejecutivo que desea buscar: ");
+                    String idEjecutivoBusqueda = scanner.next();
+
+                    banco.mostrarEjecutivoPorId(idEjecutivoBusqueda);
+                    break;
+                case 9:
                     System.out.println("** ACTUALIZAR DATOS DE EJECUTIVO **");
                     band = false;
                     do {
@@ -187,9 +208,6 @@ public class MenuGerente {
                             band = true;
                         }
                     } while (!band);
-                    break;
-                case 9:
-
                     break;
                 case 10:
                     System.out.println("** DAR DE BAJA UN EJECUTIVO **");
@@ -273,7 +291,7 @@ public class MenuGerente {
                     banco.mostrarDebitos();
                     break;
                 case 19:
-                    System.out.println("\nAdios-");
+                    System.out.println("----Adios-----");
                     break;
             }
         } catch (Exception e) {

@@ -159,7 +159,7 @@ public class MenuCliente {
             case 10:
                 System.out.println("\nAdios-");
                 break;
-        }
+            }
         } catch (Exception e) {
             System.err.println("Ocurrió un error durante la operación: " + e.getMessage());
         }
