@@ -2,8 +2,11 @@ package menus;
 
 
 import operaciones_Bancarias.Banco;
+<<<<<<< HEAD
 import tarjetas.Debito;
 import transacciones.Transaccion;
+=======
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
 import usuarios.clientes.Cliente;
 
 import java.time.LocalDateTime;
@@ -11,37 +14,57 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuCliente {
-    private int controlador = 0;
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
 
     public int mostrarDatos(Cliente cliente, Banco banco) {
-
-        int respuesta = 0;
-        while (respuesta != 6) {
+        /*for (Cliente cliente : listaClientes) {
             if (cliente.getTarjetaDebito().getSaldo() < 30000) {
-                Double saldo = cliente.getTarjetaDebito().getSaldo();
-                Double falta=30000.0-saldo;
-            System.out.println("\nBienvenido " + cliente.nombre);
-            System.out.println("""
+                System.out.println("""
+                        \n***BIENVENIDO***
                         1.- Hacer deposito
                         2.- Hacer retiro
                         3.- Saldo de cuenta
-                        4.-Te faltan %.2f pesos para poder solicitar una tarjeta de credito
-                        5.- Hacer compra
-                        6.-Ver mis datos
-                        6.- Salir""".formatted(falta));
+                        4.- Salir""");
+                int opcion = sc.nextInt();
+                return opcion;                         ///FALTA HACER ESO DE LA TARJETA EN EL DE ABAJO LO HICE ASI PARRA QUE FUNCIONARA
+            } else {
+                System.out.println("""
+                        1.- Hacer deposito
+                        2.- Hacer retiro
+                        3.- Saldo de cuenta
+                        5.- Solicitar tarjeta de credito
+                        6.- Hacer compra
+                        4.- Salir""");
+                int opcion = sc.nextInt();
+                return opcion;
+            }
+        }
+        return 0;*/
+        int respuesta = 0;
+        while (respuesta != 6) {
+            System.out.println("\nBienvenido " + cliente.nombre);
+            System.out.println("""
+                        1.- Hacer deposito --Nico
+                        2.- Hacer retiro --Estrella
+                        3.- Saldo de cuenta
+                        4.- Solicitar tarjeta de credito, retiro o como pagar en caso de tener tarjeta --
+                        5.- Hacer compra --Diego A.(Debito)
+                        6.- Ver mi información --Diego A.
+                        7.- Ver mi historial de movimientos --Estrella 
+                        8.- Salir""");
             System.out.print("Elija una opción: ");
 
             try {
                 respuesta = Integer.parseInt(sc.nextLine());
-                if (respuesta < 1 || (respuesta > 8 && respuesta != 6)) {
+                if (respuesta < 1 || (respuesta > 7 && respuesta != 8)) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un número entero y válido somso.");
             }
+<<<<<<< HEAD
                 if(respuesta!=4){
                  procesarDatos(respuesta,banco,cliente);
                 }
@@ -68,12 +91,16 @@ public class MenuCliente {
                 procesarDatos(respuesta,banco,cliente);
 
             }
+=======
+            procesarDatos(respuesta,banco);
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
         }
 
         return respuesta;
     }
 
-    public void procesarDatos(int opcion,Banco banco,Cliente cliente) {
+    public void procesarDatos(int opcion,Banco banco) {
+
         switch (opcion) {
             case 1:
                 System.out.println("** REALIZAR DEPOSITO A TARJETA DE DEBITO **");
@@ -122,33 +149,23 @@ public class MenuCliente {
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
                 //banco.mostrarSaldoCliente();
-                Debito tarjeta=cliente.getTarjetaDebito();
-                Double saldodisponible=tarjeta.getSaldo();
-                System.out.println(saldodisponible);
                 break;
             case 4:
-                if(cliente.getTarjetaCredito()==null && controlador==0) {
-                    System.out.print("Solicitud de tarjeta de crédito\n");
-                    System.out.print("Estamos procesando su petición " + cliente.nombre + "\n");
-                    String respuesta = banco.SolicitudTCredito(cliente);
-                    System.out.print(respuesta);
-                    controlador++;
-                }else if(cliente.getTarjetaCredito()==null && controlador>0) {
-                    System.out.println("Ya mandaste solicitud espera respuesta");
-                } else {
-                    System.out.println("Ya cuentas con una tarjeta de credito.No puedes solicitar ya");
-                }
                 break;
             case 5:
                 break;
             case 6:
+<<<<<<< HEAD
                 System.out.println("** HISTORIAL DE TRANSACCIONES **");
                 System.out.println("Ingrese la tarjeta/cuanta que desea consultar: ");
                 String tarjetaA = sc.nextLine();
                 banco.obtenerTransaccionesPorTitular(tarjetaA);
                 break;
             case 7:
+=======
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
                 System.out.println("\nAdios-");
+                break;
         }
     }
 }

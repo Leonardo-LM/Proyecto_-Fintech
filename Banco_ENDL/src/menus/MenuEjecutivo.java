@@ -11,8 +11,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
+<<<<<<< HEAD
 // implementar interfaz serializable
 public class MenuEjecutivo implements Serializable {
+=======
+
+public class MenuEjecutivo {
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
     Scanner scanner = new Scanner(System.in);
     boolean band = false;
 
@@ -22,6 +27,7 @@ public class MenuEjecutivo implements Serializable {
             System.out.println("\nBienvenido " + ejecutivo.nombre);
             System.out.println("""
                     \n---------- MENU DEL EJECUTIVO ----------
+<<<<<<< HEAD
                     1.-  Registrar un cliente **YA
                     2.-  Eliminar un cliente **YA
                     3.-  Mostrar lista de clientes **YA 
@@ -32,12 +38,33 @@ public class MenuEjecutivo implements Serializable {
                     8.-  Realizar retiro /// debito y credito
                     9.-  Pagar tarjeta de credito /// 8 y 9 solo para clientes 
                     8.- Salir""");
+=======
+                    ||Diego A.
+                        Gestión de clientes >
+                            1.- Registrar un cliente
+                            2.- Consultar lista de clientes
+                            3.- Buscar cliente por nombre o número de cuenta.
+                            4.- Actualizar datos de cliente
+                            5.- Dar de baja a un cliente
+                    ||Diego A. 
+                     Operaciones bancarias >
+                        6.- Deposito de tarjeta de débito --Nico Avocado
+                        7.- Retiro de tarjeta de débito --Estrella
+                        8.- Compra tarjeta débito/credito --Diego A. (debito)
+                        9.- Retiro tarjeta de credito
+                        10.- Pagar tarjeta de credito
+                    11.- Salir""");
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
             System.out.print("Elija una opción: ");
             respuesta = scanner.nextInt();
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
+<<<<<<< HEAD
                 if (respuesta < 1 || (respuesta > 7 && respuesta != 8)) {
+=======
+                if (respuesta < 1 || (respuesta > 10 && respuesta != 11)) {
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {

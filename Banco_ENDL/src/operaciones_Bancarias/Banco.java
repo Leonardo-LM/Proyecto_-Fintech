@@ -32,13 +32,9 @@ public class Banco {
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
     public ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito>listaSolicitudes=new ArrayList<>();
-    // public MenuCliente menuCliente = new MenuCliente();
-    //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
-    //public MenuGerente menuGerente = new MenuGerente();
+
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
-
-
 
     public Banco() {
         //this.gerenteDefault = new Gerente();
@@ -431,7 +427,7 @@ public class Banco {
 
     public Usuario validarInicioSesion(String idUser, String curp){
         for (Usuario usuario : listaUsuarios) {
-            System.out.println("Revisando ID: " + usuario.getId());
+            //System.out.println("Revisando ID: " + usuario.getId());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
                 return usuario;
             }

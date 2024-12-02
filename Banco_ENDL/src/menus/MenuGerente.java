@@ -1,8 +1,6 @@
 package menus;
 
 import operaciones_Bancarias.Banco;
-import tarjetas.Debito;
-import usuarios.Usuario;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
 import usuarios.gerentes.Gerente;
@@ -16,13 +14,14 @@ import java.util.Scanner;
 
 public class MenuGerente implements Serializable {
     private final Scanner scanner = new Scanner(System.in);
-   //public Banco banco = new Banco();
+
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
         while (respuesta != 14) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
+<<<<<<< HEAD
                     1.- Registrar un cliente
                     2.- Registrar un ejecutivo
                     3.- Mostrar lista de clientes
@@ -37,12 +36,39 @@ public class MenuGerente implements Serializable {
                     12.-Realizar retiro de tarjeta de debito
                     13.-Autorizar tarjeta de credito
                     14.- Salir""");
+=======
+                    Gestión de clientes >
+                        1.- Registrar un cliente
+                        2.- Consultar lista de clientes
+                        3.- Buscar cliente por nombre o número de cuenta.
+                        4.- Actualizar datos de cliente
+                        5.- Dar de baja a un cliente
+                    Gestión de empleados >
+                        6.- Registrar un ejecutivo
+                        7.- Consultar lista de ejecutivos
+                        8.- Buscar ejecutivo por nombre o número de cuenta. --Nico Avocado
+                        9.- Actualizar datos de ejecutivo
+                        10.- Dar de baja a un ejecutivo
+                    Gestión de usuarios > 
+                        11.- Consultar lista de usuarios
+                    Operaciones bancarias >
+                        12.- Autorizar tarjeta de credito  --
+                        13.- Deposito de tarjeta de débito --Nico Avocado
+                        14.- Retiro de tarjeta de débito --Estrella
+                        15.- Compra tarjeta debito/credito  --Diego A
+                        16.- Retiro tarjeta de credito --
+                        17.- Pagar tarjeta de credito --
+                    18.- Salir""");
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
             System.out.print("Elija una opción: ");
-             //respuesta = scanner.nextInt();
 
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
+<<<<<<< HEAD
                 if (respuesta < 1 || (respuesta > 13 && respuesta != 14)) {
+=======
+                if (respuesta < 1 || (respuesta > 17 && respuesta != 18)) {
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -50,7 +76,6 @@ public class MenuGerente implements Serializable {
             }
             procesarDatosMenu(respuesta,banco);
         }
-
         return respuesta;
     }
 
@@ -62,7 +87,7 @@ public class MenuGerente implements Serializable {
 
             switch (respuesta) {
                 case 1:
-                    System.out.println("** REGISTRO DE CLIENTES **");
+                    System.out.println("** REGISTRO DE CLIENTE **");
                     System.out.print("Nombre del cliente: ");
                     nombre = scanner.nextLine().trim();
                     System.out.print("Apellido Paterno del cliente: ");
@@ -91,10 +116,52 @@ public class MenuGerente implements Serializable {
                             //null // Tarjeta ¿?, Nulo ppor ahora
                     );
                     banco.registrarCliente(cliente);
-                    banco.generarTarjetaDebito(cliente);
                     break;
 
                 case 2:
+                    System.out.println("** LISTA DE CLIENTES **");
+                    banco.mostrarClientes();
+                    break;
+                case 3:
+                    System.out.println("Buscar cliente por nombre o número de cuenta.");
+
+                    break;
+                case 4:
+                    System.out.println("** ACTUALIZAR DATOS DE CLIENTE **");
+                    band = false;
+                    do {
+                        System.out.print("Ingrese el ID del cliente a actualizar: ");
+                        String idCliente = scanner.nextLine().trim();
+                        Cliente clienteObtenido = banco.obtenerClientePorId(idCliente);
+
+                        if (clienteObtenido == null) {
+                            System.out.println("Cliente no encontrado. Intente de nuevo.");
+                        } else {
+                            banco.actualizarDatosCliente(clienteObtenido);
+                            band = true;
+                        }
+                    } while (!band);
+                    break;
+
+                case 5:
+                    System.out.println("** DAR DE BAJA UN CLIENTE **");
+                    band = false;
+                    do {
+                        System.out.print("Ingrese el ID del cliente a eliminar: ");
+                        String idCliente = scanner.nextLine().trim();
+                        Cliente clienteObtenido = banco.obtenerClientePorId(idCliente);
+
+                        if (clienteObtenido == null) {
+                            System.out.println("Cliente no encontrado. Intente de nuevo.");
+                        } else {
+                            banco.darBajaCliente(clienteObtenido.getId());
+                            System.out.println("Cliente eliminado exitosamente.");
+                            band = true;
+                        }
+                    } while (!band);
+                    break;
+
+                case 6:
                     System.out.println("** REGISTRO DE EJECUTIVO **");
                     System.out.print("Nombre: ");
                     nombre = scanner.nextLine().trim();
@@ -120,34 +187,12 @@ public class MenuGerente implements Serializable {
                     banco.registrarEjecutivo(ejecutivo);
                     break;
 
-                case 3:
-                    System.out.println("** LISTA DE CLIENTES **");
-                    banco.mostrarClientes();
-                    break;
-
-                case 4:
+                case 7:
                     System.out.println("** LISTA DE EJECUTIVOS **");
                     banco.mostrarEjecutivos();
                     break;
 
-                case 5:
-                    System.out.println("** ACTUALIZAR DATOS DE CLIENTE **");
-                    band = false;
-                    do {
-                        System.out.print("Ingrese el ID del cliente a actualizar: ");
-                        String idCliente = scanner.nextLine().trim();
-                        Cliente clienteObtenido = banco.obtenerClientePorId(idCliente);
-
-                        if (clienteObtenido == null) {
-                            System.out.println("Cliente no encontrado. Intente de nuevo.");
-                        } else {
-                            banco.actualizarDatosCliente(clienteObtenido);
-                            band = true;
-                        }
-                    } while (!band);
-                    break;
-
-                case 6:
+                case 8:
                     System.out.println("** ACTUALIZAR DATOS DE EJECUTIVO **");
                     band = false;
                     do {
@@ -163,27 +208,8 @@ public class MenuGerente implements Serializable {
                         }
                     } while (!band);
                     break;
-
-                case 7:
-                    System.out.println("** ELIMINAR CLIENTE **");
-                    band = false;
-                    do {
-                        System.out.print("Ingrese el ID del cliente a eliminar: ");
-                        String idCliente = scanner.nextLine().trim();
-                        Cliente clienteObtenido = banco.obtenerClientePorId(idCliente);
-
-                        if (clienteObtenido == null) {
-                            System.out.println("Cliente no encontrado. Intente de nuevo.");
-                        } else {
-                            banco.darBajaCliente(clienteObtenido.getId());
-                            System.out.println("Cliente eliminado exitosamente.");
-                            band = true;
-                        }
-                    } while (!band);
-                    break;
-
-                case 8:
-                    System.out.println("** ELIMINAR EJECUTIVO **");
+                case 9:
+                    System.out.println("** DAR DE BAJA UN EJECUTIVO **");
                     band = false;
                     do {
                         System.out.print("Ingrese el ID del ejecutivo a eliminar: ");
@@ -199,32 +225,13 @@ public class MenuGerente implements Serializable {
                         }
                     } while (!band);
                     break;
-                case 9:
+                case 10:
                     banco.mostrarUsuarios();
                     break;
-                case 10:
-                    banco.mostrarDebitos();
-                    break;
                 case 11:
-                    System.out.println("Hola Bienvenido al sistema de deposito a tu tarjeta de Debito");
-                    System.out.println("Ingresa el No de tarjeta a depositar");
-                    String NoTarjeta=scanner.nextLine().trim();
-                    Debito x=banco.validarTarjeta(NoTarjeta);
-                    if (x != null) {
-                        System.out.println("Tarjeta encontrada: " + x.getNumeroTarjeta());
-                        Cliente persona=x.getTitular();
-                        String name=persona.getNombre();
-                        System.out.println("El titular es: " + name);
-                        System.out.println("Ingresa la catidad a depositar");
-                        double dinero= scanner.nextDouble();
-                        double saldonuevo=x.getSaldo()+dinero;
-                        x.setSaldo(saldonuevo);
-                        System.out.println("Cantidad depositada correctamente");
-                    } else if (x==null) {
-                        System.out.println("Esa tarjeta no existe");
-                    }
                     break;
                 case 12:
+<<<<<<< HEAD
                     System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
                     System.out.println("Ingresa el No de tarjeta a depositar");
                     String NoTarjetaRetiro=scanner.nextLine().trim();
@@ -255,6 +262,11 @@ public class MenuGerente implements Serializable {
                     return;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
+=======
+                    break;
+                case 13:
+                    System.out.println("Adios");
+>>>>>>> 6e0daa3e1d5be8d989f58ea8d2675f93da32bee3
                     break;
             }
         } catch (Exception e) {

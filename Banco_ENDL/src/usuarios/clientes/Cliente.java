@@ -13,6 +13,7 @@ public class Cliente extends Usuario {
     public double saldo;
     public Debito tarjetaDebito;
     public Credito tarjetaCredito;
+    public int controlador=0;
 
     public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal) {
         super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
@@ -74,5 +75,9 @@ public class Cliente extends Usuario {
 
     public void setTarjetaCredito(Credito tarjetaCredito) {
         this.tarjetaCredito = tarjetaCredito;
+    }
+
+    public void setControlador(int controlador) {
+        this.controlador = controlador;
     }
 }
