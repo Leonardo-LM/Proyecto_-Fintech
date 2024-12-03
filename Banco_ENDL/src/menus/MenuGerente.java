@@ -16,7 +16,7 @@ public class MenuGerente {
    //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        while (respuesta != 19) {
+        while (respuesta != 20) {
             System.out.println("\nBienvenido " + gerente.nombre);
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
@@ -38,15 +38,16 @@ public class MenuGerente {
                         12.- Autorizar tarjeta de credito 
                         13.- Deposito de tarjeta de débito
                         14.- Retiro de tarjeta de débito 
-                        15.- Compra tarjeta debito/credito  
+                        15.-  
                         16.- Retiro tarjeta de credito 
                         17.- Pagar tarjeta de credito 
                         18.-Mostrar Tarjetas Debito
-                    19.- Salir""");
+                        19.-Mostrar Tarjetas Credito
+                        20.- Salir""");
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || respuesta > 19) {
+                if (respuesta < 1 || respuesta > 20) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -284,13 +285,24 @@ public class MenuGerente {
                 case 15:
                     break;
                 case 16:
+                    System.out.println("** RETIRO TARJETA DE CREDITO **");
+                    System.out.println("Ingrese el no de su tarjeta");
+                    String noTarjeta1=scanner.nextLine();
+                    banco.retiroTarjetaCredito(noTarjeta1);
                     break;
                 case 17:
+                    System.out.println("** PAGAR TARJETA DE CREDITO  **");
+                    System.out.println("Ingrese el no de su tarjeta");
+                    String noTarjeta=scanner.nextLine();
+                    banco.pagoTarjetaCredito(noTarjeta);
                     break;
                 case 18:
                     banco.mostrarDebitos();
                     break;
                 case 19:
+                    banco.mostrarCreditos();
+                    break;
+                case 20:
                     System.out.println("----Adios-----");
                     break;
             }

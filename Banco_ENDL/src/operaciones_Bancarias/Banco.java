@@ -420,6 +420,15 @@ public class Banco {
         }
     }
 
+    public void mostrarTarjetasCliente(Cliente cliente){
+        Credito credito=cliente.getTarjetaCredito();
+        Debito debito = cliente.getTarjetaDebito();
+        System.out.println(debito.mostrarDatos());
+        if(credito!=null){
+        System.out.println(credito.mostrarDatos());
+        }
+    }
+
     public void mostrarClientes() {
         System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaClientes.isEmpty()) {
@@ -471,10 +480,21 @@ public class Banco {
             }
         }
     }
+    public void mostrarCreditos() {
+        System.out.println("\n*** CLIENTES DEL BANCO ***");
+        if (listaCreditos.isEmpty()) {
+            System.out.println("No hay clientes registrados aún con tarjeta de credito");
+        }else {
+            for (Credito credito:this.listaCreditos) {
+                System.out.println(credito.mostrarDatos());
+            }
+        }
+    }
+
 
     public Debito validarTarjeta(String NoTarjeta){
         for (Debito debito : listaDebitos) {
-            System.out.println("Revisando NO: " + debito.getNumeroTarjeta());
+            //System.out.println("Revisando NO: " + debito.getNumeroTarjeta());
             if (debito.getNumeroTarjeta().equals(NoTarjeta)) {
                 return debito;
             }
@@ -587,6 +607,108 @@ public class Banco {
                         transaccion.getOperación()
                 )).collect(Collectors.toList());
     }
+    public Credito validarTarjetaCredito(String NoTarjeta){
+        for (Credito credito : listaCreditos) {
+            System.out.println("Revisando NO: " + credito.getNumeroTarjeta());
+            if (credito.getNumeroTarjeta().equals(NoTarjeta)) {
+                return credito;
+            }
+        }
+        return null;
+    }
 
+   public void pagoTarjetaCredito(String noTarjeta) {
+        Credito es=validarTarjetaCredito(noTarjeta);
+     if (es != null) {
+         System.out.println("Tarjeta válida\n");
+         double saldo=es.getSaldo();  //Tarjeta credito saldo q tenemos
+         double deudareal=100000-saldo;
+         if(deudareal>0){
+             System.out.println("Debes:$"+deudareal);
+             int opcion =0;
+             while (opcion!=2){
+                 System.out.print("Desea pagar algo de su deuda\n");
+                 System.out.print("1.-Si\n");
+                 System.out.print("2.-No\n");
+                 System.out.println("Selecciona una opcion: ");
+                // opcion = scanner.nextInt();
+                 String entrada = scanner.nextLine();
+                 try {   //funcionamiento
+                     opcion = Integer.parseInt(entrada);
+                 } catch (NumberFormatException e) {
+                     System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
+                     continue;
+                 }
+                     switch (opcion){
+                     case 1:
+                         System.out.println("Ingrese el monto a pagar se cobrara a su tarjeta debito:");
+                         double monto=scanner.nextDouble();//FALTA ALGO!
+                         scanner.nextLine();
+                         System.out.println("Ingresa tu no de tarjeta de debito");
+                         String tarjeta=scanner.nextLine();
+                         Debito revision=validarTarjeta(tarjeta); //revision nuestra tarjeta debito
+                         if(revision!=null && monto<=deudareal && monto>1){
+                             System.out.println("Ingresa tu cvv de tu tarjeta de debito para acreditar la operacion");
+                             String cvvIngresado=scanner.nextLine();
+                             if(cvvIngresado.equals(revision.getCvv())){
+                                 if(revision.getSaldo()>monto){
+                                     double x=revision.getSaldo();
+                                     double saldoDebitoNuevo=x-monto;
+                                     revision.setSaldo(saldoDebitoNuevo);
+                                     double y=es.getSaldo();
+                                     double saldoCreditoNuevo=y+monto;
+                                     es.setSaldo(saldoCreditoNuevo);
+                                     System.out.println("Operacion acreditada");
+                                 } else{
+                                     System.out.println("No hay fondos en su tarjeta");
+                                 }
+                             } else {
+                                 System.out.println("Cvv Incorrecto");
+                             }
+                         } else {
+                             System.out.println("Esa tarjeta no existe o estas agregando un monto mayor al que debes o numero negativo");
+                         }
+                         break;
+                     case 2:
+                         System.out.println("vale!");
+                         break;
+                     default:
+                         System.out.println("Opción inválida. Por favor, inténtelo de nuevo.");
+                 }
+             }
+         }
+
+     } else {
+         System.out.println("Número de tarjeta inválido o no debes nada.");
+     }
+  }
+  public void retiroTarjetaCredito(String noTarjeta) {
+      Credito es=validarTarjetaCredito(noTarjeta);
+      if (es == null) {
+          System.out.println("La tarjeta ingresada no existe");
+          return;
+      }
+      double saldoDisponible=es.getSaldo();
+      System.out.print("Ingresa la cantidad que deseas retirar:");
+      double montoRetirar=scanner.nextDouble();
+      if(saldoDisponible>montoRetirar && montoRetirar>1){
+          System.out.println("Ingrese su cvv para confirmar la operacion o 2 para cancelarla:");
+          scanner.nextLine();
+          String cvv=scanner.nextLine();
+          if(cvv.equals(es.getCvv())){
+              double NuevoSaldo=saldoDisponible-montoRetirar;
+              es.setSaldo(NuevoSaldo);
+              System.out.println("Operacion Realizada");
+          } else if(cvv.equals("2")){
+              System.out.println("Se cancelo la operacion");
+          }else{
+              System.out.println("Cvv incorrecto");
+          }
+      }else{
+          System.out.println("No hay fondos suficentes es su tarjeta para la operacion en su tarjeta o esta retirando una catidad negativa");
+      }
+  }
 }
+
+
 

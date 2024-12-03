@@ -23,7 +23,7 @@ public class Login {
         int opc;
         do {
             opc =menuGerente.mostrarMenu(banco.gerenteDefault,banco);
-        }while (opc != 19);
+        }while (opc != 20);
         while(intentosUser < intentosMaximos){
             System.out.print("\n--------Bienvenido/a--------\n");
             System.out.println("---Inicia sesión para continuar---");

@@ -2,6 +2,7 @@ package menus;
 
 
 import operaciones_Bancarias.Banco;
+import tarjetas.Credito;
 import tarjetas.Debito;
 import usuarios.clientes.Cliente;
 
@@ -59,7 +60,7 @@ public class MenuCliente {
                             7.-Ver mi historial movimientos
                             8.-Pagar T.Credito
                             9.-Retiro T.credito
-                        10.- Salir""");
+                            10.- Salir""");
                 System.out.print("Elija una opción: ");
                 try {
                     respuesta = Integer.parseInt(sc.nextLine());
@@ -145,6 +146,7 @@ public class MenuCliente {
             case 6:
                 System.out.println("Ver mi información");
                 banco.mostrarClientePorId(cliente.getId());
+                banco.mostrarTarjetasCliente(cliente);
                 break;
             case 7:
                 System.out.println("** HISTORIAL DE TRANSACCIONES **");
@@ -153,8 +155,26 @@ public class MenuCliente {
                 banco.obtenerTransaccionesPorTitular(tarjetaA);
                 break;
             case 8:
+                System.out.println("** PAGAR TARJETA DE CREDITO  **");
+                Credito tarjeta4=cliente.getTarjetaCredito();
+                if (tarjeta4 == null) {
+                    System.out.println("Aun no cuenta con una tarjeta de credito !SOLICITALA YA!");
+                    return;
+                }
+                String noTarjeta4=tarjeta4.getNumeroTarjeta();
+                System.out.println("Se Pagara su tarjeta de credito con no:"+tarjeta4.getNumeroTarjeta());
+                banco.pagoTarjetaCredito(noTarjeta4);
                 break;
             case 9:
+                System.out.println("** RETIRO TARJETA DE CREDITO **");
+                Credito tarjeta3=cliente.getTarjetaCredito();
+                if (tarjeta3 == null) {
+                    System.out.println("Aun no cuenta con una tarjeta de credito !SOLICITALA YA!");
+                    return;
+                }
+                String noTarjeta1=tarjeta3.getNumeroTarjeta();
+                System.out.println("Se retirara de su tarjeta: "+tarjeta3.getNumeroTarjeta());
+                banco.retiroTarjetaCredito(noTarjeta1);
                 break;
             case 10:
                 System.out.println("\nAdios-");

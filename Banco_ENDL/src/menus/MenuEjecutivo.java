@@ -27,10 +27,10 @@ public class MenuEjecutivo {
                     Operaciones bancarias >
                         6.- Deposito de tarjeta de débito  
                         7.- Retiro de tarjeta de débito 
-                        8.- Compra tarjeta débito/credito 
+                        8.-  
                         9.- Retiro tarjeta de credito
                         10.- Pagar tarjeta de credito
-                    11.- Salir""");
+                        11.- Salir""");
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
@@ -171,8 +171,16 @@ public class MenuEjecutivo {
             case 8:
                 break;
             case 9:
+                System.out.println("** RETIRO TARJETA DE CREDITO **");
+                System.out.println("Ingrese el no de su tarjeta");
+                String noTarjeta1=scanner.nextLine();
+                banco.retiroTarjetaCredito(noTarjeta1);
                 break;
             case 10:
+                System.out.println("** PAGAR TARJETA DE CREDITO  **");
+                System.out.println("Ingrese el no de su tarjeta");
+                String noTarjeta=scanner.nextLine();
+                banco.pagoTarjetaCredito(noTarjeta);
                 break;
             case 11:
                 System.out.println("adios");
