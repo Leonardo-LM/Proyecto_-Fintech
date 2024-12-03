@@ -19,16 +19,24 @@ public class MenuEjecutivo {
             System.out.println("""
                     \n---------- MENU DEL EJECUTIVO ----------
                     Gestión de clientes >
-                        1.- Registrar un cliente  
-                        2.- Consultar lista de clientes 
+                        1.- Registrar un cliente
+                        2.- Consultar lista de clientes
                         3.- Buscar cliente por  Id
                         4.- Actualizar datos de cliente
-                        5.- Eliminar un cliente   
+                        5.- Eliminar un cliente
                     Operaciones bancarias >
+<<<<<<< HEAD
                         6.- Deposito de tarjeta de débito  
                         7.- Retiro de tarjeta de débito 
                         9.- Retiro tarjeta de credito
                         10.- Pagar tarjeta de credito
+=======
+                        6.- Deposito de tarjeta de débito
+                        7.- Retiro de tarjeta de débito
+                        8.- Compra tarjeta débito/crédito
+                        9.- Retiro tarjeta de crédito
+                        10.- Pagar tarjeta de crédito
+>>>>>>> a961e0a0fade68ac5de91b2115cb000f67734acc
                     11.- Salir""");
             System.out.print("Elija una opción: ");
             try {

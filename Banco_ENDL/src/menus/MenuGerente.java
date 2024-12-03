@@ -35,13 +35,13 @@ public class MenuGerente {
                     Gestión de usuarios >
                         11.- Consultar lista de usuarios
                     Operaciones bancarias >
-                        12.- Autorizar tarjeta de credito 
+                        12.- Autorizar tarjeta de crédito 
                         13.- Deposito de tarjeta de débito
                         14.- Retiro de tarjeta de débito 
-                        15.- Compra tarjeta debito/credito  
-                        16.- Retiro tarjeta de credito 
-                        17.- Pagar tarjeta de credito 
-                        18.-Mostrar Tarjetas Debito
+                        15.- Compra tarjeta débito/crédito  
+                        16.- Retiro tarjeta de crédito 
+                        17.- Pagar tarjeta de crédito 
+                        18.-Mostrar Tarjetas débito
                     19.- Salir""");
             System.out.print("Elija una opción: ");
             try {
@@ -95,8 +95,8 @@ public class MenuGerente {
                                     apellidoP,
                                     apellidoM,
                                     RFC,
-                                    CURP,
-                                    email,
+                                    CURP.toUpperCase(),
+                                    email.toUpperCase(),
                                     fechaRegistro,
                                     saldo,
                                     sucursal

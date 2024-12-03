@@ -33,7 +33,7 @@ public class Login {
             System.out.print("Ingrese su curp: ");
             String curp = scanner.nextLine();
             //System.out.println(curp);
-            usuarioEnSesion = banco.validarInicioSesion(idUser,curp);
+            usuarioEnSesion = banco.validarInicioSesion(idUser,curp.toUpperCase());
             //System.out.println(usuarioEnSesion);
             if (usuarioEnSesion instanceof Usuario){
                 if (usuarioEnSesion.getRol() == Rol.CLIENTE){

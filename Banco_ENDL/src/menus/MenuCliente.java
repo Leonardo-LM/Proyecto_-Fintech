@@ -23,15 +23,16 @@ public class MenuCliente {
                 Double falta=30000.0-saldo;
             System.out.println("\nBienvenido " + cliente.nombre);
             System.out.println("""
-                        1.- Hacer deposito T.Debito
-                        2.- Hacer retiro T.Debito
-                        3.- Saldo de cuenta
-                        4.-Te faltan %.2f pesos para poder solicitar una tarjeta de credito
-                        5.- Hacer compra
-                        6.-Ver mi informacion
-                        7.-Ver mi historial movimientos
-                        8.-Pagar T.Credito
-                        9.-Retiro T.credito
+                        Acciones >
+                            1.- Hacer deposito T.Débito
+                            2.- Hacer retiro T.Débito
+                            3.- Saldo de cuenta
+                            4.-Te faltan %.2f pesos para poder solicitar una tarjeta de crédito
+                            5.- Hacer compra
+                            6.-Ver mi informacion
+                            7.-Ver mi historial movimientos
+                            8.-Pagar T.Crédito
+                            9.-Retiro T.Crédito
                         10.- Salir""".formatted(falta));
             System.out.print("Elija una opción: ");
 
@@ -53,12 +54,12 @@ public class MenuCliente {
                             1.- Hacer deposito
                             2.- Hacer retiro
                             3.- Saldo de cuenta
-                            4.- Solicitar tarjeta de credito
+                            4.- Solicitar tarjeta de crédito
                             5.- Hacer compra
                             6.-Ver mi informacion
                             7.-Ver mi historial movimientos
-                            8.-Pagar T.Credito
-                            9.-Retiro T.credito
+                            8.-Pagar T.Crédito
+                            9.-Retiro T.Crédito
                         10.- Salir""");
                 System.out.print("Elija una opción: ");
                 try {
