@@ -10,15 +10,13 @@ import java.time.LocalDate;
 public class Cliente extends Usuario {
     public LocalDate fechaRegistro;
     public String sucursal;
-    public double saldo;
     public Debito tarjetaDebito;
     public Credito tarjetaCredito;
     public int controlador=0;
 
-    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, double saldo, String sucursal) {
+    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal) {
         super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
         this.fechaRegistro = fechaRegistro;
-        this.saldo = saldo;
         this.sucursal = sucursal;
         this.tarjetaDebito = tarjetaDebito;
         this.tarjetaCredito= tarjetaCredito;
@@ -26,11 +24,11 @@ public class Cliente extends Usuario {
 
     public String mostrarDatos() {
         if(tarjetaCredito!=null){
-            String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s,Tarjeta Credito No: %s", saldo, tarjetaDebito.getNumeroTarjeta(), tarjetaCredito.getNumeroTarjeta());
+            String datosCliente = String.format(", Tarjeta Debito No: %s, Tarjeta Credito No: %s", tarjetaDebito.getNumeroTarjeta(), tarjetaCredito.getNumeroTarjeta());
             return super.mostrarInformacion() + datosCliente;
         } else {
            String numeroTarjetaCredito="no tiene aun";
-            String datosCliente = String.format(" Saldo: %f, Tarjeta Debito No: %s,Tarjeta Credito No: %s", saldo, tarjetaDebito.getNumeroTarjeta(),numeroTarjetaCredito);
+            String datosCliente = String.format(", Tarjeta Debito No: %s, Tarjeta Credito No: %s",tarjetaDebito.getNumeroTarjeta(),numeroTarjetaCredito);
             return super.mostrarInformacion() + datosCliente;
         }
     }
@@ -43,14 +41,6 @@ public class Cliente extends Usuario {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
     }
 
     public String getSucursal() {

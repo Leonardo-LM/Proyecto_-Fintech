@@ -14,7 +14,7 @@ public class MenuEjecutivo {
     boolean band = false;
     public int mostrarMenu(Ejecutivo ejecutivo,Banco banco) {
         int respuesta = 0;
-        while (respuesta != 11) {
+        while (respuesta != 10) {
             System.out.println("\nBienvenido " + ejecutivo.nombre);
             System.out.println("""
                     \n---------- MENU DEL EJECUTIVO ----------
@@ -27,14 +27,13 @@ public class MenuEjecutivo {
                     Operaciones bancarias >
                         6.- Deposito de tarjeta de débito  
                         7.- Retiro de tarjeta de débito 
-                        8.-  
-                        9.- Retiro tarjeta de credito
-                        10.- Pagar tarjeta de credito
-                        11.- Salir""");
+                        8.- Retiro tarjeta de credito
+                        9.- Pagar tarjeta de credito
+                        10.-Salir""");
             System.out.print("Elija una opción: ");
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                if (respuesta < 1 || respuesta > 11) {
+                if (respuesta < 1 || respuesta > 10) {
                     System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -74,7 +73,6 @@ public class MenuEjecutivo {
                         CURP.toUpperCase(),
                         email,
                         fechaRegistro,
-                        saldo,
                         sucursal
                 );
                 banco.registrarCliente(cliente);
@@ -169,20 +167,18 @@ public class MenuEjecutivo {
                 }
                 break;
             case 8:
-                break;
-            case 9:
                 System.out.println("** RETIRO TARJETA DE CREDITO **");
                 System.out.println("Ingrese el no de su tarjeta");
                 String noTarjeta1=scanner.nextLine();
                 banco.retiroTarjetaCredito(noTarjeta1);
                 break;
-            case 10:
+            case 9:
                 System.out.println("** PAGAR TARJETA DE CREDITO  **");
                 System.out.println("Ingrese el no de su tarjeta");
                 String noTarjeta=scanner.nextLine();
                 banco.pagoTarjetaCredito(noTarjeta);
                 break;
-            case 11:
+            case 10:
                 System.out.println("adios");
                 break;
             default:

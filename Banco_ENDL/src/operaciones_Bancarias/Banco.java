@@ -485,7 +485,8 @@ public class Banco {
 
     public Usuario validarInicioSesion(String idUser, String curp){
         for (Usuario usuario : listaUsuarios) {
-            //System.out.println("Revisando ID: " + usuario.getId());
+           // System.out.println("Revisando ID: " + usuario.getId());
+            // System.out.println("Revisando CRUP: " + usuario.getCURP());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
                 return usuario;
             }
