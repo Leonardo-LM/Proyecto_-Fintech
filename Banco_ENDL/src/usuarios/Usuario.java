@@ -3,7 +3,9 @@ package usuarios;
 import operaciones_Bancarias.Banco;
 import utils.Rol;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     public String id;
     public String nombre;
     public String apellidoPaterno;
@@ -24,6 +26,8 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public Usuario() {}
+
     public String mostrarInformacion(){
         String nombreCompleto = this.nombre +" "+ this.apellidoPaterno+" "+this.apellidoMaterno;
         return String.format("" +
@@ -33,7 +37,6 @@ public class Usuario {
     }
 
     //-------------------Getters y Setters---------------------
-
 
     public String getId() {
         return id;
@@ -97,5 +100,19 @@ public class Usuario {
 
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidoPaterno='" + apellidoPaterno + '\'' +
+                ", apellidoMaterno='" + apellidoMaterno + '\'' +
+                ", RFC='" + RFC + '\'' +
+                ", CURP='" + CURP + '\'' +
+                ", email='" + email + '\'' +
+                ", rol=" + rol +
+                '}';
     }
 }

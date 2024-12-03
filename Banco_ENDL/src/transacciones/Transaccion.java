@@ -35,4 +35,16 @@ public class Transaccion implements Serializable {
     public LocalDateTime getMomentoDeOperacion() { return momentoDeOperacion; }
 
     public String getOperación() { return operación; }
+
+    @Override
+    public String toString() {
+        return "Transaccion{" +
+                "titular='" + titular + '\'' +
+                ", numeroTarjeta='" + numeroTarjeta + '\'' +
+                ", saldoAnterior=" + saldoAnterior +
+                ", saldoAtual=" + saldoAtual +
+                ", momentoDeOperacion=" + momentoDeOperacion +
+                ", operación='" + operación + '\'' +
+                '}';
+    }
 }

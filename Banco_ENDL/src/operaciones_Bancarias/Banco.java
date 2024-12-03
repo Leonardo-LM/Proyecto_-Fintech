@@ -1,5 +1,6 @@
 package operaciones_Bancarias;
 
+import archivos.Archivos;
 import tarjetas.Credito;
 import tarjetas.Debito;
 import tarjetas.SolicitudTarjetaCredito;
@@ -39,7 +40,6 @@ public class Banco {
     public Scanner scanner = new Scanner(System.in);
 
 
-
     public Banco() {
         //this.gerenteDefault = new Gerente();
         gerenteDefault=new Gerente("123","Conrado","De León","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
@@ -56,6 +56,7 @@ public class Banco {
         listaClientes.add(cliente);
         System.out.println("Cliente registrado exitosamente.");
         registrarUsuario(cliente);
+        Archivos.guardarCliente(cliente);
     }
 
     public void registrarGerente(Gerente gerente) {
@@ -226,6 +227,7 @@ public class Banco {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Cliente con ID " + idCliente + " no encontrado."));
             this.listaClientes.remove(cliente);
+            Archivos.guardarClientes(this.listaClientes); /// se guarda en archivos la nueva lista sin el cliente
             System.out.println("Cliente eliminado correctamente.");
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
@@ -239,6 +241,7 @@ public class Banco {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Ejecutivo con ID " + idEjecutivo + " no encontrado."));
             this.listaEjecutivos.remove(ejecutivo);
+            Archivos.guardarEjecutivos(this.listaEjecutivos);
             System.out.println("Ejecutivo eliminado correctamente.");
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
@@ -250,15 +253,13 @@ public class Banco {
     public Cliente obtenerClientePorId(String idCliente){
         return this.listaClientes.stream().filter(
                 cliente -> cliente.getId().equals(idCliente)
-        ).findFirst().orElse(null);
-    }
+        ).findFirst().orElse(null); }
 
 
     public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo){
         return this.listaEjecutivos.stream().filter(
                 ejecutivo -> ejecutivo.getId().equals(idEjecutivo)
-        ).findFirst().orElse(null);
-    }
+        ).findFirst().orElse(null); }
 
     //-------------------------VALLIDACIONES-----------------------------
 
@@ -283,6 +284,7 @@ public class Banco {
 
         Debito tarjetadebito = new Debito(titular, numeroDebito, fechaCreacion, saldo, cvv, clabeInter, fechaVencimineto);
         registrarDebito(tarjetadebito);
+        Archivos.guardarTarjetaDebito(tarjetadebito);
         titular.setTarjetaDebito(tarjetadebito);///ASOCIAMOS TRAJETA DEBITO
         return tarjetadebito;
     }
@@ -307,6 +309,7 @@ public class Banco {
 
         Credito tarjetaCredito = new Credito(titular, numeroCredito, fechaCreacion, saldolimite, cvv, clabeInter, fechaVencimineto);
         registrarCredito(tarjetaCredito);
+        Archivos.guardarTarjetaCredito(tarjetaCredito);
         titular.setTarjetaCredito(tarjetaCredito);///ASOCIAMOS TRAJETA CREDITO
         return tarjetaCredito;
     }

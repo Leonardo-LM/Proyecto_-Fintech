@@ -2,9 +2,10 @@ package tarjetas;
 
 import usuarios.clientes.Cliente;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Tarjeta {
+public class Tarjeta implements Serializable {
     public Cliente titular;
     public String numeroTarjeta;
     public LocalDate fechaCreacion;
@@ -82,7 +83,20 @@ public class Tarjeta {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-   /* public String getUltimoMovimiento() {
+    @Override
+    public String toString() {
+        return "Tarjeta{" +
+                "titular=" + titular +
+                ", numeroTarjeta='" + numeroTarjeta + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", saldo=" + saldo +
+                ", cvv='" + cvv + '\'' +
+                ", clabeInter='" + clabeInter + '\'' +
+                ", fechaVencimiento=" + fechaVencimiento +
+                '}';
+    }
+
+    /* public String getUltimoMovimiento() {
         return ultimoMovimiento;
     }
 

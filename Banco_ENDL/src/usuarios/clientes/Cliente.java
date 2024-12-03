@@ -5,9 +5,10 @@ import tarjetas.Debito;
 import usuarios.Usuario;
 import utils.Rol;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Serializable {
     public LocalDate fechaRegistro;
     public String sucursal;
     public double saldo;
@@ -23,6 +24,7 @@ public class Cliente extends Usuario {
         this.tarjetaDebito = tarjetaDebito;
         this.tarjetaCredito= tarjetaCredito;
     }
+    public Cliente() {}
 
     public String mostrarDatos() {
         if(tarjetaCredito!=null){
@@ -79,5 +81,17 @@ public class Cliente extends Usuario {
 
     public void setControlador(int controlador) {
         this.controlador = controlador;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "fechaRegistro=" + fechaRegistro +
+                ", sucursal='" + sucursal + '\'' +
+                ", saldo=" + saldo +
+                ", tarjetaDebito=" + tarjetaDebito +
+                ", tarjetaCredito=" + tarjetaCredito +
+                ", controlador=" + controlador +
+                '}';
     }
 }

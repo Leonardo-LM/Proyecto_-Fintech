@@ -92,9 +92,11 @@ public class MenuCliente {
                 System.out.println("Ingresa tu cvv para acreditar la operacion o ponlo incorrecto para cancelar la operacion");
                 String Codigo=sc.nextLine();
                 if(no.getCvv().equals(Codigo)){
-                    double saldonuevo=no.getSaldo()+dinero;
+                    double saldoAnterior= no.getSaldo();
+                    double saldonuevo=saldoAnterior+dinero;
                     no.setSaldo(saldonuevo);
                     System.out.println("El cvv correcto se acredito la operacion");
+                    banco.guardarOperación(cliente.nombre,no.getNumeroTarjeta(),saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro de tarjeta de debito");
                 } else {
                     System.out.println("El cvv es incorrecto se cancelo la operacion");
                 }
