@@ -38,8 +38,6 @@ public class Banco {
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
 
-
-
     public Banco() {
         //this.gerenteDefault = new Gerente();
         gerenteDefault=new Gerente("123","Conrado","De León","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
@@ -265,52 +263,84 @@ public class Banco {
     //-------------------------GENERADORES-----------------------------
 
     public Debito generarTarjetaDebito(Cliente titular) {
-        int digitos1 = rand.nextInt(9);
-        int digitos2 = rand.nextInt(9);
-        int digitos3 = rand.nextInt(9);
-        int digitos4 = rand.nextInt(9);
-        int digitos5 = rand.nextInt(9);
+        String numeroDebito = String.format(
+                "%04d %04d %04d %04d",
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000
+        );
 
-        String numeroDebito = String.format("%04d 04%d 04%d 04%d", digitos1, digitos2, digitos3, digitos4);
+        String cvv = String.format("%03d", rand.nextInt(1000));
+        String clabeInter = String.format(
+                "%04d %04d %04d %04d %02d",
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(90) + 10
+        );
+
         LocalDate fechaCreacion = LocalDate.now();
+        LocalDate fechaVencimiento = fechaCreacion.plusYears(5);
         double saldo = 10000;
-        String cvv = "";
-        for (int i = 0; i < 3; i++) {
-            cvv += rand.nextInt(9);
-        }
-        String clabeInter = String.format("%04d %04d %04d %04d %02d", digitos1, digitos2, digitos3, digitos4, digitos5);
-        LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
 
-        Debito tarjetadebito = new Debito(titular, numeroDebito, fechaCreacion, saldo, cvv, clabeInter, fechaVencimineto);
-        registrarDebito(tarjetadebito);
-        titular.setTarjetaDebito(tarjetadebito);///ASOCIAMOS TRAJETA DEBITO
-        return tarjetadebito;
+        Debito tarjetaDebito = new Debito(
+                titular,
+                numeroDebito,
+                fechaCreacion,
+                saldo,
+                cvv,
+                clabeInter,
+                fechaVencimiento
+        );
+
+        registrarDebito(tarjetaDebito);
+        titular.setTarjetaDebito(tarjetaDebito);
+
+        return tarjetaDebito;
     }
 
-///AÑADI *-*-
+
+    ///AÑADI *-*-
     public Credito generarTarjetaCredito(Cliente titular) {
-        int digitos1 = rand.nextInt(9);
-        int digitos2 = rand.nextInt(9);
-        int digitos3 = rand.nextInt(9);
-        int digitos4 = rand.nextInt(9);
-        int digitos5 = rand.nextInt(9);
+        String numeroCredito = String.format(
+                "%04d %04d %04d %04d",
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000
+        );
 
-        String numeroCredito = String.format("%04d 04%d 04%d 04%d", digitos1, digitos2, digitos3, digitos4);
+        String cvv = String.format("%03d", rand.nextInt(1000));
+        String clabeInter = String.format(
+                "%04d %04d %04d %04d %02d",
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(9000) + 1000,
+                rand.nextInt(90) + 10
+        );
         LocalDate fechaCreacion = LocalDate.now();
+        LocalDate fechaVencimiento = fechaCreacion.plusYears(5);
         double saldolimite = 100000;
-        String cvv = "";
-        for (int i = 0; i < 3; i++) {
-            cvv += rand.nextInt(9);
-        }
-        String clabeInter = String.format("%04d %04d %04d %04d %02d", digitos1, digitos2, digitos3, digitos4, digitos5);
-        LocalDate fechaVencimineto = fechaCreacion.plusYears(5);
 
-        Credito tarjetaCredito = new Credito(titular, numeroCredito, fechaCreacion, saldolimite, cvv, clabeInter, fechaVencimineto);
+        Credito tarjetaCredito = new Credito(
+                titular,
+                numeroCredito,
+                fechaCreacion,
+                saldolimite,
+                cvv,
+                clabeInter,
+                fechaVencimiento
+        );
         registrarCredito(tarjetaCredito);
-        titular.setTarjetaCredito(tarjetaCredito);///ASOCIAMOS TRAJETA CREDITO
+        titular.setTarjetaCredito(tarjetaCredito);
+
         return tarjetaCredito;
     }
-/// AÑADI *-*-
+
+    /// AÑADI *-*-
 
     public String generarIdCliente() {
 // C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
