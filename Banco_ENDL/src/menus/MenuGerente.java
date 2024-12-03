@@ -96,7 +96,7 @@ public class MenuGerente {
                                     apellidoP,
                                     apellidoM,
                                     RFC,
-                                    CURP,
+                                    CURP.toUpperCase(),
                                     email,
                                     fechaRegistro,
                                     saldo,

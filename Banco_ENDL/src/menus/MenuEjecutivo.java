@@ -71,7 +71,7 @@ public class MenuEjecutivo {
                         apellidoP,
                         apellidoM,
                         RFC,
-                        CURP,
+                        CURP.toUpperCase(),
                         email,
                         fechaRegistro,
                         saldo,

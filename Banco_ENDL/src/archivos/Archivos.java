@@ -74,4 +74,5 @@ public static final String transacciones = "transaccion.dat";
 
 
 // para acceder se serializa la lista, despues se lee la lista y se itera en ella
+
 }
