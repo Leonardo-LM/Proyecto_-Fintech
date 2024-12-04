@@ -1,6 +1,7 @@
 package menus;
 
 
+import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 import tarjetas.Credito;
 import tarjetas.Debito;
@@ -10,13 +11,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static operaciones_Bancarias.Banco.listaDebitos;
+
 public class MenuCliente {
-    public ArrayList<Cliente> listaClientes = new ArrayList<>();
+   //public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
-
-
     public int mostrarDatos(Cliente cliente, Banco banco) {
-
+        banco.mostrarDebitos();
+        Debito no1=cliente.getTarjetaDebito();
+        System.out.println(no1.toString());
+        System.out.println(no1.getSaldo());
         int respuesta = 0;
         while (respuesta != 10) {
             if (cliente.getTarjetaDebito().getSaldo() < 30000) {
@@ -95,6 +99,7 @@ public class MenuCliente {
                 if(no.getCvv().equals(Codigo)){
                     double saldonuevo=no.getSaldo()+dinero;
                     no.setSaldo(saldonuevo);
+                    Archivos.guardarTarjetasDebito(listaDebitos);
                     System.out.println("El cvv correcto se acredito la operacion");
                 } else {
                     System.out.println("El cvv es incorrecto se cancelo la operacion");

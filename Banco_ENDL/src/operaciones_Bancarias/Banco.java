@@ -32,7 +32,7 @@ public class Banco {
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
-    public static ArrayList<Debito> listaDebitos = new ArrayList<>();
+    public static   ArrayList<Debito> listaDebitos = new ArrayList<>();  //static
     public ArrayList<Transaccion> listaTransacciones = new ArrayList<>(); ///////////
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>(); ////////////////////
@@ -164,6 +164,7 @@ public class Banco {
                 if (nuevoEmail.isEmpty()) throw new IllegalArgumentException("El email no puede estar vacío.");
                 cliente.setEmail(nuevoEmail);
             }
+            Archivos.guardarClientes(listaClientes);
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         } catch (Exception e) {
@@ -234,6 +235,7 @@ public class Banco {
             }
 
             System.out.println("Actualización completada con éxito.");
+            Archivos.guardarEjecutivos(listaEjecutivos);
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         } catch (Exception e) {

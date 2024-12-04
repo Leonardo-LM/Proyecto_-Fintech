@@ -36,7 +36,7 @@ public class Cliente extends Usuario implements Serializable {
 
     public String mostrarDatos() {
         if(tarjetaCredito!=null){
-            String datosCliente = String.format(", Tarjeta Debito No: %s, Tarjeta Credito No: %s", tarjetaDebito.getNumeroTarjeta(), tarjetaCredito.getNumeroTarjeta());
+            String datosCliente = String.format(", Tarjeta Debito No: %s, Tarjeta Credito No: %s,", tarjetaDebito.getNumeroTarjeta(), tarjetaCredito.getNumeroTarjeta());
             return super.mostrarInformacion() + datosCliente;
         } else {
            String numeroTarjetaCredito="no tiene aun";
@@ -83,7 +83,7 @@ public class Cliente extends Usuario implements Serializable {
         this.controlador = controlador;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Cliente{" +
                 "fechaRegistro=" + fechaRegistro +
@@ -99,5 +99,24 @@ public class Cliente extends Usuario implements Serializable {
                 ", email='" + email + '\'' +
                 ", rol=" + rol +
                 '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "fechaRegistro=" + fechaRegistro +
+                ", sucursal='" + sucursal + '\'' +
+                ", tarjetaDebito=" + (tarjetaDebito != null ? tarjetaDebito.getNumeroTarjeta() : "N/A") +
+                ", tarjetaCredito=" + (tarjetaCredito != null ? tarjetaCredito.getNumeroTarjeta() : "N/A") +
+                ", controlador=" + controlador +
+                ", id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidoPaterno='" + apellidoPaterno + '\'' +
+                ", apellidoMaterno='" + apellidoMaterno + '\'' +
+                ", RFC='" + RFC + '\'' +
+                ", email='" + email + '\'' +
+                ", rol=" + rol +
+                '}';
     }
+
 }

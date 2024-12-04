@@ -1,5 +1,6 @@
 package menus;
 
+import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 import tarjetas.Debito;
 import usuarios.clientes.Cliente;
@@ -8,6 +9,9 @@ import usuarios.ejecutivos.Ejecutivo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
+
+import static operaciones_Bancarias.Banco.listaDebitos;
+
 // implementar interfaz serializable
 public class MenuEjecutivo {
     Scanner scanner = new Scanner(System.in);
@@ -51,40 +55,59 @@ public class MenuEjecutivo {
             LocalDate fechaRegistro = LocalDate.now();
         switch (opcion) {
             case 1:
-                System.out.println("** REGISTRO DE CLIENTE **");
-                System.out.print("Nombre del cliente: ");
-                nombre = scanner.nextLine().trim();
-                System.out.print("Apellido Paterno del cliente: ");
-                apellidoP = scanner.nextLine().trim();
-                System.out.print("Apellido Materno del cliente: ");
-                apellidoM = scanner.nextLine().trim();
-                RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
-                System.out.print("CURP: ");
-                CURP = scanner.nextLine().trim();
-                System.out.print("Email: ");
-                email = scanner.nextLine().trim();
-                double saldo = 10000;
-                Cliente cliente = new Cliente(
-                        banco.generarIdCliente(),
-                        nombre,
-                        apellidoP,
-                        apellidoM,
-                        RFC,
-                        CURP.toUpperCase(),
-                        email,
-                        fechaRegistro,
-                        sucursal
-                );
-                banco.registrarCliente(cliente);
-                banco.generarTarjetaDebito(cliente);
+                try{
+                    System.out.println("** REGISTRO DE CLIENTES **");
+                    System.out.print("Nombre del cliente: ");
+                    nombre = scanner.nextLine().trim();
+                    System.out.print("Apellido Paterno del cliente: ");
+                    apellidoP = scanner.nextLine().trim();
+                    System.out.print("Apellido Materno del cliente: ");
+                    apellidoM = scanner.nextLine().trim();
+                    try {
+                        RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
+                    } catch (Exception e) {
+                        System.out.println("Error al generar el RFC: " + e.getMessage());
+                        return;
+                    }
+                    System.out.print("CURP: ");
+                    CURP = scanner.nextLine().trim();
+                    System.out.print("Email: ");
+                    email = scanner.nextLine().trim();
+                    Cliente cliente;
+                    try {
+                        cliente = new Cliente(
+                                banco.generarIdCliente(),
+                                nombre,
+                                apellidoP,
+                                apellidoM,
+                                RFC,
+                                CURP.toUpperCase(),
+                                email,
+                                fechaRegistro,
+                                sucursal
+                        );
+                    } catch (Exception e) {
+                        System.out.println("Error al crear el cliente: " + e.getMessage());
+                        return;
+                    }
+                    Debito tarjeta = banco.generarTarjetaDebito(cliente);
+                    cliente.setTarjetaDebito(tarjeta);
+                    banco.registrarCliente(cliente);
+                    //  banco.registrarUsuario(cliente);
+
+                } catch (Exception e) {
+                    System.out.println("Ocurrió un error inesperado: " + e.getMessage());
+                }
                 break;
             case 2:
                 System.out.println("** Consultar lista de clientes **");
                 banco.mostrarClientes();
                 break;
             case 3:
-                System.out.println("Buscar cliente por nombre o número de cuenta.");
-
+                System.out.println("** BUSCAR CLIENTE POR SU ID. **");
+                System.out.println("Ingresa el id del cliente que desea buscar: ");
+                String idClienteBusqueda = scanner.next();
+                banco.mostrarClientePorId(idClienteBusqueda);
                 break;
             case 4:
                 System.out.println("** ACTUALIZAR DATOS DE UN CLIENTE **");
@@ -137,6 +160,7 @@ public class MenuEjecutivo {
                     String confirmacion=scanner.nextLine();
                     if(confirmacion.equals("1")){
                         x.setSaldo(saldonuevo);
+                        Archivos.guardarTarjetasDebito(listaDebitos);
                         System.out.println("Cantidad depositada correctamente");
                     } else {
                         System.out.println("Se cancelo la operacion");
@@ -147,7 +171,7 @@ public class MenuEjecutivo {
                 break;
             case 7:
                 System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
-                System.out.println("Ingresa el No de tarjeta a depositar");
+                System.out.println("Ingresa el No de tarjeta a retirar");
                 String NoTarjetaRetiro=scanner.nextLine().trim();
                 Debito tarjetaRetiro=banco.validarTarjeta(NoTarjetaRetiro);
                 if (tarjetaRetiro != null) {
@@ -160,6 +184,7 @@ public class MenuEjecutivo {
                     double saldoAnterior = tarjetaRetiro.getSaldo();
                     double saldonuevo=saldoAnterior-dinero;
                     tarjetaRetiro.setSaldo(saldonuevo);
+                    Archivos.guardarTarjetasDebito(listaDebitos);
                     System.out.println("Cantidad retirada correctamente ");
                     banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
                 } else if (tarjetaRetiro==null) {

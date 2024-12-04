@@ -2,6 +2,7 @@ package menus;
 
 import archivos.Archivos;
 import operaciones_Bancarias.Banco;
+
 import tarjetas.Debito;
 import usuarios.Usuario;
 import usuarios.clientes.Cliente;
@@ -11,6 +12,8 @@ import usuarios.gerentes.Gerente;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
+//IMPORT PARA LISTA DEBITOS
+import static operaciones_Bancarias.Banco.listaDebitos;
 
 public class MenuGerente {
     private final Scanner scanner = new Scanner(System.in);
@@ -132,7 +135,6 @@ public class MenuGerente {
                     System.out.println("** BUSCAR CLIENTE POR SU ID. **");
                     System.out.println("Ingresa el id del cliente que desea buscar: ");
                     String idClienteBusqueda = scanner.next();
-
                     banco.mostrarClientePorId(idClienteBusqueda);
                     break;
                 case 4:
@@ -265,7 +267,8 @@ public class MenuGerente {
                         String confirmacion=scanner.nextLine();
                         if(confirmacion.equals("1")){
                             x.setSaldo(saldonuevo);  ///GUARDAR OPERACION
-                            banco.guardarPersonas();
+                           // banco.guardarPersonas();
+                            Archivos.guardarTarjetasDebito(listaDebitos);
 
                             System.out.println("Cantidad depositada correctamente");
                         } else {
@@ -277,7 +280,7 @@ public class MenuGerente {
                     break;
                 case 14:
                     System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
-                    System.out.println("Ingresa el No de tarjeta a depositar");
+                    System.out.println("Ingresa el No de tarjeta a retirar");
                     String NoTarjetaRetiro=scanner.nextLine().trim();
                     Debito tarjetaRetiro=banco.validarTarjeta(NoTarjetaRetiro);
                     if (tarjetaRetiro != null) {
@@ -290,6 +293,7 @@ public class MenuGerente {
                         double saldoAnterior = tarjetaRetiro.getSaldo();
                         double saldonuevo=saldoAnterior-dinero;
                         tarjetaRetiro.setSaldo(saldonuevo);
+                        Archivos.guardarTarjetasDebito(listaDebitos);
                         System.out.println("Cantidad retirada correctamente ");
                         banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
                     } else if (tarjetaRetiro==null) {

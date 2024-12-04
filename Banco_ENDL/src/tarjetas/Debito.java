@@ -32,10 +32,23 @@ public class Debito extends Tarjeta implements Serializable {
         );
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Debito{" +
                 "titular=" + titular +
+                ", numeroTarjeta='" + numeroTarjeta + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", saldo=" + saldo +
+                ", cvv='" + cvv + '\'' +
+                ", clabeInter='" + clabeInter + '\'' +
+                ", fechaVencimiento=" + fechaVencimiento +
+                '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "Debito{" +
+                "titular=" + (titular != null ? titular.getNombre() : "N/A") +
                 ", numeroTarjeta='" + numeroTarjeta + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
                 ", saldo=" + saldo +
