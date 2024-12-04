@@ -20,13 +20,13 @@ public class MenuGerente {
    //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        banco.cargarClientes();
+        /*banco.cargarClientes();
         banco.cargarEjecutivos();
         banco.cargarTDebito();
         banco.cargarTCredito();
         banco.cargarUsuarios();
         banco.cargarSolicitudesCredito();
-        banco.cargarTransaccion();
+        banco.cargarTransaccion();*/
 
         while (respuesta != 19) {
             System.out.println("\nBienvenido " + gerente.nombre);
@@ -134,7 +134,7 @@ public class MenuGerente {
                 case 3:
                     System.out.println("** BUSCAR CLIENTE POR SU ID. **");
                     System.out.println("Ingresa el id del cliente que desea buscar: ");
-                    String idClienteBusqueda = scanner.next();
+                    String idClienteBusqueda = scanner.nextLine();
                     banco.mostrarClientePorId(idClienteBusqueda);
                     break;
                 case 4:
@@ -290,6 +290,7 @@ public class MenuGerente {
                         System.out.println("El titular es: " + name);
                         System.out.println("Ingresa la catidad a retirar");
                         double dinero= scanner.nextDouble();
+                        scanner.nextLine();
                         double saldoAnterior = tarjetaRetiro.getSaldo();
                         double saldonuevo=saldoAnterior-dinero;
                         tarjetaRetiro.setSaldo(saldonuevo);

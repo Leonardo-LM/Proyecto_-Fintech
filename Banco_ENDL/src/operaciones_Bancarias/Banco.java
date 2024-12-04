@@ -629,6 +629,7 @@ public class Banco {
         for (SolicitudTarjetaCredito solicitudTarjetaCredito : listaSolicitudes) {
             if (solicitudTarjetaCredito.getIdClienteSolicitador().equals(id)) {
                 solicitudTarjetaCredito.setTarjetaAutorizada(true);
+                Archivos.guardarSolicitudes(listaSolicitudes);///ACT LAS SOLI EN EL ARCHIVO
                 System.out.println("Tarjeta de Credito aprobada exitosamente ");
                 Cliente cliente = BuscarCliente(id);
                 generarTarjetaCredito(cliente);
@@ -740,6 +741,7 @@ public class Banco {
                                         double y = es.getSaldo();
                                         double saldoCreditoNuevo = y + monto;
                                         es.setSaldo(saldoCreditoNuevo);
+                                        Archivos.guardarTarjetasCredito(listaCreditos);
                                         System.out.println("Operacion acreditada");
                                     } else {
                                         System.out.println("No hay fondos en su tarjeta");
@@ -781,6 +783,7 @@ public class Banco {
             if (cvv.equals(es.getCvv())) {
                 double NuevoSaldo = saldoDisponible - montoRetirar;
                 es.setSaldo(NuevoSaldo);
+                Archivos.guardarTarjetasCredito(listaCreditos);
                 System.out.println("Operacion Realizada");
             } else if (cvv.equals("2")) {
                 System.out.println("Se cancelo la operacion");

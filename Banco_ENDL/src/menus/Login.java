@@ -15,10 +15,10 @@ public class Login {
     public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     public MenuGerente menuGerente = new MenuGerente();
     public MenuCliente menuCliente = new MenuCliente();
-     Banco banco = new Banco();
+     //Banco banco = new Banco();
     public Usuario usuarioEnSesion;
 
-    public void login() {
+    public void login(Banco banco) {
         int intentosMaximos = 5, intentosUser=0;
         int opc;
         do {

@@ -106,7 +106,7 @@ public class MenuEjecutivo {
             case 3:
                 System.out.println("** BUSCAR CLIENTE POR SU ID. **");
                 System.out.println("Ingresa el id del cliente que desea buscar: ");
-                String idClienteBusqueda = scanner.next();
+                String idClienteBusqueda = scanner.nextLine();
                 banco.mostrarClientePorId(idClienteBusqueda);
                 break;
             case 4:
@@ -181,6 +181,7 @@ public class MenuEjecutivo {
                     System.out.println("El titular es: " + name);
                     System.out.println("Ingresa la catidad a retirar");
                     double dinero= scanner.nextDouble();
+                    scanner.nextLine();
                     double saldoAnterior = tarjetaRetiro.getSaldo();
                     double saldonuevo=saldoAnterior-dinero;
                     tarjetaRetiro.setSaldo(saldonuevo);

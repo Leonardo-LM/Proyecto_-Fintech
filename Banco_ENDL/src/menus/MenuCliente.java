@@ -120,6 +120,7 @@ public class MenuCliente {
                     double saldoAnterior = tarjetaRetiro.getSaldo();
                     double saldonuevo=saldoAnterior-dinerox;
                     tarjetaRetiro.setSaldo(saldonuevo);
+                    Archivos.guardarTarjetasDebito(listaDebitos);
                     System.out.println("Cantidad retirada correctamente ");
                     banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
                 } else if (tarjetaRetiro==null) {
