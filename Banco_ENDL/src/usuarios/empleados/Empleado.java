@@ -6,7 +6,7 @@ import utils.Rol;
 import java.io.Serializable;
 
 public class Empleado extends Usuario implements Serializable {
-    public String id;
+    // public String id;
     public String sucursal;
     private double salario;
 
@@ -18,15 +18,15 @@ public class Empleado extends Usuario implements Serializable {
 
     public Empleado() {}
 
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+   // @Override
+//    public String getId() {
+//        return id;
+//    }
+//
+//    @Override
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public String getSucursal() {
         return sucursal;

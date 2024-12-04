@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import menus.MenuCliente;
 import menus.MenuEjecutivo;
 import menus.MenuGerente;
+import utils.Rol;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class Banco {
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
-    public ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
+    public ArrayList<Transaccion> listaTransacciones = new ArrayList<>(); ///////////
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
-    public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>();
+    public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>(); ////////////////////
     // public MenuCliente menuCliente = new MenuCliente();
     //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     //public MenuGerente menuGerente = new MenuGerente();
@@ -49,7 +50,13 @@ public class Banco {
         //this.gerenteDefault = new Gerente();
         gerenteDefault = new Gerente("123", "Conrado", "De León", "Lopez", "PDL", "123", "hola@gmail.com", "Banco", 200000.00);
         this.listaGerentes.add(gerenteDefault);
-        this.listaUsuarios.add(gerenteDefault);
+       // this.listaUsuarios.add(gerenteDefault);
+        List <Usuario> listaUsuariosCargados = Archivos.informacionUsuarios();
+        listaUsuariosCargados.removeIf(usuario -> usuario.getId().equals("123"));
+        listaUsuariosCargados.add(gerenteDefault);
+        Archivos.guardarUsuarios(listaUsuariosCargados);
+        this.listaUsuarios = (ArrayList<Usuario>) listaUsuariosCargados;
+
     }
 
 
@@ -60,7 +67,9 @@ public class Banco {
     public void registrarCliente(Cliente cliente) {
         listaClientes.add(cliente);
         System.out.println("Cliente registrado exitosamente.");
-        registrarUsuario(cliente);
+       Usuario usuario = new Usuario(cliente.getId(), cliente.getNombre(), cliente.getApellidoPaterno(),
+              cliente.getApellidoMaterno(), cliente.getRFC(), cliente.getCURP(), cliente.getEmail(), cliente.getRol());
+        registrarUsuario(usuario);
         Archivos.guardarClientes(listaClientes);
     }
 
@@ -79,7 +88,10 @@ public class Banco {
     public void registrarEjecutivo(Ejecutivo ejecutivo) {
         listaEjecutivos.add(ejecutivo);
         System.out.println("Ejecutivo registrado exitosamente.");
-        registrarUsuario(ejecutivo);
+        Usuario usuario = new Usuario(ejecutivo.getId(), ejecutivo.getNombre(), ejecutivo.getApellidoPaterno(),
+                ejecutivo.getApellidoMaterno(), ejecutivo.getRFC(), ejecutivo.getCURP(), ejecutivo.getEmail(), ejecutivo.getRol());
+        registrarUsuario(usuario);
+       // registrarUsuario(ejecutivo);
         Archivos.guardarEjecutivos(listaEjecutivos);
     }
 
@@ -95,7 +107,7 @@ public class Banco {
 
     public void registrarSolicitud(SolicitudTarjetaCredito solicitud) {
         listaSolicitudes.add(solicitud);
-        // Archivos.guardarTransacciones(listaSolicitudes);
+        Archivos.guardarSolicitudes(listaSolicitudes);
     }
 
     //----------------------------------UPDATE---------------------------------------------
@@ -502,9 +514,17 @@ public class Banco {
 
     public Usuario validarInicioSesion(String idUser, String curp) {
         for (Usuario usuario : listaUsuarios) {
-            // System.out.println("Revisando ID: " + usuario.getId());
-            // System.out.println("Revisando CRUP: " + usuario.getCURP());
+             System.out.println("Revisando ID: " + usuario.getId());
+             System.out.println("Revisando CRUP: " + usuario.getCURP());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
+               if (usuario.getRol() == Rol.CLIENTE){
+                   Cliente cliente = obtenerClientePorId(usuario.getId());
+                   return cliente;
+               }
+               if(usuario.getRol() == Rol.EJECUTIVO){
+                   Ejecutivo ejecutivo = obtenerEjecutivoPorId(usuario.getId());
+                   return ejecutivo;
+               }
                 return usuario;
             }
         }
@@ -775,6 +795,9 @@ public class Banco {
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.dat"))) {
                 listaClientes = (ArrayList<Cliente>) ois.readObject();
+               /* for(Cliente cliente: listaClientes){
+                    System.out.println(cliente);
+                }*/
                 System.out.println("Clientes cargados exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error al cargar los clientes: " + e.getMessage());
@@ -802,20 +825,20 @@ public class Banco {
 
 
     public void cargarUsuarios() {
-        File archivo = new File("usuarios.dat");
-        System.out.println("hola");
+        listaUsuarios = new ArrayList(Archivos.informacionUsuarios());
+
+       /* File archivo = new File("usuarios.dat");
         if (archivo.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasDebito.dat"))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("usuarios.dat"))) {
                 listaUsuarios = (ArrayList<Usuario>) ois.readObject();
-                System.out.println("Ejecutivos cargados exitosamente.");
+                System.out.println("Usuarios cargados exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
+                System.out.println("Error al cargar los usuarios: " + e.getMessage());
             }
         } else {
-            System.out.println("No se encontró el archivo de ejecutivos.");
+            System.out.println("No se encontró el archivo de usuarios.");
         }
-
-    }
+    */}
 
     public void cargarTDebito() {
         File archivo = new File("tarjetasDebito.dat");
@@ -825,12 +848,58 @@ public class Banco {
                 listaDebitos = (ArrayList<Debito>) ois.readObject();
                 System.out.println("Ejecutivos cargados exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar las t debito: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de ejecutivos.");
+        }
+
+    }
+
+
+    public void cargarTCredito() {
+        File archivo = new File("tarjetasCredito.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasCredito.dat"))) {
+                listaCreditos = (ArrayList<Credito>) ois.readObject();
+                System.out.println("T credito cargados exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
             }
         } else {
             System.out.println("No se encontró el archivo de ejecutivos.");
         }
 
+    }
+
+    public void cargarSolicitudesCredito() {
+        File archivo = new File("solicitudesCreditos.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("solicitudesCreditos.dat"))) {
+                listaSolicitudes = (ArrayList<SolicitudTarjetaCredito>) ois.readObject();
+                System.out.println("Solicitudes cargadas exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar las solicitudes: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de solicitudes.");
+        }
+    }
+
+    public void cargarTransaccion () {
+        File archivo = new File("transacciones.dat");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("transacciones.dat"))) {
+                listaSolicitudes = (ArrayList<SolicitudTarjetaCredito>) ois.readObject();
+                System.out.println("Transacciones cargadas exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar las transacciones: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de transacciones.");
+        }
     }
 
 

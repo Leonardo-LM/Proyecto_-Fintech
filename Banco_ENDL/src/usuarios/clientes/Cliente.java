@@ -23,6 +23,14 @@ public class Cliente extends Usuario implements Serializable {
         this.tarjetaCredito= tarjetaCredito;
     }
 
+    public Cliente(String id, String nombre, String apellidoPaterno, String apellidoMaterno, String RFC, String CURP, String email, LocalDate fechaRegistro, String sucursal, Debito tarjetaDebito, Credito tarjetaCredito) {
+        super(id, nombre, apellidoPaterno, apellidoMaterno, RFC, CURP, email, Rol.CLIENTE);
+        this.fechaRegistro = fechaRegistro;
+        this.sucursal = sucursal;
+        this.tarjetaDebito = tarjetaDebito;
+        this.tarjetaCredito= tarjetaCredito;
+    }
+
     public Cliente (){}
 
 

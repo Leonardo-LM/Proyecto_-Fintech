@@ -144,7 +144,7 @@ public class MenuCliente {
                 banco.mostrarDetallesTarjeta(cliente);
                 break;
             case 6:
-                System.out.println("Ver mi información");
+                System.out.println("Ver mi información"); //////// ARREGLAR ESTO
                 banco.mostrarClientePorId(cliente.getId());
                 banco.mostrarTarjetasCliente(cliente);
                 break;

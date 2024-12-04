@@ -19,6 +19,9 @@ public class MenuGerente {
         banco.cargarClientes();
         banco.cargarEjecutivos();
         banco.cargarTDebito();
+        banco.cargarUsuarios();
+        banco.cargarSolicitudesCredito();
+        banco.cargarTransaccion();
 
         while (respuesta != 19) {
             System.out.println("\nBienvenido " + gerente.nombre);
@@ -109,8 +112,11 @@ public class MenuGerente {
                             System.out.println("Error al crear el cliente: " + e.getMessage());
                             return;
                         }
+                       Debito tarjeta = banco.generarTarjetaDebito(cliente);
+                       cliente.setTarjetaDebito(tarjeta);
                         banco.registrarCliente(cliente);
-                        banco.generarTarjetaDebito(cliente);
+                      //  banco.registrarUsuario(cliente);
+
                     } catch (Exception e) {
                         System.out.println("Ocurrió un error inesperado: " + e.getMessage());
                     }
@@ -310,6 +316,7 @@ public class MenuGerente {
             }
         } catch (Exception e) {
             System.err.println("Ocurrió un error durante la operación: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

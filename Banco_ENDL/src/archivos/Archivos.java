@@ -2,6 +2,7 @@ package archivos;
 
 import tarjetas.Credito;
 import tarjetas.Debito;
+import tarjetas.SolicitudTarjetaCredito;
 import transacciones.Transaccion;
 import usuarios.Usuario;
 import usuarios.clientes.Cliente;
@@ -21,6 +22,7 @@ public class Archivos  {
     public static final String tarjetasDebito = "tarjetasDebito.dat";
     public static final String tarjetasCredito = "tarjetasCredito.dat";
     public static final String transacciones = "transacciones.dat";
+    public static final String creditos = "solicitudesCreditos.dat";
 
 
     ////////////////////////////////  CLIENTES  ////////////////////////////////////
@@ -114,14 +116,45 @@ public class Archivos  {
         }
         return listaT;
     }
+    /////////////////////////////// SOLICITUDES ////////////////////////////
+    public static void guardarSolicitudes (List<SolicitudTarjetaCredito> listaSolicitudes){
+        try {
+            FileOutputStream archivo = new FileOutputStream(creditos); // accede al archivo y si no existe lo crea
+            ObjectOutputStream escritorDelArchivo = new ObjectOutputStream(archivo);
+            escritorDelArchivo.writeObject(listaSolicitudes); // guarda la lista en el archivo
+            escritorDelArchivo.close(); // para cerrar siempre
+        } catch (IOException e ){
+            System.out.println("Error al guardar el archivo" + e.getMessage());
+        }
+    }
+
+    public static List<SolicitudTarjetaCredito> informacionSolicitudes (){ // retorna la lista para trabajar con ella
+        List<SolicitudTarjetaCredito> listaT = new ArrayList();
+        try {
+            FileInputStream archivo = new FileInputStream(creditos);
+            ObjectInputStream lectorDelArchivo = new ObjectInputStream(archivo);
+            listaT = (List<SolicitudTarjetaCredito>) lectorDelArchivo.readObject();
+            lectorDelArchivo.close();
+
+        } catch (IOException e){
+            System.out.println("Error al abrir el archivo" + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error al encontrar archivo" + e.getMessage());
+        }
+        return listaT;
+    }
 
     ////////////////////////////////////////////// USUARIOS //////////////////////////////////////777
     public static void guardarUsuarios (List<Usuario> listaUsuarios){
+      for(Usuario usuario: listaUsuarios){
+          System.out.println(usuario.toString());
+      }
         try {
             FileOutputStream archivo = new FileOutputStream(usuarios); // accede al archivo y si no existe lo crea
             ObjectOutputStream escritorDelArchivo = new ObjectOutputStream(archivo);
             escritorDelArchivo.writeObject(listaUsuarios); // guarda la lista en el archivo
-            escritorDelArchivo.close(); // para cerrar siempre
+            escritorDelArchivo.close();
+            System.out.println("blablabla");// para cerrar siempre
         } catch (IOException e ){
             System.out.println("Error al guardar el archivo" + e.getMessage());
             e.printStackTrace();

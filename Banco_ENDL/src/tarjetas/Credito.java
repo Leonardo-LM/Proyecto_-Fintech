@@ -9,6 +9,8 @@ public class Credito extends Tarjeta implements Serializable {
     public Credito(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo, String cvv, String clabeInter, LocalDate fechaVencimiento) {
         super(titular, numeroTarjeta, fechaCreacion, saldo, cvv, clabeInter, fechaVencimiento);
     }
+    public Credito (){}
+
     public String mostrarDatos() {
         return String.format(
                 "----- Datos de la Tarjeta de Credito -----\n" +
