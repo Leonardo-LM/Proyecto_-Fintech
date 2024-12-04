@@ -1,6 +1,8 @@
 package tarjetas;
 
-public class SolicitudTarjetaCredito {
+import java.io.Serializable;
+
+public class SolicitudTarjetaCredito implements Serializable {
     String idClienteSolicitador;
     String titular;
     Boolean tarjetaAutorizada;
@@ -57,5 +59,15 @@ public class SolicitudTarjetaCredito {
 
     public void setSaldoEnSuTarjetaDebito(Double saldoEnSuTarjetaDebito) {
         this.saldoEnSuTarjetaDebito = saldoEnSuTarjetaDebito;
+    }
+
+    @Override
+    public String toString() {
+        return "SolicitudTarjetaCredito{" +
+                "idClienteSolicitador='" + idClienteSolicitador + '\'' +
+                ", titular='" + titular + '\'' +
+                ", tarjetaAutorizada=" + tarjetaAutorizada +
+                ", saldoEnSuTarjetaDebito=" + saldoEnSuTarjetaDebito +
+                '}';
     }
 }

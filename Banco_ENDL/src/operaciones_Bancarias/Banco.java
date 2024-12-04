@@ -1,5 +1,6 @@
 package operaciones_Bancarias;
 
+import archivos.Archivos;
 import tarjetas.Credito;
 import tarjetas.Debito;
 import tarjetas.SolicitudTarjetaCredito;
@@ -9,6 +10,11 @@ import usuarios.ejecutivos.Ejecutivo;
 import usuarios.empleados.Empleado;
 import usuarios.gerentes.Gerente;
 import usuarios.Usuario;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import menus.MenuCliente;
 import menus.MenuEjecutivo;
@@ -23,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Banco {
-    public Gerente gerenteDefault = new Gerente("1","Gerente", "1", "1","1","1","1","Banco",23);
+    public Gerente gerenteDefault = new Gerente("1", "Gerente", "1", "1", "1", "1", "1", "Banco", 23);
     public ArrayList<Cliente> listaClientes = new ArrayList<>();
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
@@ -31,7 +37,7 @@ public class Banco {
     public ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
-    public ArrayList<SolicitudTarjetaCredito>listaSolicitudes=new ArrayList<>();
+    public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>();
     // public MenuCliente menuCliente = new MenuCliente();
     //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     //public MenuGerente menuGerente = new MenuGerente();
@@ -39,10 +45,9 @@ public class Banco {
     public Scanner scanner = new Scanner(System.in);
 
 
-
     public Banco() {
         //this.gerenteDefault = new Gerente();
-        gerenteDefault=new Gerente("123","Conrado","De León","Lopez","PDL","123","hola@gmail.com","Banco",200000.00);
+        gerenteDefault = new Gerente("123", "Conrado", "De León", "Lopez", "PDL", "123", "hola@gmail.com", "Banco", 200000.00);
         this.listaGerentes.add(gerenteDefault);
         this.listaUsuarios.add(gerenteDefault);
     }
@@ -56,34 +61,41 @@ public class Banco {
         listaClientes.add(cliente);
         System.out.println("Cliente registrado exitosamente.");
         registrarUsuario(cliente);
+        Archivos.guardarClientes(listaClientes);
     }
 
     public void registrarGerente(Gerente gerente) {
         listaGerentes.add(gerente);
         registrarUsuario(gerente);
+        Archivos.guardarGerentes(listaGerentes);
     }
 
     public void registrarUsuario(Usuario usuario) {
         listaUsuarios.add(usuario);
         System.out.println("Usuario añadido.");
+        Archivos.guardarUsuarios(listaUsuarios);
     }
 
     public void registrarEjecutivo(Ejecutivo ejecutivo) {
         listaEjecutivos.add(ejecutivo);
         System.out.println("Ejecutivo registrado exitosamente.");
         registrarUsuario(ejecutivo);
+        Archivos.guardarEjecutivos(listaEjecutivos);
     }
 
     public void registrarDebito(Debito debito) {
         listaDebitos.add(debito);
+        Archivos.guardarTarjetasDebito(listaDebitos);
     }
 
     public void registrarCredito(Credito credito) {
         listaCreditos.add(credito);
+        Archivos.guardarTarjetasCredito(listaCreditos);
     }
 
     public void registrarSolicitud(SolicitudTarjetaCredito solicitud) {
         listaSolicitudes.add(solicitud);
+        // Archivos.guardarTransacciones(listaSolicitudes);
     }
 
     //----------------------------------UPDATE---------------------------------------------
@@ -109,13 +121,15 @@ public class Banco {
                     System.out.println("Apellido paterno actual: " + cliente.getApellidoPaterno());
                     System.out.print("Apellido paterno nuevo: ");
                     String nuevoApellidoP = scanner.nextLine().trim();
-                    if (nuevoApellidoP.isEmpty()) throw new IllegalArgumentException("El apellido paterno no puede estar vacío.");
+                    if (nuevoApellidoP.isEmpty())
+                        throw new IllegalArgumentException("El apellido paterno no puede estar vacío.");
                     cliente.setApellidoPaterno(nuevoApellidoP);
                 } else {
                     System.out.println("Apellido materno actual: " + cliente.getApellidoMaterno());
                     System.out.print("Apellido materno nuevo: ");
                     String nuevoApellidoM = scanner.nextLine().trim();
-                    if (nuevoApellidoM.isEmpty()) throw new IllegalArgumentException("El apellido materno no puede estar vacío.");
+                    if (nuevoApellidoM.isEmpty())
+                        throw new IllegalArgumentException("El apellido materno no puede estar vacío.");
                     cliente.setApellidoMaterno(nuevoApellidoM);
                 }
             }
@@ -226,6 +240,7 @@ public class Banco {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Cliente con ID " + idCliente + " no encontrado."));
             this.listaClientes.remove(cliente);
+            Archivos.guardarClientes(this.listaClientes);
             System.out.println("Cliente eliminado correctamente.");
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
@@ -239,6 +254,7 @@ public class Banco {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Ejecutivo con ID " + idEjecutivo + " no encontrado."));
             this.listaEjecutivos.remove(ejecutivo);
+            Archivos.guardarEjecutivos(this.listaEjecutivos);
             System.out.println("Ejecutivo eliminado correctamente.");
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
@@ -247,14 +263,14 @@ public class Banco {
 
     //---------------------------------Busquedas------------------------------------------
 
-    public Cliente obtenerClientePorId(String idCliente){
+    public Cliente obtenerClientePorId(String idCliente) {
         return this.listaClientes.stream().filter(
                 cliente -> cliente.getId().equals(idCliente)
         ).findFirst().orElse(null);
     }
 
 
-    public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo){
+    public Ejecutivo obtenerEjecutivoPorId(String idEjecutivo) {
         return this.listaEjecutivos.stream().filter(
                 ejecutivo -> ejecutivo.getId().equals(idEjecutivo)
         ).findFirst().orElse(null);
@@ -343,7 +359,7 @@ public class Banco {
     }
 
     /// AÑADI --
-/// AÑADI *-*-
+    /// AÑADI *-*-
 
     public String generarIdCliente() {
 // C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
@@ -435,7 +451,7 @@ public class Banco {
     }
 
 
-    public void mostrarClientePorId(String id){
+    public void mostrarClientePorId(String id) {
         Cliente cliente = obtenerClientePorId(id);
         if (cliente != null) {
             System.out.println(cliente.mostrarDatos());
@@ -444,7 +460,7 @@ public class Banco {
         }
     }
 
-    public void mostrarEjecutivoPorId(String id){
+    public void mostrarEjecutivoPorId(String id) {
         Ejecutivo ejecutivo = obtenerEjecutivoPorId(id);
         if (ejecutivo != null) {
             System.out.println(ejecutivo.mostrarDatos());
@@ -453,12 +469,12 @@ public class Banco {
         }
     }
 
-    public void mostrarTarjetasCliente(Cliente cliente){
-        Credito credito=cliente.getTarjetaCredito();
+    public void mostrarTarjetasCliente(Cliente cliente) {
+        Credito credito = cliente.getTarjetaCredito();
         Debito debito = cliente.getTarjetaDebito();
         System.out.println(debito.mostrarDatos());
-        if(credito!=null){
-        System.out.println(credito.mostrarDatos());
+        if (credito != null) {
+            System.out.println(credito.mostrarDatos());
         }
     }
 
@@ -466,26 +482,27 @@ public class Banco {
         System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaClientes.isEmpty()) {
             System.out.println("No hay clientes registrados aún");
-        }else {
+        } else {
             for (Cliente cliente : this.listaClientes) {
                 System.out.println(cliente.mostrarDatos());
             }
         }
     }
+
     public void mostrarEjecutivos() {
         System.out.println("\n*** EJECUTIVOS DEL BANCO ***");
         if (listaEjecutivos.isEmpty()) {
             System.out.println("No hay ejecutivos registrados aún");
-        }else {
+        } else {
             for (Ejecutivo ejecutivo : this.listaEjecutivos) {
                 System.out.println(ejecutivo.mostrarDatos());
             }
         }
     }
 
-    public Usuario validarInicioSesion(String idUser, String curp){
+    public Usuario validarInicioSesion(String idUser, String curp) {
         for (Usuario usuario : listaUsuarios) {
-           // System.out.println("Revisando ID: " + usuario.getId());
+            // System.out.println("Revisando ID: " + usuario.getId());
             // System.out.println("Revisando CRUP: " + usuario.getCURP());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
                 return usuario;
@@ -504,29 +521,31 @@ public class Banco {
             }
         }
     }
+
     public void mostrarDebitos() {
         System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaDebitos.isEmpty()) {
             System.out.println("No hay clientes registrados aún");
-        }else {
-            for (Debito debito: this.listaDebitos) {
+        } else {
+            for (Debito debito : this.listaDebitos) {
                 System.out.println(debito.mostrarDatos());
             }
         }
     }
+
     public void mostrarCreditos() {
         System.out.println("\n*** CLIENTES DEL BANCO ***");
         if (listaCreditos.isEmpty()) {
             System.out.println("No hay clientes registrados aún con tarjeta de credito");
-        }else {
-            for (Credito credito:this.listaCreditos) {
+        } else {
+            for (Credito credito : this.listaCreditos) {
                 System.out.println(credito.mostrarDatos());
             }
         }
     }
 
 
-    public Debito validarTarjeta(String NoTarjeta){
+    public Debito validarTarjeta(String NoTarjeta) {
         for (Debito debito : listaDebitos) {
             //System.out.println("Revisando NO: " + debito.getNumeroTarjeta());
             if (debito.getNumeroTarjeta().equals(NoTarjeta)) {
@@ -536,41 +555,42 @@ public class Banco {
         return null;
     }
 
-    public String SolicitudTCredito (Cliente cliente){
-        String IdCliente=cliente.getId();
-        String Nombre=cliente.getNombre();
-        Debito tarjetaCliente=cliente.getTarjetaDebito();
-        double saldo=tarjetaCliente.getSaldo();
-        Boolean Autorizacion=false;
-        SolicitudTarjetaCredito solicitud = new SolicitudTarjetaCredito(IdCliente,Nombre,Autorizacion,saldo);
+    public String SolicitudTCredito(Cliente cliente) {
+        String IdCliente = cliente.getId();
+        String Nombre = cliente.getNombre();
+        Debito tarjetaCliente = cliente.getTarjetaDebito();
+        double saldo = tarjetaCliente.getSaldo();
+        Boolean Autorizacion = false;
+        SolicitudTarjetaCredito solicitud = new SolicitudTarjetaCredito(IdCliente, Nombre, Autorizacion, saldo);
         registrarSolicitud(solicitud);
+
         return "Se ha mandado la solicitud a nuestro Gerente Correctamente";
     }
 
     public void mostrarSolitudes() {
-            if (listaSolicitudes.isEmpty()) {
+        if (listaSolicitudes.isEmpty()) {
             System.out.println("No hay solicitudes de tarjeta de credito\n");
-            } else {
+        } else {
             System.out.println("\n*** LISTA DE SOLICITUDES ***\n");
             for (SolicitudTarjetaCredito solicitudTarjetaCredito : listaSolicitudes) {
                 System.out.println(solicitudTarjetaCredito.mostrarDatos());
             }
-            }
+        }
     }
 
-    public void autorizarTarjetaCredito(){
-        int opcion =0;
-        while (opcion!=2){
+    public void autorizarTarjetaCredito() {
+        int opcion = 0;
+        while (opcion != 2) {
             System.out.print("Desea autorizar alguna T.Credito\n");
             System.out.print("1.-Si\n");
             System.out.print("2.-No\n");
             System.out.println("Selecciona una opcion: ");
             opcion = scanner.nextInt();
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     System.out.println("Ingrese el id del cliente que desea autorizar su T.Credito");
                     scanner.nextLine();
-                    String id= scanner.nextLine();
+                    String id = scanner.nextLine();
                     validarSolicitud(id);
                     break;
                 case 2:
@@ -582,12 +602,12 @@ public class Banco {
         }
     }
 
-    public void validarSolicitud(String id){
-        for (SolicitudTarjetaCredito solicitudTarjetaCredito:listaSolicitudes) {
+    public void validarSolicitud(String id) {
+        for (SolicitudTarjetaCredito solicitudTarjetaCredito : listaSolicitudes) {
             if (solicitudTarjetaCredito.getIdClienteSolicitador().equals(id)) {
                 solicitudTarjetaCredito.setTarjetaAutorizada(true);
                 System.out.println("Tarjeta de Credito aprobada exitosamente ");
-                Cliente cliente =BuscarCliente(id);
+                Cliente cliente = BuscarCliente(id);
                 generarTarjetaCredito(cliente);
             } else {
                 System.out.println("Ese cliente no ha mandado solicitud");
@@ -595,8 +615,9 @@ public class Banco {
         }
     }
 
-    public Cliente BuscarCliente(String id){
-        for (Cliente cliente : listaClientes) {;
+    public Cliente BuscarCliente(String id) {
+        for (Cliente cliente : listaClientes) {
+            ;
             if (cliente.getId().equals(id)) {
                 return cliente;
             }
@@ -609,7 +630,7 @@ public class Banco {
             if (cliente.getId().equals(idCliente)) {
                 // Formatear la información del cliente como un String
                 return String.format(
-                        "ID: %s\nNombre: %s %s %s\nRFC: %s\nCURP: %s\nEmail: %s\nFecha de Registro: %s\nSucursal: %s\n Tarjeta Debito %s" ,
+                        "ID: %s\nNombre: %s %s %s\nRFC: %s\nCURP: %s\nEmail: %s\nFecha de Registro: %s\nSucursal: %s\n Tarjeta Debito %s",
                         cliente.getId(),
                         cliente.getNombre(),
                         cliente.getApellidoPaterno(),
@@ -625,9 +646,12 @@ public class Banco {
         }
         return "Cliente no encontrado.";
     }
-    public void guardarOperación (String nombreUsuario,String NoTarjeta,double saldoAnterior,double  saldonuevo, LocalDateTime fecha, String operacion ){
-        Transaccion transaccion = new Transaccion(nombreUsuario,NoTarjeta,saldoAnterior, saldonuevo, LocalDateTime.now(),operacion);
-        listaTransacciones.add(transaccion);}
+
+    public void guardarOperación(String nombreUsuario, String NoTarjeta, double saldoAnterior, double saldonuevo, LocalDateTime fecha, String operacion) {
+        Transaccion transaccion = new Transaccion(nombreUsuario, NoTarjeta, saldoAnterior, saldonuevo, LocalDateTime.now(), operacion);
+        listaTransacciones.add(transaccion);
+        Archivos.guardarTransacciones(listaTransacciones);
+    }
 
     public List<String> obtenerTransaccionesPorTitular(String tarjeta) {
         AtomicInteger contador = new AtomicInteger(1);
@@ -641,7 +665,8 @@ public class Banco {
                         transaccion.getOperación()
                 )).collect(Collectors.toList());
     }
-    public Credito validarTarjetaCredito(String NoTarjeta){
+
+    public Credito validarTarjetaCredito(String NoTarjeta) {
         for (Credito credito : listaCreditos) {
             System.out.println("Revisando NO: " + credito.getNumeroTarjeta());
             if (credito.getNumeroTarjeta().equals(NoTarjeta)) {
@@ -651,98 +676,162 @@ public class Banco {
         return null;
     }
 
-   public void pagoTarjetaCredito(String noTarjeta) {
-        Credito es=validarTarjetaCredito(noTarjeta);
-     if (es != null) {
-         System.out.println("Tarjeta válida\n");
-         double saldo=es.getSaldo();  //Tarjeta credito saldo q tenemos
-         double deudareal=100000-saldo;
-         if(deudareal>0){
-             System.out.println("Debes:$"+deudareal);
-             int opcion =0;
-             while (opcion!=2){
-                 System.out.print("Desea pagar algo de su deuda\n");
-                 System.out.print("1.-Si\n");
-                 System.out.print("2.-No\n");
-                 System.out.println("Selecciona una opcion: ");
-                // opcion = scanner.nextInt();
-                 String entrada = scanner.nextLine();
-                 try {   //funcionamiento
-                     opcion = Integer.parseInt(entrada);
-                 } catch (NumberFormatException e) {
-                     System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
-                     continue;
-                 }
-                     switch (opcion){
-                     case 1:
-                         System.out.println("Ingrese el monto a pagar se cobrara a su tarjeta debito:");
-                         double monto=scanner.nextDouble();//FALTA ALGO!
-                         scanner.nextLine();
-                         System.out.println("Ingresa tu no de tarjeta de debito");
-                         String tarjeta=scanner.nextLine();
-                         Debito revision=validarTarjeta(tarjeta); //revision nuestra tarjeta debito
-                         if(revision!=null && monto<=deudareal && monto>1){
-                             System.out.println("Ingresa tu cvv de tu tarjeta de debito para acreditar la operacion");
-                             String cvvIngresado=scanner.nextLine();
-                             if(cvvIngresado.equals(revision.getCvv())){
-                                 if(revision.getSaldo()>monto){
-                                     double x=revision.getSaldo();
-                                     double saldoDebitoNuevo=x-monto;
-                                     revision.setSaldo(saldoDebitoNuevo);
-                                     double y=es.getSaldo();
-                                     double saldoCreditoNuevo=y+monto;
-                                     es.setSaldo(saldoCreditoNuevo);
-                                     System.out.println("Operacion acreditada");
-                                 } else{
-                                     System.out.println("No hay fondos en su tarjeta");
-                                 }
-                             } else {
-                                 System.out.println("Cvv Incorrecto");
-                             }
-                         } else {
-                             System.out.println("Esa tarjeta no existe o estas agregando un monto mayor al que debes o numero negativo");
-                         }
-                         break;
-                     case 2:
-                         System.out.println("vale!");
-                         break;
-                     default:
-                         System.out.println("Opción inválida. Por favor, inténtelo de nuevo.");
-                 }
-             }
-         }
+    public void pagoTarjetaCredito(String noTarjeta) {
+        Credito es = validarTarjetaCredito(noTarjeta);
+        if (es != null) {
+            System.out.println("Tarjeta válida\n");
+            double saldo = es.getSaldo();  //Tarjeta credito saldo q tenemos
+            double deudareal = 100000 - saldo;
+            if (deudareal > 0) {
+                System.out.println("Debes:$" + deudareal);
+                int opcion = 0;
+                while (opcion != 2) {
+                    System.out.print("Desea pagar algo de su deuda\n");
+                    System.out.print("1.-Si\n");
+                    System.out.print("2.-No\n");
+                    System.out.println("Selecciona una opcion: ");
+                    // opcion = scanner.nextInt();
+                    String entrada = scanner.nextLine();
+                    try {   //funcionamiento
+                        opcion = Integer.parseInt(entrada);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
+                        continue;
+                    }
+                    switch (opcion) {
+                        case 1:
+                            System.out.println("Ingrese el monto a pagar se cobrara a su tarjeta debito:");
+                            double monto = scanner.nextDouble();//FALTA ALGO!
+                            scanner.nextLine();
+                            System.out.println("Ingresa tu no de tarjeta de debito");
+                            String tarjeta = scanner.nextLine();
+                            Debito revision = validarTarjeta(tarjeta); //revision nuestra tarjeta debito
+                            if (revision != null && monto <= deudareal && monto > 1) {
+                                System.out.println("Ingresa tu cvv de tu tarjeta de debito para acreditar la operacion");
+                                String cvvIngresado = scanner.nextLine();
+                                if (cvvIngresado.equals(revision.getCvv())) {
+                                    if (revision.getSaldo() > monto) {
+                                        double x = revision.getSaldo();
+                                        double saldoDebitoNuevo = x - monto;
+                                        revision.setSaldo(saldoDebitoNuevo);
+                                        double y = es.getSaldo();
+                                        double saldoCreditoNuevo = y + monto;
+                                        es.setSaldo(saldoCreditoNuevo);
+                                        System.out.println("Operacion acreditada");
+                                    } else {
+                                        System.out.println("No hay fondos en su tarjeta");
+                                    }
+                                } else {
+                                    System.out.println("Cvv Incorrecto");
+                                }
+                            } else {
+                                System.out.println("Esa tarjeta no existe o estas agregando un monto mayor al que debes o numero negativo");
+                            }
+                            break;
+                        case 2:
+                            System.out.println("vale!");
+                            break;
+                        default:
+                            System.out.println("Opción inválida. Por favor, inténtelo de nuevo.");
+                    }
+                }
+            }
 
-     } else {
-         System.out.println("Número de tarjeta inválido o no debes nada.");
-     }
-  }
-  public void retiroTarjetaCredito(String noTarjeta) {
-      Credito es=validarTarjetaCredito(noTarjeta);
-      if (es == null) {
-          System.out.println("La tarjeta ingresada no existe");
-          return;
-      }
-      double saldoDisponible=es.getSaldo();
-      System.out.print("Ingresa la cantidad que deseas retirar:");
-      double montoRetirar=scanner.nextDouble();
-      if(saldoDisponible>montoRetirar && montoRetirar>1){
-          System.out.println("Ingrese su cvv para confirmar la operacion o 2 para cancelarla:");
-          scanner.nextLine();
-          String cvv=scanner.nextLine();
-          if(cvv.equals(es.getCvv())){
-              double NuevoSaldo=saldoDisponible-montoRetirar;
-              es.setSaldo(NuevoSaldo);
-              System.out.println("Operacion Realizada");
-          } else if(cvv.equals("2")){
-              System.out.println("Se cancelo la operacion");
-          }else{
-              System.out.println("Cvv incorrecto");
-          }
-      }else{
-          System.out.println("No hay fondos suficentes es su tarjeta para la operacion en su tarjeta o esta retirando una catidad negativa");
-      }
-  }
+        } else {
+            System.out.println("Número de tarjeta inválido o no debes nada.");
+        }
+    }
+
+    public void retiroTarjetaCredito(String noTarjeta) {
+        Credito es = validarTarjetaCredito(noTarjeta);
+        if (es == null) {
+            System.out.println("La tarjeta ingresada no existe");
+            return;
+        }
+        double saldoDisponible = es.getSaldo();
+        System.out.print("Ingresa la cantidad que deseas retirar:");
+        double montoRetirar = scanner.nextDouble();
+        if (saldoDisponible > montoRetirar && montoRetirar > 1) {
+            System.out.println("Ingrese su cvv para confirmar la operacion o 2 para cancelarla:");
+            scanner.nextLine();
+            String cvv = scanner.nextLine();
+            if (cvv.equals(es.getCvv())) {
+                double NuevoSaldo = saldoDisponible - montoRetirar;
+                es.setSaldo(NuevoSaldo);
+                System.out.println("Operacion Realizada");
+            } else if (cvv.equals("2")) {
+                System.out.println("Se cancelo la operacion");
+            } else {
+                System.out.println("Cvv incorrecto");
+            }
+        } else {
+            System.out.println("No hay fondos suficentes es su tarjeta para la operacion en su tarjeta o esta retirando una catidad negativa");
+        }
+    }
+
+    public void cargarClientes() {
+        File archivo = new File("clientes.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.dat"))) {
+                listaClientes = (ArrayList<Cliente>) ois.readObject();
+                System.out.println("Clientes cargados exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar los clientes: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de clientes.");
+        }
+    }
+
+    public void cargarEjecutivos() {
+        File archivo = new File("ejecutivos.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("ejecutivos.dat"))) {
+                listaEjecutivos = (ArrayList<Ejecutivo>) ois.readObject();
+                System.out.println("Ejecutivos cargados exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de ejecutivos.");
+        }
+
+    }
+
+
+    public void cargarUsuarios() {
+        File archivo = new File("usuarios.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasDebito.dat"))) {
+                listaUsuarios = (ArrayList<Usuario>) ois.readObject();
+                System.out.println("Ejecutivos cargados exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de ejecutivos.");
+        }
+
+    }
+
+    public void cargarTDebito() {
+        File archivo = new File("tarjetasDebito.dat");
+        System.out.println("hola");
+        if (archivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasDebito.dat"))) {
+                listaDebitos = (ArrayList<Debito>) ois.readObject();
+                System.out.println("Ejecutivos cargados exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el archivo de ejecutivos.");
+        }
+
+    }
+
+
 }
-
-
-

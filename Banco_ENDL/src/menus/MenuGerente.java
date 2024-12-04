@@ -16,8 +16,13 @@ public class MenuGerente {
    //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
+        banco.cargarClientes();
+        banco.cargarEjecutivos();
+        banco.cargarTDebito();
+
         while (respuesta != 19) {
             System.out.println("\nBienvenido " + gerente.nombre);
+
             System.out.println("""
                     \n---------- MENU DEL GERENTE ----------
                     Gestión de clientes >
