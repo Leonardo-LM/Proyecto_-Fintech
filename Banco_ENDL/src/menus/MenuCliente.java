@@ -1,19 +1,15 @@
 package menus;
-
-
 import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 import tarjetas.Credito;
 import tarjetas.Debito;
 import usuarios.clientes.Cliente;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import static operaciones_Bancarias.Banco.listaDebitos;
-
 public class MenuCliente {
+
    //public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     public int mostrarDatos(Cliente cliente, Banco banco) {
@@ -65,6 +61,7 @@ public class MenuCliente {
                             8.-Pagar T.Credito
                             9.-Retiro T.credito
                             10.- Salir""");
+
                 System.out.print("Elija una opción: ");
                 try {
                     respuesta = Integer.parseInt(sc.nextLine());

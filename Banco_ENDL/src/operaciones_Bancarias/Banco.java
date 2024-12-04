@@ -97,9 +97,9 @@ public class Banco {
         Archivos.guardarTarjetasDebito(listaDebitos);
     }
 
-    public static void actualizarSaldo1 (Debito debito) {
+   /* public static void actualizarSaldo1 (Debito debito) {
         Archivos.guardarTarjetaDebito(debito);
-    }
+    }*/
 
     public void registrarCredito(Credito credito) {
         listaCreditos.add(credito);
