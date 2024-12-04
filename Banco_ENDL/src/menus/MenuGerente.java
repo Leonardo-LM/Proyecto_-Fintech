@@ -1,5 +1,6 @@
 package menus;
 
+import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 import tarjetas.Debito;
 import usuarios.Usuario;
@@ -19,6 +20,7 @@ public class MenuGerente {
         banco.cargarClientes();
         banco.cargarEjecutivos();
         banco.cargarTDebito();
+        banco.cargarTCredito();
         banco.cargarUsuarios();
         banco.cargarSolicitudesCredito();
         banco.cargarTransaccion();
@@ -262,7 +264,9 @@ public class MenuGerente {
                         scanner.nextLine();
                         String confirmacion=scanner.nextLine();
                         if(confirmacion.equals("1")){
-                            x.setSaldo(saldonuevo);
+                            x.setSaldo(saldonuevo);  ///GUARDAR OPERACION
+                            banco.guardarPersonas();
+
                             System.out.println("Cantidad depositada correctamente");
                         } else {
                             System.out.println("Se cancelo la operacion");

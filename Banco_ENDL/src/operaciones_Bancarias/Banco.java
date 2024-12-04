@@ -11,10 +11,7 @@ import usuarios.empleados.Empleado;
 import usuarios.gerentes.Gerente;
 import usuarios.Usuario;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.time.LocalDate;
 import menus.MenuCliente;
 import menus.MenuEjecutivo;
@@ -35,7 +32,7 @@ public class Banco {
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
-    public ArrayList<Debito> listaDebitos = new ArrayList<>();
+    public static ArrayList<Debito> listaDebitos = new ArrayList<>();
     public ArrayList<Transaccion> listaTransacciones = new ArrayList<>(); ///////////
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>(); ////////////////////
@@ -98,6 +95,10 @@ public class Banco {
     public void registrarDebito(Debito debito) {
         listaDebitos.add(debito);
         Archivos.guardarTarjetasDebito(listaDebitos);
+    }
+
+    public static void actualizarSaldo1 (Debito debito) {
+        Archivos.guardarTarjetaDebito(debito);
     }
 
     public void registrarCredito(Credito credito) {
@@ -842,7 +843,6 @@ public class Banco {
 
     public void cargarTDebito() {
         File archivo = new File("tarjetasDebito.dat");
-        System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasDebito.dat"))) {
                 listaDebitos = (ArrayList<Debito>) ois.readObject();
@@ -902,5 +902,16 @@ public class Banco {
         }
     }
 
+    public static void guardarPersonas() throws IOException {
+
+        try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("tarjetasDebito.dat"))) {
+            os.writeObject(listaDebitos);
+            System.out.println("Datos guardados correctamente.");
+
+        } catch (IOException e) {
+
+            System.err.println("Error al guardar los datos: " + e.getMessage());
+        }
+    }
 
 }
