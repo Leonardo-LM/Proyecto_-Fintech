@@ -149,15 +149,11 @@ public class Archivos {
 
     ////////////////////////////////////////////// USUARIOS //////////////////////////////////////777
     public static void guardarUsuarios(List<Usuario> listaUsuarios) {
-        for (Usuario usuario : listaUsuarios) {
-            System.out.println(usuario.toString());
-        }
         try {
             FileOutputStream archivo = new FileOutputStream(usuarios); // accede al archivo y si no existe lo crea
             ObjectOutputStream escritorDelArchivo = new ObjectOutputStream(archivo);
             escritorDelArchivo.writeObject(listaUsuarios); // guarda la lista en el archivo
             escritorDelArchivo.close();
-            System.out.println("blablabla");// para cerrar siempre
         } catch (IOException e) {
             System.out.println("Error al guardar el archivo" + e.getMessage());
             e.printStackTrace();
@@ -171,7 +167,6 @@ public class Archivos {
             ObjectInputStream lectorDelArchivo = new ObjectInputStream(archivo);
             listaUsuarios = (List<Usuario>) lectorDelArchivo.readObject();
             lectorDelArchivo.close();
-
         } catch (IOException e) {
             System.out.println("Error al abrir el archivo" + e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -270,52 +265,5 @@ public class Archivos {
         }
         return listaCredito;
     }
-
-
-    //////////////// PARA GUARDAR UN NUEVO USUARIO ////////////////// /// agrega solo uno
-
-    public static void guardarCliente(Cliente cliente) {
-        List<Cliente> listaClientes = informacionClientes();
-        listaClientes.add(cliente);
-        guardarClientes(listaClientes);
-    }
-
-    public static void guardarGerente(Gerente gerente) {
-        List<Gerente> listaGerentes = informacionGerentes();
-        listaGerentes.add(gerente);
-        guardarGerentes(listaGerentes);
-    }
-
-    public static void guardarEjecutivo(Ejecutivo ejecutivo) { /// agrega solo uno
-        List<Ejecutivo> listaEjecutivos = informacionEjecutivos();
-        listaEjecutivos.add(ejecutivo);
-        guardarEjecutivos(listaEjecutivos);
-    }
-
-    public static void guardarTransaccione(Transaccion transaccion) {
-        List<Transaccion> listaTransacciones = informacionTransacciones();
-        listaTransacciones.add(transaccion);
-        guardarTransacciones(listaTransacciones);
-    }
-
-    public static void guardarUsuario(Usuario usuario) {
-        List<Usuario> listaUsuarios = informacionUsuarios();
-        listaUsuarios.add(usuario);
-        guardarUsuarios(listaUsuarios);
-    }
-
-    public static void guardarTarjetaDebito(Debito debito) {
-        List<Debito> listaDebito = informacionTarjetasDebito();
-        listaDebito.add(debito);
-        guardarTarjetasDebito(listaDebito);
-    }
-
-    public static void guardarTarjetaCredito(Credito credito) {
-        List<Credito> listaCredito = informacionTarjetasCredito();
-        listaCredito.add(credito);
-        guardarTarjetasCredito(listaCredito);
-    }
-
-
 
 }

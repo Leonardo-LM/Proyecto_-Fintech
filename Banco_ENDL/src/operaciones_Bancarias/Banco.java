@@ -32,28 +32,22 @@ public class Banco {
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
-    public static ArrayList<Debito> listaDebitos = new ArrayList<>();  //static
-    public ArrayList<Transaccion> listaTransacciones = new ArrayList<>(); ///////////
+    public static ArrayList<Debito> listaDebitos = new ArrayList<>();
+    public ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
-    public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>(); ////////////////////
-    // public MenuCliente menuCliente = new MenuCliente();
-    //public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
-    //public MenuGerente menuGerente = new MenuGerente();
+    public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>();
     public Random rand = new Random();
     public Scanner scanner = new Scanner(System.in);
 
 
     public Banco() {
-        //this.gerenteDefault = new Gerente();
         gerenteDefault = new Gerente("123", "Conrado", "De León", "Lopez", "PDL", "123", "hola@gmail.com", "Banco", 200000.00);
         this.listaGerentes.add(gerenteDefault);
-        // this.listaUsuarios.add(gerenteDefault);
         List<Usuario> listaUsuariosCargados = Archivos.informacionUsuarios();
         listaUsuariosCargados.removeIf(usuario -> usuario.getId().equals("123"));
         listaUsuariosCargados.add(gerenteDefault);
         Archivos.guardarUsuarios(listaUsuariosCargados);
         this.listaUsuarios = (ArrayList<Usuario>) listaUsuariosCargados;
-
     }
 
     public void actualizarClientes (String idCliente, Cliente cliente) {
@@ -77,7 +71,7 @@ public class Banco {
 
     public void imprimirHistorialTransacciones(String numeroTarjetaHistorial) {
         List<Transaccion> listaFiltrada = this.listaTransacciones.stream()
-                .filter(transaccion -> transaccion.getNumeroTarjeta().equals(numeroTarjetaHistorial)) // Filtrar por número de tarjeta
+                .filter(transaccion -> transaccion.getNumeroTarjeta().equals(numeroTarjetaHistorial))
                 .collect(Collectors.toList());
         System.out.println("filtradas");
         listaFiltrada.forEach(transaccion -> System.out.printf(
@@ -132,9 +126,6 @@ public class Banco {
         Archivos.guardarTarjetasDebito(listaDebitos);
     }
 
-   /* public static void actualizarSaldo1 (Debito debito) {
-        Archivos.guardarTarjetaDebito(debito);
-    }*/
 
     public void registrarCredito(Credito credito) {
         listaCreditos.add(credito);
@@ -369,8 +360,6 @@ public class Banco {
         return tarjetaDebito;
     }
 
-
-    ///AÑADI --
     public Credito generarTarjetaCredito(Cliente titular) {
         String numeroCredito = String.format(
                 "%04d %04d %04d %04d",
@@ -407,31 +396,21 @@ public class Banco {
 
         return tarjetaCredito;
     }
-
-    /// AÑADI --
-    /// AÑADI *-*-
-
     public String generarIdCliente() {
-// C -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
         LocalDate fecha = LocalDate.now();
-
         int anoActual = fecha.getYear();
         int mesActual = fecha.getMonthValue();
         int longitudClientesMasUno = this.listaClientes.size() + 1;
         int numeroAleatorio = rand.nextInt(1, 100000);
-
         return String.format("C-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
     }
 
     public String generarIdEjecutivo() {
-        // E -{año actual} - {mes actual} - {longitud usuarios.pacientes +1} - {1,100000}
         LocalDate fecha = LocalDate.now();
-
         int anoActual = fecha.getYear();
         int mesActual = fecha.getMonthValue();
         int longitudClientesMasUno = this.listaClientes.size() + 1;
         int numeroAleatorio = rand.nextInt(1, 100000);
-
         return String.format("E-%d-%d-%d-%d", anoActual, mesActual, longitudClientesMasUno, numeroAleatorio);
     }
 
@@ -464,7 +443,7 @@ public class Banco {
         for (int i = 0; i < 2; i++) {
             homoclave.append(caracteres.charAt(random.nextInt(caracteres.length())));
         }
-        homoclave.append(random.nextInt(10)); //Este método añade el nnumero random a la homoclave es un concatenador
+        homoclave.append(random.nextInt(10));
 
         return String.format("%c%c%c%c%s%s%s%s",
                 primeraLetraApellidoP, primeraVocalApellidoP, primerLetraApellidoM, letraInicialNombre,
@@ -552,8 +531,8 @@ public class Banco {
 
     public Usuario validarInicioSesion(String idUser, String curp) {
         for (Usuario usuario : listaUsuarios) {
-             System.out.println("Revisando ID: " + usuario.getId());
-             System.out.println("Revisando CRUP: " + usuario.getCURP());
+            // System.out.println("Revisando ID: " + usuario.getId());
+             //System.out.println("Revisando CRUP: " + usuario.getCURP());
             if (usuario.getId().equals(idUser) && usuario.getCURP().equals(curp)) {
                if (usuario.getRol() == Rol.CLIENTE){
                    Cliente cliente = obtenerClientePorId(usuario.getId());
@@ -684,28 +663,6 @@ public class Banco {
         return null;
     }
 
-    public String obtenerInformacionCliente(String idCliente) {
-        for (Cliente cliente : listaClientes) {
-            if (cliente.getId().equals(idCliente)) {
-                // Formatear la información del cliente como un String
-                return String.format(
-                        "ID: %s\nNombre: %s %s %s\nRFC: %s\nCURP: %s\nEmail: %s\nFecha de Registro: %s\nSucursal: %s\n Tarjeta Debito %s",
-                        cliente.getId(),
-                        cliente.getNombre(),
-                        cliente.getApellidoPaterno(),
-                        cliente.getApellidoMaterno(),
-                        cliente.getRFC(),
-                        cliente.getCURP(),
-                        cliente.getEmail(),
-                        cliente.getFechaRegistro().toString(),
-                        cliente.getSucursal(),
-                        cliente.getTarjetaDebito()
-                );
-            }
-        }
-        return "Cliente no encontrado.";
-    }
-
     public void guardarOperación(String nombreUsuario, String NoTarjeta, double saldoAnterior, double saldonuevo, LocalDateTime fecha, String operacion) {
         Transaccion transaccion = new Transaccion(nombreUsuario, NoTarjeta, saldoAnterior, saldonuevo, LocalDateTime.now(), operacion);
         listaTransacciones.add(transaccion);
@@ -732,7 +689,7 @@ public class Banco {
 
     public Credito validarTarjetaCredito(String NoTarjeta) {
         for (Credito credito : listaCreditos) {
-            System.out.println("Revisando NO: " + credito.getNumeroTarjeta());
+            //System.out.println("Revisando NO: " + credito.getNumeroTarjeta());
             if (credito.getNumeroTarjeta().equals(NoTarjeta)) {
                 return credito;
             }
@@ -746,7 +703,7 @@ public class Banco {
 
         if (es != null) {
             System.out.println("Tarjeta válida\n");
-            double saldo = es.getSaldo();  //Tarjeta credito saldo q tenemos
+            double saldo = es.getSaldo();  //Tarjeta credito = es
             double deudareal = 100000 - saldo;
             if (deudareal > 0) {
                 System.out.println("Debes:$" + deudareal);
@@ -756,9 +713,8 @@ public class Banco {
                     System.out.print("1.-Si\n");
                     System.out.print("2.-No\n");
                     System.out.println("Selecciona una opcion: ");
-                    // opcion = scanner.nextInt();
                     String entrada = scanner.nextLine();
-                    try {   //funcionamiento
+                    try {
                         opcion = Integer.parseInt(entrada);
                     } catch (NumberFormatException e) {
                         System.out.println("Entrada inválida. Por favor, ingrese un número válido.");
@@ -767,11 +723,11 @@ public class Banco {
                     switch (opcion) {
                         case 1:
                             System.out.println("Ingrese el monto a pagar se cobrara a su tarjeta debito:");
-                            double monto = scanner.nextDouble();//FALTA ALGO!
+                            double monto = scanner.nextDouble();
                             scanner.nextLine();
                             System.out.println("Ingresa tu no de tarjeta de debito");
                             String tarjeta = scanner.nextLine();
-                            Debito revision = validarTarjeta(tarjeta); //revision nuestra tarjeta debito
+                            Debito revision = validarTarjeta(tarjeta); //revision = a nuestra tarjeta debito
                             if (revision != null && monto <= deudareal && monto > 1) {
                                 System.out.println("Ingresa tu cvv de tu tarjeta de debito para acreditar la operacion");
                                 String cvvIngresado = scanner.nextLine();
@@ -783,6 +739,21 @@ public class Banco {
                                         double y = es.getSaldo();
                                         double saldoCreditoNuevo = y + monto;
                                         es.setSaldo(saldoCreditoNuevo);
+
+                                        for (int i = 0; i < listaCreditos.size(); i++) {
+                                            if (listaCreditos.get(i).getNumeroTarjeta().equals(es.getNumeroTarjeta())) {
+                                                listaCreditos.set(i, es);
+                                                break;
+                                            }
+                                        }
+
+                                        for (int i = 0; i < listaDebitos.size(); i++) {
+                                            if (listaDebitos.get(i).getNumeroTarjeta().equals(revision.getNumeroTarjeta())) {
+                                                listaDebitos.set(i, revision);
+                                                break;
+                                            }
+                                        }
+
                                         Archivos.guardarTarjetasCredito(listaCreditos);
                                         Archivos.guardarTarjetasDebito(listaDebitos);
                                         Transaccion transaccion = new Transaccion(nombre,noTarjeta,deudareal,saldoCreditoNuevo,
@@ -833,6 +804,14 @@ public class Banco {
             if (cvv.equals(es.getCvv())) {
                 double nuevoSaldo = saldoDisponible - montoRetirar;
                 es.setSaldo(nuevoSaldo);
+                ///ACTUALIZA VALOR ARRAYLIST
+                for (int i = 0; i < listaCreditos.size(); i++) {
+                    if (listaCreditos.get(i).getNumeroTarjeta().equals(noTarjeta)) {
+                        listaCreditos.set(i, es);
+                        break;
+                    }
+                }
+
                 Archivos.guardarTarjetasCredito(listaCreditos);
                 System.out.println("Operacion Realizada");
                 Transaccion transaccion = new Transaccion(nombre,noTarjeta,saldoDisponible,
@@ -852,7 +831,6 @@ public class Banco {
         cargarTDebito();
         cargarTCredito();
         File archivo = new File("clientes.dat");
-        System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.dat"))) {
                 listaClientes = (ArrayList<Cliente>) ois.readObject();
@@ -883,7 +861,6 @@ public class Banco {
 
     public void cargarEjecutivos() {
         File archivo = new File("ejecutivos.dat");
-        System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("ejecutivos.dat"))) {
                 listaEjecutivos = (ArrayList<Ejecutivo>) ois.readObject();
@@ -900,19 +877,7 @@ public class Banco {
 
     public void cargarUsuarios() {
         listaUsuarios = new ArrayList(Archivos.informacionUsuarios());
-
-       /* File archivo = new File("usuarios.dat");
-        if (archivo.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("usuarios.dat"))) {
-                listaUsuarios = (ArrayList<Usuario>) ois.readObject();
-                System.out.println("Usuarios cargados exitosamente.");
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error al cargar los usuarios: " + e.getMessage());
-            }
-        } else {
-            System.out.println("No se encontró el archivo de usuarios.");
-        }
-    */}
+}
 
     public void cargarTDebito() {
         File archivo = new File("tarjetasDebito.dat");
@@ -932,10 +897,8 @@ public class Banco {
 
     }
 
-
     public void cargarTCredito() {
         File archivo = new File("tarjetasCredito.dat");
-        System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasCredito.dat"))) {
                 listaCreditos = (ArrayList<Credito>) ois.readObject();
@@ -951,7 +914,6 @@ public class Banco {
 
     public void cargarSolicitudesCredito() {
         File archivo = new File("solicitudesCreditos.dat");
-        System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("solicitudesCreditos.dat"))) {
                 listaSolicitudes = (ArrayList<SolicitudTarjetaCredito>) ois.readObject();
@@ -975,18 +937,6 @@ public class Banco {
             }
         } else {
             System.out.println("No se encontró el archivo de transacciones.");
-        }
-    }
-
-    public static void guardarPersonas() throws IOException {
-
-        try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("tarjetasDebito.dat"))) {
-            os.writeObject(listaDebitos);
-            System.out.println("Datos guardados correctamente.");
-
-        } catch (IOException e) {
-
-            System.err.println("Error al guardar los datos: " + e.getMessage());
         }
     }
 

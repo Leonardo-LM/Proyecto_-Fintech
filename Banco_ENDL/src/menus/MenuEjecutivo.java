@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 import static operaciones_Bancarias.Banco.listaDebitos;
 
-// implementar interfaz serializable
 public class MenuEjecutivo {
     Scanner scanner = new Scanner(System.in);
     boolean band = false;
@@ -95,7 +94,6 @@ public class MenuEjecutivo {
                     cliente.setTarjetaDebito(tarjeta);
                     banco.registrarCliente(cliente);
                     //  banco.registrarUsuario(cliente);
-
                 } catch (Exception e) {
                     System.out.println("Ocurrió un error inesperado: " + e.getMessage());
                 }
@@ -162,7 +160,6 @@ public class MenuEjecutivo {
                     String confirmacion=scanner.nextLine();
                     if(confirmacion.equals("1")){
                         x.setSaldo(saldoNuevo);
-
                         banco.actualizarTDebito(x.getNumeroTarjeta(), x);
                         Transaccion transaccion = new Transaccion(name, NoTarjeta,saldoAnterior,
                                 saldoNuevo,LocalDateTime.now(),"*DEPOSITO A TARJETA DE DEBITO*");

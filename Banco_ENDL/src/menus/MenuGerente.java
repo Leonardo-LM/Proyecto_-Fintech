@@ -13,22 +13,11 @@ import usuarios.gerentes.Gerente;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
-//IMPORT PARA LISTA DEBITOS
-import static operaciones_Bancarias.Banco.listaDebitos;
 
 public class MenuGerente {
     private final Scanner scanner = new Scanner(System.in);
-   //public Banco banco = new Banco();
     public int mostrarMenu(Gerente gerente,Banco banco) {
         int respuesta = 0;
-        /*banco.cargarClientes();
-        banco.cargarEjecutivos();
-        banco.cargarTDebito();
-        banco.cargarTCredito();
-        banco.cargarUsuarios();
-        banco.cargarSolicitudesCredito();
-        banco.cargarTransaccion();*/
-
         while (respuesta != 19) {
             System.out.println("\nBienvenido " + gerente.nombre);
 
@@ -121,8 +110,6 @@ public class MenuGerente {
                        Debito tarjeta = banco.generarTarjetaDebito(cliente);
                        cliente.setTarjetaDebito(tarjeta);
                         banco.registrarCliente(cliente);
-                      //  banco.registrarUsuario(cliente);
-
                     } catch (Exception e) {
                         System.out.println("Ocurrió un error inesperado: " + e.getMessage());
                     }
@@ -131,7 +118,6 @@ public class MenuGerente {
                     System.out.println("** CONSULTAR LISTA DE CLIENTES **");
                     banco.mostrarClientes();
                     break;
-
                 case 3:
                     System.out.println("** BUSCAR CLIENTE POR SU ID. **");
                     System.out.println("Ingresa el id del cliente que desea buscar: ");
@@ -154,7 +140,6 @@ public class MenuGerente {
                         }
                     } while (!band);
                     break;
-
                 case 5:
                     System.out.println("** DAR DE BAJA UN CLIENTE **");
                     band = false;
@@ -183,7 +168,6 @@ public class MenuGerente {
                     RFC = banco.generarRFC(nombre, apellidoP, apellidoM, fechaRegistro);
                     System.out.print("CURP: ");
                     CURP = scanner.nextLine().trim().toUpperCase();
-                    //.to upper login
                     System.out.print("Email: ");
                     email = scanner.nextLine().trim();
 
@@ -206,7 +190,6 @@ public class MenuGerente {
                     System.out.println("** BUSCAR EJECUTIVO POR SU ID. **");
                     System.out.println("Ingresa el id del ejecutivo que desea buscar: ");
                     String idEjecutivoBusqueda = scanner.next();
-
                     banco.mostrarEjecutivoPorId(idEjecutivoBusqueda);
                     break;
                 case 9:
@@ -216,7 +199,6 @@ public class MenuGerente {
                         System.out.print("Ingrese el ID del ejecutivo a actualizar: ");
                         String idEjecutivo = scanner.nextLine().trim();
                         Ejecutivo ejecutivoObtenido = banco.obtenerEjecutivoPorId(idEjecutivo);
-
                         if (ejecutivoObtenido == null) {
                             System.out.println("Ejecutivo no encontrado. Intente de nuevo.");
                         } else {
@@ -276,8 +258,6 @@ public class MenuGerente {
                             banco.actualizarTDebito(x.getNumeroTarjeta(), x);
                             //Archivos.guardarTarjetasDebito(listaDebitos);
                             //banco.actualizarClientes();
-
-
                             System.out.println("Cantidad depositada correctamente");
                         } else {
                             System.out.println("Se cancelo la operacion");
@@ -307,7 +287,6 @@ public class MenuGerente {
                         persona.setTarjetaDebito(tarjetaRetiro);
                         banco.actualizarTDebito(NoTarjetaRetiro,tarjetaRetiro);
                         banco.actualizarClientes(persona.getId(), persona);
-
                         //banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
                         Transaccion transaccion = new Transaccion(name, NoTarjetaRetiro,saldoAnterior,saldonuevo,LocalDateTime.now(),"*RETIRO DE TARJETA DE DEBITO*");
                         banco.guardarTransaccion(transaccion);

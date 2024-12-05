@@ -13,7 +13,7 @@ public class Tarjeta implements Serializable {
     public String cvv;
     public String clabeInter;
     public LocalDate fechaVencimiento;
-    //public String ultimoMovimiento;
+
 
 
     public Tarjeta(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo,
@@ -25,7 +25,6 @@ public class Tarjeta implements Serializable {
         this.cvv = cvv;
         this.clabeInter = clabeInter;
         this.fechaVencimiento = fechaVencimiento;
-        //this.ultimoMovimiento = ultimoMovimiento;
     }
 
     public Tarjeta() {}
@@ -98,14 +97,4 @@ public class Tarjeta implements Serializable {
                 ", fechaVencimiento=" + fechaVencimiento +
                 '}';
     }
-
-    /* public String getUltimoMovimiento() {
-        return ultimoMovimiento;
-    }
-
-    public void setUltimoMovimiento(String ultimoMovimiento) {
-        this.ultimoMovimiento = ultimoMovimiento;
-    }
-
-    */
 }

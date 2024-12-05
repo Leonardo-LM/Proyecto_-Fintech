@@ -83,24 +83,6 @@ public class Cliente extends Usuario implements Serializable {
         this.controlador = controlador;
     }
 
-    /*@Override
-    public String toString() {
-        return "Cliente{" +
-                "fechaRegistro=" + fechaRegistro +
-                ", sucursal='" + sucursal + '\'' +
-                ", tarjetaDebito=" + tarjetaDebito +
-                ", tarjetaCredito=" + tarjetaCredito +
-                ", controlador=" + controlador +
-                ", id='" + id + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
-                ", RFC='" + RFC + '\'' +
-                ", email='" + email + '\'' +
-                ", rol=" + rol +
-                '}';
-    }*/
-
     @Override
     public String toString() {
         return "Cliente{" +

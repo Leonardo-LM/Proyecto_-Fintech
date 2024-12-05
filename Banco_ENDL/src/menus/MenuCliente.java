@@ -10,14 +10,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import static operaciones_Bancarias.Banco.listaDebitos;
 public class MenuCliente {
-
-   //public ArrayList<Cliente> listaClientes = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     public int mostrarDatos(Cliente cliente, Banco banco) {
-        banco.mostrarDebitos();
-        Debito no1=cliente.getTarjetaDebito();
-        System.out.println(no1.toString());
-        System.out.println(no1.getSaldo());
+
         int respuesta = 0;
         while (respuesta != 10) {
             if (cliente.getTarjetaDebito().getSaldo() < 30000) {
@@ -88,7 +83,6 @@ public class MenuCliente {
                 System.out.println("** REALIZAR DEPOSITO A TARJETA DE DEBITO **");
                 System.out.println("Hola "+cliente.nombre);
                 Debito no=cliente.getTarjetaDebito();
-                //System.out.println(no);
                 String tarjetaT = no.getNumeroTarjeta();
                 System.out.println("Se depositara a tu tarjeta de debito: "+no.getNumeroTarjeta());
                 System.out.println("Ingresa la catidad a depositar");
@@ -115,7 +109,7 @@ public class MenuCliente {
                 break;
             case 2:
                 System.out.println("** REALIZAR RETIRO DE TARJETA DE DEBITO  **");
-                System.out.println("Ingresa el No de tarjeta a depositar");
+                System.out.println("Ingresa el No de tarjeta a retirar");
                 String NoTarjetaRetiro=sc.nextLine().trim();
                 Debito tarjetaRetiro=banco.validarTarjeta(NoTarjetaRetiro);
                 if (tarjetaRetiro != null) {
@@ -163,7 +157,7 @@ public class MenuCliente {
                 banco.mostrarDetallesTarjeta(cliente);
                 break;
             case 6:
-                System.out.println("** VER MI INFORMACIÓN **"); //////// ARREGLAR ESTO
+                System.out.println("** VER MI INFORMACIÓN **");
                 banco.mostrarClientePorId(cliente.getId());
                 banco.mostrarTarjetasCliente(cliente);
                 break;

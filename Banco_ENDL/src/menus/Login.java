@@ -15,7 +15,6 @@ public class Login {
     public MenuEjecutivo menuEjecutivo = new MenuEjecutivo();
     public MenuGerente menuGerente = new MenuGerente();
     public MenuCliente menuCliente = new MenuCliente();
-     //Banco banco = new Banco();
     public Usuario usuarioEnSesion;
 
     public void login(Banco banco) {
@@ -29,12 +28,9 @@ public class Login {
             System.out.println("---Inicia sesión para continuar---");
             System.out.print("Ingrese su id de usuario: ");
             String idUser = scanner.nextLine();
-            //System.out.println(idUser);
             System.out.print("Ingrese su curp: ");
             String curp = scanner.nextLine();
-            //System.out.println(curp);
             usuarioEnSesion = banco.validarInicioSesion(idUser,curp.toUpperCase());
-            //System.out.println(usuarioEnSesion);
             if (usuarioEnSesion instanceof Usuario){
                 if (usuarioEnSesion.getRol() == Rol.CLIENTE){
                     Cliente clienteEnSesion = (Cliente) usuarioEnSesion;
