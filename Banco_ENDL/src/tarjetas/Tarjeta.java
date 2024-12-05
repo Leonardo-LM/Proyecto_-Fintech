@@ -16,7 +16,8 @@ public class Tarjeta implements Serializable {
     //public String ultimoMovimiento;
 
 
-    public Tarjeta(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo, String cvv, String clabeInter, LocalDate fechaVencimiento) {
+    public Tarjeta(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo,
+                   String cvv, String clabeInter, LocalDate fechaVencimiento) {
         this.titular = titular;
         this.numeroTarjeta = numeroTarjeta;
         this.fechaCreacion = fechaCreacion;

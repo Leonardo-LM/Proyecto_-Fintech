@@ -3,6 +3,7 @@ import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 import tarjetas.Credito;
 import tarjetas.Debito;
+import transacciones.Transaccion;
 import usuarios.clientes.Cliente;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public class MenuCliente {
                 System.out.println("** REALIZAR DEPOSITO A TARJETA DE DEBITO **");
                 System.out.println("Hola "+cliente.nombre);
                 Debito no=cliente.getTarjetaDebito();
+                //System.out.println(no);
+                String tarjetaT = no.getNumeroTarjeta();
                 System.out.println("Se depositara a tu tarjeta de debito: "+no.getNumeroTarjeta());
                 System.out.println("Ingresa la catidad a depositar");
                 double dinero= sc.nextDouble();
@@ -94,9 +97,17 @@ public class MenuCliente {
                 System.out.println("Ingresa tu cvv para acreditar la operacion o ponlo incorrecto para cancelar la operacion");
                 String Codigo=sc.nextLine();
                 if(no.getCvv().equals(Codigo)){
-                    double saldonuevo=no.getSaldo()+dinero;
-                    no.setSaldo(saldonuevo);
+                    double saldoAnterior=no.getSaldo();
+                    double saldoNuevo = saldoAnterior+dinero;
+                    no.setSaldo(saldoNuevo);
+                    cliente.setTarjetaDebito(no);
+                    Transaccion transaccion = new Transaccion(cliente.nombre,tarjetaT,
+                            saldoAnterior, saldoNuevo, LocalDateTime.now(), "*DEPOSITO A TARJETA DE DEBITO*" );
+                    banco.guardarTransaccion(transaccion);
+                    banco.actualizarTDebito(no.getNumeroTarjeta(),no);
                     Archivos.guardarTarjetasDebito(listaDebitos);
+                    banco.actualizarClientes(cliente.getId(), cliente);
+
                     System.out.println("El cvv correcto se acredito la operacion");
                 } else {
                     System.out.println("El cvv es incorrecto se cancelo la operacion");
@@ -117,16 +128,21 @@ public class MenuCliente {
                     double saldoAnterior = tarjetaRetiro.getSaldo();
                     double saldonuevo=saldoAnterior-dinerox;
                     tarjetaRetiro.setSaldo(saldonuevo);
-                    Archivos.guardarTarjetasDebito(listaDebitos);
+                    cliente.setTarjetaDebito(tarjetaRetiro);
+                    banco.actualizarTDebito(NoTarjetaRetiro,tarjetaRetiro);
+                    banco.actualizarClientes(cliente.getId(), cliente);
+                    //Archivos.guardarTarjetasDebito(listaDebitos);
+                    Transaccion transaccion = new Transaccion(name, NoTarjetaRetiro,saldoAnterior,
+                            saldonuevo,LocalDateTime.now(),"*RETIRO DE TARJETA DE DEBITO*");
+                    banco.guardarTransaccion(transaccion);
                     System.out.println("Cantidad retirada correctamente ");
-                    banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
                 } else if (tarjetaRetiro==null) {
                     System.out.println("Esa tarjeta no existe ");
                 }
                 break;
             case 3:
                 System.out.println("***** SALDO DE LA CUENTA *****");
-                Debito tarjeta=cliente.getTarjetaDebito();
+                Debito tarjeta =cliente.getTarjetaDebito();
                 Double saldodisponible=tarjeta.getSaldo();
                 System.out.println(saldodisponible);
                 break;
@@ -147,15 +163,15 @@ public class MenuCliente {
                 banco.mostrarDetallesTarjeta(cliente);
                 break;
             case 6:
-                System.out.println("Ver mi información"); //////// ARREGLAR ESTO
+                System.out.println("** VER MI INFORMACIÓN **"); //////// ARREGLAR ESTO
                 banco.mostrarClientePorId(cliente.getId());
                 banco.mostrarTarjetasCliente(cliente);
                 break;
             case 7:
                 System.out.println("** HISTORIAL DE TRANSACCIONES **");
-                System.out.println("Ingrese la tarjeta/cuanta que desea consultar: ");
+                System.out.println("Ingrese la tarjeta/cuenta que desea consultar: ");
                 String tarjetaA = sc.nextLine();
-                banco.obtenerTransaccionesPorTitular(tarjetaA);
+                banco.imprimirHistorialTransacciones(tarjetaA);
                 break;
             case 8:
                 System.out.println("** PAGAR TARJETA DE CREDITO  **");

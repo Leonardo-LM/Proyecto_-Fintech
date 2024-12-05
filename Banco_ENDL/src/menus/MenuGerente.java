@@ -4,6 +4,7 @@ import archivos.Archivos;
 import operaciones_Bancarias.Banco;
 
 import tarjetas.Debito;
+import transacciones.Transaccion;
 import usuarios.Usuario;
 import usuarios.clientes.Cliente;
 import usuarios.ejecutivos.Ejecutivo;
@@ -245,12 +246,12 @@ public class MenuGerente {
                     banco.mostrarUsuarios();
                     break;
                 case 12:
-                    System.out.println("Autorizar tarjeta de credito");
+                    System.out.println("** AUTORIZAR TARJETA DE CREDITO **");
                     banco.mostrarSolitudes();
                     banco.autorizarTarjetaCredito();
                     break;
                 case 13:
-                    System.out.println("Hola Bienvenido al sistema de deposito a tu tarjeta de Debito");
+                    System.out.println("** DEPOSITO A TARJETA DE DEBITO **");
                     System.out.println("Ingresa el No de tarjeta a depositar");
                     String NoTarjeta=scanner.nextLine().trim();
                     Debito x=banco.validarTarjeta(NoTarjeta);
@@ -261,14 +262,21 @@ public class MenuGerente {
                         System.out.println("El titular es: " + name);
                         System.out.println("Ingresa la catidad a depositar");
                         double dinero= scanner.nextDouble();
-                        double saldonuevo=x.getSaldo()+dinero;
+                        double saldoAnterior=x.getSaldo();
+                        Double saldoNuevo=  saldoAnterior+dinero;
                         System.out.println("Ingresa 1 Acreditar la operacion de lo contario se cancelara");
                         scanner.nextLine();
                         String confirmacion=scanner.nextLine();
                         if(confirmacion.equals("1")){
-                            x.setSaldo(saldonuevo);  ///GUARDAR OPERACION
-                           // banco.guardarPersonas();
-                            Archivos.guardarTarjetasDebito(listaDebitos);
+                            x.setSaldo(saldoNuevo);  ///GUARDAR OPERACION
+
+                            Transaccion transaccion = new Transaccion(name, NoTarjeta,saldoAnterior,
+                                    saldoNuevo,LocalDateTime.now(),"*DEPOSITO A TARJETA DE DEBITO*");
+                            banco.guardarTransaccion(transaccion);
+                            banco.actualizarTDebito(x.getNumeroTarjeta(), x);
+                            //Archivos.guardarTarjetasDebito(listaDebitos);
+                            //banco.actualizarClientes();
+
 
                             System.out.println("Cantidad depositada correctamente");
                         } else {
@@ -294,9 +302,15 @@ public class MenuGerente {
                         double saldoAnterior = tarjetaRetiro.getSaldo();
                         double saldonuevo=saldoAnterior-dinero;
                         tarjetaRetiro.setSaldo(saldonuevo);
-                        Archivos.guardarTarjetasDebito(listaDebitos);
+
                         System.out.println("Cantidad retirada correctamente ");
-                        banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
+                        persona.setTarjetaDebito(tarjetaRetiro);
+                        banco.actualizarTDebito(NoTarjetaRetiro,tarjetaRetiro);
+                        banco.actualizarClientes(persona.getId(), persona);
+
+                        //banco.guardarOperación(name,NoTarjetaRetiro,saldoAnterior, saldonuevo, LocalDateTime.now(),"Retiro");
+                        Transaccion transaccion = new Transaccion(name, NoTarjetaRetiro,saldoAnterior,saldonuevo,LocalDateTime.now(),"*RETIRO DE TARJETA DE DEBITO*");
+                        banco.guardarTransaccion(transaccion);
                     } else if (tarjetaRetiro==null) {
                         System.out.println("Esa tarjeta no existe ");
                     }

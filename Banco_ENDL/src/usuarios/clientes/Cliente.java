@@ -106,7 +106,7 @@ public class Cliente extends Usuario implements Serializable {
         return "Cliente{" +
                 "fechaRegistro=" + fechaRegistro +
                 ", sucursal='" + sucursal + '\'' +
-                ", tarjetaDebito=" + (tarjetaDebito != null ? tarjetaDebito.getNumeroTarjeta() : "N/A") +
+                ", tarjetaDebito=" + (tarjetaDebito != null ? tarjetaDebito : "N/A") +
                 ", tarjetaCredito=" + (tarjetaCredito != null ? tarjetaCredito.getNumeroTarjeta() : "N/A") +
                 ", controlador=" + controlador +
                 ", id='" + id + '\'' +

@@ -12,6 +12,7 @@ import usuarios.gerentes.Gerente;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Archivos {
     // metodos estaticos
@@ -116,6 +117,7 @@ public class Archivos {
         }
         return listaT;
     }
+
 
     /////////////////////////////// SOLICITUDES ////////////////////////////
     public static void guardarSolicitudes(List<SolicitudTarjetaCredito> listaSolicitudes) {

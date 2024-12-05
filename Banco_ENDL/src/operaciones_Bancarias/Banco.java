@@ -32,7 +32,7 @@ public class Banco {
     public ArrayList<Gerente> listaGerentes = new ArrayList<>();
     public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public ArrayList<Ejecutivo> listaEjecutivos = new ArrayList<>();
-    public static   ArrayList<Debito> listaDebitos = new ArrayList<>();  //static
+    public static ArrayList<Debito> listaDebitos = new ArrayList<>();  //static
     public ArrayList<Transaccion> listaTransacciones = new ArrayList<>(); ///////////
     public ArrayList<Credito> listaCreditos = new ArrayList<>();
     public ArrayList<SolicitudTarjetaCredito> listaSolicitudes = new ArrayList<>(); ////////////////////
@@ -47,8 +47,8 @@ public class Banco {
         //this.gerenteDefault = new Gerente();
         gerenteDefault = new Gerente("123", "Conrado", "De León", "Lopez", "PDL", "123", "hola@gmail.com", "Banco", 200000.00);
         this.listaGerentes.add(gerenteDefault);
-       // this.listaUsuarios.add(gerenteDefault);
-        List <Usuario> listaUsuariosCargados = Archivos.informacionUsuarios();
+        // this.listaUsuarios.add(gerenteDefault);
+        List<Usuario> listaUsuariosCargados = Archivos.informacionUsuarios();
         listaUsuariosCargados.removeIf(usuario -> usuario.getId().equals("123"));
         listaUsuariosCargados.add(gerenteDefault);
         Archivos.guardarUsuarios(listaUsuariosCargados);
@@ -56,6 +56,41 @@ public class Banco {
 
     }
 
+    public void actualizarClientes (String idCliente, Cliente cliente) {
+        for (int i = 0; i < listaClientes.size(); i++) {
+            if (listaClientes.get(i).getId().equals(idCliente)) {
+                listaClientes.set(i, cliente);
+            }
+        }
+        Archivos.guardarClientes(listaClientes);
+    }
+
+
+    public void actualizarTDebito (String noTarjeta, Debito debito) {
+        for (int i = 0; i < listaDebitos.size(); i++) {
+            if (listaDebitos.get(i).getNumeroTarjeta().equals(noTarjeta)) {
+                listaDebitos.set(i, debito);
+            }
+        }
+        Archivos.guardarTarjetasDebito(listaDebitos);
+    }
+
+    public void imprimirHistorialTransacciones(String numeroTarjetaHistorial) {
+        List<Transaccion> listaFiltrada = this.listaTransacciones.stream()
+                .filter(transaccion -> transaccion.getNumeroTarjeta().equals(numeroTarjetaHistorial)) // Filtrar por número de tarjeta
+                .collect(Collectors.toList());
+        System.out.println("filtradas");
+        listaFiltrada.forEach(transaccion -> System.out.printf(
+                "Titular: %s\nNúmero de Tarjeta: %s\nFecha: %s\nDescripción: %s\nSaldo Anterior: %.2f" +
+                        "\nSaldo Posterior: %.2f\n\n",
+                transaccion.getTitular(),
+                transaccion.getNumeroTarjeta(),
+                transaccion.getMomentoDeOperacion().toString(),
+                transaccion.getOperación(),
+                transaccion.getSaldoAnterior(),
+                transaccion.getSaldoAtual()
+        ));
+    }
 
     //-----------------------------------------------------METODOS CRUD---------------------------------------------------
 
@@ -677,6 +712,11 @@ public class Banco {
         Archivos.guardarTransacciones(listaTransacciones);
     }
 
+    public void guardarTransaccion(Transaccion transaccion) {
+        listaTransacciones.add(transaccion);
+        Archivos.guardarTransacciones(listaTransacciones);
+    }
+
     public List<String> obtenerTransaccionesPorTitular(String tarjeta) {
         AtomicInteger contador = new AtomicInteger(1);
         return this.listaTransacciones.stream().filter(transaccion -> transaccion.getNumeroTarjeta().equals(tarjeta))
@@ -702,6 +742,8 @@ public class Banco {
 
     public void pagoTarjetaCredito(String noTarjeta) {
         Credito es = validarTarjetaCredito(noTarjeta);
+        String nombre = String.valueOf(es.getTitular());
+
         if (es != null) {
             System.out.println("Tarjeta válida\n");
             double saldo = es.getSaldo();  //Tarjeta credito saldo q tenemos
@@ -742,6 +784,13 @@ public class Banco {
                                         double saldoCreditoNuevo = y + monto;
                                         es.setSaldo(saldoCreditoNuevo);
                                         Archivos.guardarTarjetasCredito(listaCreditos);
+                                        Archivos.guardarTarjetasDebito(listaDebitos);
+                                        Transaccion transaccion = new Transaccion(nombre,noTarjeta,deudareal,saldoCreditoNuevo,
+                                                LocalDateTime.now(),"*PAGO DE TARJETA DE CREDITO*");
+                                        guardarTransaccion(transaccion);
+                                        Transaccion transaccion1 = new Transaccion(nombre, tarjeta,x,
+                                                saldoDebitoNuevo,LocalDateTime.now(),"*DESCUENTO PAGO DE TARJETA CREDITO*" );
+                                        guardarTransaccion(transaccion1);
                                         System.out.println("Operacion acreditada");
                                     } else {
                                         System.out.println("No hay fondos en su tarjeta");
@@ -769,6 +818,7 @@ public class Banco {
 
     public void retiroTarjetaCredito(String noTarjeta) {
         Credito es = validarTarjetaCredito(noTarjeta);
+        String nombre = String.valueOf(es.getTitular());
         if (es == null) {
             System.out.println("La tarjeta ingresada no existe");
             return;
@@ -781,10 +831,13 @@ public class Banco {
             scanner.nextLine();
             String cvv = scanner.nextLine();
             if (cvv.equals(es.getCvv())) {
-                double NuevoSaldo = saldoDisponible - montoRetirar;
-                es.setSaldo(NuevoSaldo);
+                double nuevoSaldo = saldoDisponible - montoRetirar;
+                es.setSaldo(nuevoSaldo);
                 Archivos.guardarTarjetasCredito(listaCreditos);
                 System.out.println("Operacion Realizada");
+                Transaccion transaccion = new Transaccion(nombre,noTarjeta,saldoDisponible,
+                        nuevoSaldo,LocalDateTime.now(),"*RETIRO DE TARJETA DE CREDITO*");
+                guardarTransaccion(transaccion);
             } else if (cvv.equals("2")) {
                 System.out.println("Se cancelo la operacion");
             } else {
@@ -796,15 +849,30 @@ public class Banco {
     }
 
     public void cargarClientes() {
+        cargarTDebito();
+        cargarTCredito();
         File archivo = new File("clientes.dat");
         System.out.println("hola");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.dat"))) {
                 listaClientes = (ArrayList<Cliente>) ois.readObject();
-               /* for(Cliente cliente: listaClientes){
+                for(Cliente cliente: listaClientes){
+                    for(Debito debitos : listaDebitos){
+                       if( debitos.getTitular().getId().equals(cliente.getId())){
+                           cliente.setTarjetaDebito(debitos);
+                       }
+                    }
+                    for(Credito credito : listaCreditos){
+                        if( credito.getTitular().getId().equals(cliente.getId())){
+                            cliente.setTarjetaCredito(credito);
+                        }
+                    }
+                }
+                for(Cliente cliente: listaClientes){
                     System.out.println(cliente);
-                }*/
+                }
                 System.out.println("Clientes cargados exitosamente.");
+
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error al cargar los clientes: " + e.getMessage());
             }
@@ -851,9 +919,12 @@ public class Banco {
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasDebito.dat"))) {
                 listaDebitos = (ArrayList<Debito>) ois.readObject();
-                System.out.println("Ejecutivos cargados exitosamente.");
+                for(Debito debito : listaDebitos){
+                    System.out.println(debito);
+                }
+                System.out.println("Tarjetas de debito cargadas exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error al cargar las t debito: " + e.getMessage());
+                System.out.println("Error al cargar las listas de debito: " + e.getMessage());
             }
         } else {
             System.out.println("No se encontró el archivo de ejecutivos.");
@@ -868,12 +939,12 @@ public class Banco {
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tarjetasCredito.dat"))) {
                 listaCreditos = (ArrayList<Credito>) ois.readObject();
-                System.out.println("T credito cargados exitosamente.");
+                System.out.println("Tarjetas credito cargadas exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error al cargar los ejecutivos: " + e.getMessage());
+                System.out.println("Error al cargar las tarjetas de credito: " + e.getMessage());
             }
         } else {
-            System.out.println("No se encontró el archivo de ejecutivos.");
+            System.out.println("No se encontró el archivo de Tarjetas de credito.");
         }
 
     }
@@ -897,7 +968,7 @@ public class Banco {
         File archivo = new File("transacciones.dat");
         if (archivo.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("transacciones.dat"))) {
-                listaSolicitudes = (ArrayList<SolicitudTarjetaCredito>) ois.readObject();
+                listaTransacciones = (ArrayList<Transaccion>) ois.readObject();
                 System.out.println("Transacciones cargadas exitosamente.");
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error al cargar las transacciones: " + e.getMessage());

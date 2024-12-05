@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Debito extends Tarjeta implements Serializable {
-    public Debito(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo, String cvv, String clabeInter, LocalDate fechaVencimiento) {
+    public Debito(Cliente titular, String numeroTarjeta, LocalDate fechaCreacion, double saldo,
+                  String cvv, String clabeInter, LocalDate fechaVencimiento) {
         super(titular, numeroTarjeta, fechaCreacion, saldo, cvv, clabeInter, fechaVencimiento);
     }
 
